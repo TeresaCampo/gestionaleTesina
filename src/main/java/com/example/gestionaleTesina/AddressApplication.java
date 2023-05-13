@@ -24,8 +24,14 @@ public class AddressApplication extends Application {
     }
 
     public void changeScene(String fxml) throws IOException{
-        Parent pane=FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml)));
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource(fxml)));
+        Parent pane= loader.load();
         stg.getScene().setRoot(pane);
+
+        SignUpController signUpController= loader.getController();
+        signUpController.initialize();
+
     }
 
     public static void main(String[] args) {

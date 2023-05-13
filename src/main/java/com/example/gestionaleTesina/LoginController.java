@@ -6,9 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 
 public class LoginController {
 
@@ -61,8 +63,10 @@ public class LoginController {
 
     public void onSignUpButton(){
         try {
+            String signUpScene="singUp-view.fxml";
             AddressApplication main= new AddressApplication();
-            main.changeScene("singUp-view.fxml");
+            main.changeScene(signUpScene);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
