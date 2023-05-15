@@ -29,9 +29,11 @@ public class AddressApplication extends Application {
         Parent pane= loader.load();
         stg.getScene().setRoot(pane);
 
-        SignUpController signUpController= loader.getController();
-        signUpController.initialize();
-
+        if(fxml.equals("singUp-view.fxml")) {
+            System.out.println("SignUpController loaded and initialized");
+            SignUpController signUpController = loader.getController();
+            signUpController.initialize();
+        }
     }
 
     public static void main(String[] args) {

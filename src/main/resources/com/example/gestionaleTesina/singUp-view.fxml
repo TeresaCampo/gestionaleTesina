@@ -33,7 +33,7 @@
             <Label layoutX="22.0" layoutY="88.0" text="Password" />
             <Label layoutX="19.0" layoutY="122.0" text="Confirm password" />
             <TextField fx:id="tf_groupID" layoutX="169.0" layoutY="48.0" prefHeight="26.0" prefWidth="261.0" />
-            <Button layoutX="236.0" layoutY="182.0" mnemonicParsing="false" text="Cancel" />
+            <Button layoutX="236.0" layoutY="182.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel" />
             <Button layoutX="316.0" layoutY="182.0" mnemonicParsing="false" onAction="#onSignUpButton" text="Sign Up" />
             <PasswordField fx:id="pf_password" layoutX="170.0" layoutY="81.0" prefHeight="26.0" prefWidth="262.0" />
             <PasswordField fx:id="pf_passwordRepeated" layoutX="170.0" layoutY="117.0" prefHeight="26.0" prefWidth="262.0" />

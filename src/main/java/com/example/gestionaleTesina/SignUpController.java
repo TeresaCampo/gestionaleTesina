@@ -111,7 +111,26 @@ public class SignUpController {
             }
             //check if the user id is already present in the DB
             //success, insert data in the DB and come back to login page
+           try {
+               String signUpScene="login-view.fxml";
+               AddressApplication main= new AddressApplication();
+               main.changeScene(signUpScene);
+
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
        }
 
+    }
+
+    public void onCancelButton(){
+        try {
+            String loginScene="login-view.fxml";
+            AddressApplication main= new AddressApplication();
+            main.changeScene(loginScene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
