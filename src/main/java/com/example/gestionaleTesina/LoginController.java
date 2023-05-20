@@ -39,7 +39,7 @@ public class LoginController {
             try {
                 if(checkAuthenticationData(groupID, password)){
                     lb_alert.setText("Loading your account...");
-                    System.out.println("yes");
+                    System.out.println("Correct authentication data, loading the account...");
                     //main.changeScene();  load the following stage, we haven't done it yet
                 }
             } catch (SQLException e) {
