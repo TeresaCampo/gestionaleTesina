@@ -1,11 +1,14 @@
-module com.example.gestionaletesina {
+open module com.example.gestionaletesina {
+    requires java.desktop;
+    requires java.sql;
     requires javafx.controls;
     requires javafx.fxml;
-
+    requires javafx.graphics;
+    requires org.fxmisc.richtext;
+    requires org.slf4j;
+    requires com.zaxxer.hikari;
+    requires net.mahdilamb.colormap;
     requires org.controlsfx.controls;
-    requires java.sql;
-    requires java.desktop;
 
-    opens com.example.gestionaleTesina to javafx.fxml;
     exports com.example.gestionaleTesina;
 }

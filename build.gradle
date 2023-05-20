@@ -37,6 +37,23 @@ javafx {
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.2')
 
+    //database
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'mysql:mysql-connector-java:8.0.32'
+
+    // logging
+    implementation 'org.slf4j:slf4j-api:2.0.1'
+    implementation 'org.slf4j:slf4j-simple:2.0.1'
+
+    // graphics components
+    implementation 'org.fxmisc.richtext:richtextfx:0.11.0'
+    implementation 'net.mahdilamb:colormap:0.9.511'
+
+    // rest
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

@@ -1,33 +1,25 @@
 package com.example.gestionaleTesina;
 
-import java.sql.*;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.util.TimeZone;
 
 public class DBConnection {
-    public Connection getConnection() throws SQLException, ClassNotFoundException{
-        Class.forName("com.mysql.cj.jdbc.Driver");
+    HikariDataSource dataSource;
+    void getConnection() {
         String schemeName="progettojavafx";
-        String userName="progettojavafx";
+        String userName="progettoJavaFX";
         String password="siSperaBene!";
+        String JDBC_Driver_MySQL = "com.mysql.cj.jdbc.Driver";
+        String JDBC_URL_MySQL = "jdbc:mysql://localhost:3306/"+schemeName+"?user="+userName+"&password="+password+"&serverTimezone=" + TimeZone.getDefault().getID();
 
-        System.out.println("-Trying to get connection...");
-        Connection connection= DriverManager.getConnection( "jdbc:mysql://localhost:3306/"+schemeName+"?user="+userName+"&password="+password+"&serverTimezone=" + TimeZone.getDefault().getID());
-        System.out.println("-DB connected!");
-        return connection;
+        System.out.println("- dbConnection()...");
+        HikariConfig config = new HikariConfig();
+        config.setDriverClassName(JDBC_Driver_MySQL);
+        config.setJdbcUrl(JDBC_URL_MySQL);
+        config.setLeakDetectionThreshold(2000);
+        dataSource = new HikariDataSource(config);
     }
 
-    public void testDB() {
-        try {
-            DBConnection doConnection = new DBConnection();
-            Connection connection = doConnection.getConnection();
-            PreparedStatement testAuthentication = connection.prepareStatement("SELECT * FROM authentication");
-            ResultSet ret = testAuthentication.executeQuery();
 
-            while (ret.next()) {
-                System.out.println(ret.getString("groupID") + ret.getString("password"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

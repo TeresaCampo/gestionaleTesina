@@ -21,6 +21,7 @@ public class AddressApplication extends Application {
         primaryStage.setTitle("Login HeartWarmedTrip");
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     public void changeScene(String fxml) throws IOException{
