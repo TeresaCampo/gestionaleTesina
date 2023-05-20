@@ -38,7 +38,7 @@ public class LoginController {
 
             try {
                 if(checkAuthenticationData(groupID, password)){
-                    AddressApplication main = new AddressApplication();
+                    lb_alert.setText("Loading your account...");
                     System.out.println("yes");
                     //main.changeScene();  load the following stage, we haven't done it yet
                 }
