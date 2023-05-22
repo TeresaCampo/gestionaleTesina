@@ -8,8 +8,8 @@ public class DBConnection {
     HikariDataSource dataSource;
     void getConnection() {
         String schemeName="progettojavafx";
-        String userName="progettoJavaFX";
-        String password="siSperaBene!";
+        String userName="progettojavafx";
+        String password="siSperabene!";
         String JDBC_Driver_MySQL = "com.mysql.cj.jdbc.Driver";
         String JDBC_URL_MySQL = "jdbc:mysql://localhost:3306/"+schemeName+"?user="+userName+"&password="+password+"&serverTimezone=" + TimeZone.getDefault().getID();
 
