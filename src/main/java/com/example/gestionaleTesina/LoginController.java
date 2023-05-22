@@ -1,76 +1,74 @@
 package com.example.gestionaleTesina;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-
-public class LoginController {
-    DBConnection connector= new DBConnection();
-    AddressApplication main= new AddressApplication();
+public class LoginController{
+    DBConnection connector = new DBConnection();
+    AddressApplication main = new AddressApplication();
     @FXML
-    private Button bt_login;
+    private TextField IDGroupTextField;
     @FXML
-    private Button bt_signUp;
+    private Button cancelButton;
     @FXML
-    private Label lb_alert;
+    private PasswordField enterPasswordField;
     @FXML
-    private PasswordField pf_password;
+    private Label loginWarningLabel;
     @FXML
-    private TextField tf_groupID;
+    private Button signInButton;
+    @FXML
+    private Button registerButton;
 
     public void initialize(){
-        //set the datasource for the connection
         connector.getConnection();
     }
-
-    public void onLoginButton() {
-        if (tf_groupID.getText().isEmpty() || pf_password.getText().isEmpty()) {
-            lb_alert.setText("Please enter all your data");
+    public void signInButtonOnAction(){
+        if(IDGroupTextField.getText().isEmpty() || enterPasswordField.getText().isEmpty()){
+            loginWarningLabel.setText("Please enter all your data");
         }
         else{
-            String groupID = tf_groupID.getText();
-            String password = pf_password.getText();
+            String groupID = IDGroupTextField.getText();
+            String password = enterPasswordField.getText();
 
-            try {
-                if(checkAuthenticationData(groupID, password)){
-                    lb_alert.setText("Loading your account...");
-                    System.out.println("Correct authentication data, loading the account...");
-                    //main.changeScene();  load the following stage, we haven't done it yet
+            try{
+                if(validateLogin(groupID, password)){
+                    loginWarningLabel.setText("Loading...");
                 }
-            } catch (SQLException e) {
+            }catch (SQLException e){
                 new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
             }
         }
     }
+    public void cancelButtonOnAction() {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
 
-    private boolean checkAuthenticationData(String groupID, String password) throws SQLException {
-        try(Connection connection=connector.dataSource.getConnection();
-            PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
+    private boolean validateLogin(String groupID, String password) throws SQLException {
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
             checkData.setString(1, groupID);
             ResultSet accountFound = checkData.executeQuery();
 
-
-            if (!accountFound.isBeforeFirst()) {  //if there are no results, this groupID doesn't correspond to any account
-                lb_alert.setText("Wrong GroupID or password");
+            if (!accountFound.isBeforeFirst()) {
+                loginWarningLabel.setText("Wrong GroupID or Password");
                 return false;
-            } else {   //if there is a result, check the password
+            } else {
                 accountFound.next();
                 if (!accountFound.getString("password").equals(password)) {
-                    lb_alert.setText("Wrong GroupID or password");
+                    loginWarningLabel.setText("Wrong GroupID or Password");
                     return false;
-                } else {   //if the inserted data are ok
+                } else {
                     return true;
                 }
             }
         }
     }
 
-    public void onSignUpButton(){
+    public void onRegisterButton(){
         try {
             String signUpScene="singUp-view.fxml";
             main.changeScene(signUpScene);
@@ -79,5 +77,5 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-
 }
+

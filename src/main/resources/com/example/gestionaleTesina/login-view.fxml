@@ -7,25 +7,60 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #A0BDFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.LoginController">
-   <children>
-      <ImageView fitHeight="93.0" fitWidth="168.0" layoutX="402.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@img/png-clipart-scalable-graphics-padlock-padlock-technic-silhouette.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="317.0" layoutY="183.0" text="Group ID" />
-      <Label layoutX="315.0" layoutY="221.0" text="Password" />
-      <TextField fx:id="tf_groupID" layoutX="400.0" layoutY="181.0" prefHeight="26.0" prefWidth="168.0" />
-      <PasswordField fx:id="pf_password" layoutX="399.0" layoutY="219.0" prefHeight="26.0" prefWidth="168.0" />
-      <Button fx:id="bt_signUp" layoutX="306.0" layoutY="282.0" mnemonicParsing="false" onAction="#onSignUpButton" prefHeight="26.0" prefWidth="120.0" text="Sign up your group" />
-      <Button fx:id="bt_login" layoutX="448.0" layoutY="282.0" mnemonicParsing="false" onAction="#onLoginButton" prefHeight="26.0" prefWidth="120.0" text="Login" />
-      <ImageView fitHeight="400.0" fitWidth="266.0" pickOnBounds="true" preserveRatio="true">
-
-            <Image url="@img/LogoBis.jpg" />
-
-      </ImageView>
-      <Label fx:id="lb_alert" layoutX="315.0" layoutY="245.0" prefHeight="18.0" prefWidth="289.0" text="Label" />
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.LoginController">
+   <left>
+      <AnchorPane prefHeight="407.0" prefWidth="228.0" BorderPane.alignment="CENTER">
+         <ImageView fitHeight="406.0" fitWidth="285.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-40.552093505859375" AnchorPane.topAnchor="-6.0">
+            <Image url="@img/logo.png" />
+         </ImageView>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="407.0" prefWidth="292.0" style="-fx-background-color: a0bdff;" BorderPane.alignment="CENTER">
+         <ImageView fitHeight="84.0" fitWidth="100.0" layoutX="100.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@img/locker.png" />
+         </ImageView>
+         <Label layoutX="59.0" layoutY="131.0" text="ID Group " textFill="#d62090">
+            <font>
+               <Font name="Segoe UI Semibold" size="13.0" />
+            </font>
+         </Label>
+         <TextField fx:id="IDGroupTextField" layoutX="59.0" layoutY="151.0" prefHeight="20.0" prefWidth="173.0" promptText="Type your ID group" style="-fx-border-color: #012657; -fx-background-color: #a0bdff; -fx-border-radius: 25px;" />
+         <Label layoutX="60.0" layoutY="189.0" text="Password" textFill="#d62090">
+            <font>
+               <Font name="Segoe UI Semibold" size="13.0" />
+            </font>
+         </Label>
+         <TextField layoutX="59.0" layoutY="208.0" prefHeight="20.0" prefWidth="173.0" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: #a0bdff;" />
+         <PasswordField fx:id="enterPasswordField" layoutX="59.0" layoutY="208.0" prefHeight="26.0" prefWidth="173.0" promptText="Type your password" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: #a0bdff;" />
+         <Button fx:id="signInButton" layoutX="77.0" layoutY="269.0" mnemonicParsing="false" onAction="#signInButtonOnAction" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Sign In" textAlignment="CENTER" textFill="#022757">
+            <font>
+               <Font name="Segoe UI Semibold" size="13.0" />
+            </font>
+         </Button>
+         <Button fx:id="cancelButton" cancelButton="true" layoutX="150.0" layoutY="269.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Cancel" textAlignment="CENTER" textFill="#022757">
+            <font>
+               <Font name="Segoe UI Semibold" size="13.0" />
+            </font>
+         </Button>
+         <Label fx:id="loginWarningLabel" layoutX="59.0" layoutY="243.0" prefHeight="19.0" prefWidth="182.0" textAlignment="CENTER" textFill="#012657">
+            <font>
+               <Font name="Segoe UI Symbol" size="11.0" />
+            </font>
+         </Label>
+         <Button fx:id="registerButton" layoutX="140.0" layoutY="300.0" mnemonicParsing="false" onAction="#onRegisterButton" prefHeight="18.0" prefWidth="82.0" style="-fx-background-color: a0bdff;" text="Register here!" textFill="#df3333" underline="true">
+            <font>
+               <Font size="11.0" />
+            </font>
+         </Button>
+         <TextField layoutX="66.0" layoutY="301.0" prefHeight="21.0" prefWidth="78.0" style="-fx-background-color: a0bdff;" text="Not a member?">
+            <font>
+               <Font name="System Italic" size="10.0" />
+            </font>
+         </TextField>
+      </AnchorPane>
+   </right>
+</BorderPane>

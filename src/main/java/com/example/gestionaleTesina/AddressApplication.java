@@ -5,9 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.Objects;
+
 
 public class AddressApplication extends Application {
     private static Stage stg;
@@ -18,10 +20,9 @@ public class AddressApplication extends Application {
         Scene scene = new Scene(root);
 
         stg= primaryStage;
-        primaryStage.setTitle("Login HeartWarmedTrip");
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     public void changeScene(String fxml) throws IOException{
