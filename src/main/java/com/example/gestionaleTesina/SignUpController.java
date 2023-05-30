@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 
 import java.util.LinkedList;
 
@@ -19,7 +20,6 @@ public class SignUpController {
     private PasswordField pf_passwordRepeated;
     @FXML
     private Label lb_message;
-
     @FXML
     private TextField tf_userName1;
     @FXML
@@ -42,6 +42,8 @@ public class SignUpController {
         removeButton.setLayoutX(tf_userName1.getLayoutX()+tf_userName1.getPrefWidth()+10);
         removeButton.setLayoutY(tf_userName1.getLayoutY());
         removeButton.setText("-");
+        removeButton.setPrefWidth(31);
+        removeButton.setPrefHeight(30);
         removeButton.setOnAction(event -> {
             gp_background.getChildren().remove(tf_userNames.getLast());
             tf_userNames.remove(tf_userNames.getLast());
@@ -66,10 +68,14 @@ public class SignUpController {
         tf_newUser.setLayoutX(tf_userName1.getLayoutX());
         tf_newUser.setLayoutY(tf_userNames.getLast().getLayoutY()+30);
         tf_newUser.setPrefSize(tf_userName1.getPrefWidth(), tf_userName1.getPrefHeight());
+        tf_newUser.setStyle("-fx-background-color: #e7ebff; -fx-border-color: #022757; -fx-border-radius: 25px;");
+        tf_newUser.setPromptText("Set your username " + userNumber);
         gp_background.getChildren().add(tf_newUser);
         tf_userNames.add(tf_newUser);
 
         removeButton.setTranslateY(removeButton.getTranslateY()+30);
+        removeButton.setStyle("-fx-background-color: #eb7ccb; -fx-border-color: #d62090; -fx-border-radius: 25px; -fx-background-radius: 25px; -fx-font-size: 13px;");
+        removeButton.setOpacity(0.78);
         if(userNumber==2) {
             gp_background.getChildren().add(removeButton);
         }
@@ -78,6 +84,8 @@ public class SignUpController {
         Label lb_newUser= new Label("User "+userNumber);
         lb_newUser.setLayoutX(lb_user1.getLayoutX());
         lb_newUser.setLayoutY(lb_userNames.getLast().getLayoutY()+30);
+        lb_newUser.setStyle("-fx-font-size: 13px;");
+        lb_newUser.setTextFill(Paint.valueOf("#d63090"));
         lb_userNames.add(lb_newUser);
         gp_background.getChildren().add(lb_newUser);
     }
@@ -97,17 +105,17 @@ public class SignUpController {
                .count();
 
        if(checkEmptyUserNames!=0){
-            lb_message.setText("Give a username to all the group members");
+            lb_message.setText("Please enter the usernames of all members");
        } else if (checkEqualUserNames!=tf_userNames.size()) {
-            lb_message.setText("Select a distinct username for each group member");
+            lb_message.setText("Please choose a distinct username for each member");
 
        } else if(tf_groupID.getText().isEmpty() || pf_password.getText().isEmpty() || pf_passwordRepeated.getText().isEmpty()){
-            lb_message.setText("Insert all your authentication data");
+            lb_message.setText("Incomplete credentials");
        }
        else{
             String password= pf_password.getText();
             if(!pf_passwordRepeated.getText().equals(password)){
-                lb_message.setText("Ops...two different password, type it again");
+                lb_message.setText("It seems like you entered two different passwords. Check it!");
             }
             //check if the user id is already present in the DB
             //success, insert data in the DB and come back to login page

@@ -17,10 +17,6 @@ public class LoginController{
     private PasswordField enterPasswordField;
     @FXML
     private Label loginWarningLabel;
-    @FXML
-    private Button signInButton;
-    @FXML
-    private Button registerButton;
 
     public void initialize(){
         connector.getConnection();
@@ -70,7 +66,7 @@ public class LoginController{
 
     public void onRegisterButton(){
         try {
-            String signUpScene="singUp-view.fxml";
+            String signUpScene="signUp-view.fxml";
             main.changeScene(signUpScene);
 
         } catch (Exception e) {

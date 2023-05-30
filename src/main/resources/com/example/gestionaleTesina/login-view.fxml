@@ -19,8 +19,8 @@
       </AnchorPane>
    </left>
    <right>
-      <AnchorPane prefHeight="407.0" prefWidth="292.0" style="-fx-background-color: a0bdff;" BorderPane.alignment="CENTER">
-         <ImageView fitHeight="84.0" fitWidth="100.0" layoutX="100.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane prefHeight="407.0" prefWidth="292.0" style="-fx-background-color: e7ebff;" BorderPane.alignment="CENTER">
+         <ImageView fitHeight="84.0" fitWidth="100.0" layoutX="100.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@img/locker.png" />
          </ImageView>
          <Label layoutX="59.0" layoutY="131.0" text="ID Group " textFill="#d62090">
@@ -28,14 +28,14 @@
                <Font name="Segoe UI Semibold" size="13.0" />
             </font>
          </Label>
-         <TextField fx:id="IDGroupTextField" layoutX="59.0" layoutY="151.0" prefHeight="20.0" prefWidth="173.0" promptText="Type your ID group" style="-fx-border-color: #012657; -fx-background-color: #a0bdff; -fx-border-radius: 25px;" />
+         <TextField fx:id="IDGroupTextField" layoutX="59.0" layoutY="151.0" prefHeight="20.0" prefWidth="173.0" promptText="Type your ID group" style="-fx-border-color: #012657; -fx-background-color: e7ebff; -fx-border-radius: 25px;" />
          <Label layoutX="60.0" layoutY="189.0" text="Password" textFill="#d62090">
             <font>
                <Font name="Segoe UI Semibold" size="13.0" />
             </font>
          </Label>
          <TextField layoutX="59.0" layoutY="208.0" prefHeight="20.0" prefWidth="173.0" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: #a0bdff;" />
-         <PasswordField fx:id="enterPasswordField" layoutX="59.0" layoutY="208.0" prefHeight="26.0" prefWidth="173.0" promptText="Type your password" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: #a0bdff;" />
+         <PasswordField fx:id="enterPasswordField" layoutX="59.0" layoutY="208.0" prefHeight="26.0" prefWidth="173.0" promptText="Type your password" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: e7ebff;" />
          <Button fx:id="signInButton" layoutX="77.0" layoutY="269.0" mnemonicParsing="false" onAction="#signInButtonOnAction" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Sign In" textAlignment="CENTER" textFill="#022757">
             <font>
                <Font name="Segoe UI Semibold" size="13.0" />
@@ -51,12 +51,12 @@
                <Font name="Segoe UI Symbol" size="11.0" />
             </font>
          </Label>
-         <Button fx:id="registerButton" layoutX="140.0" layoutY="300.0" mnemonicParsing="false" onAction="#onRegisterButton" prefHeight="18.0" prefWidth="82.0" style="-fx-background-color: a0bdff;" text="Register here!" textFill="#df3333" underline="true">
+         <Button fx:id="registerButton" layoutX="140.0" layoutY="300.0" mnemonicParsing="false" onAction="#onRegisterButton" prefHeight="18.0" prefWidth="82.0" style="-fx-background-color: e7ebff;" text="Register here!" textFill="#df3333" underline="true">
             <font>
                <Font size="11.0" />
             </font>
          </Button>
-         <TextField layoutX="66.0" layoutY="301.0" prefHeight="21.0" prefWidth="78.0" style="-fx-background-color: a0bdff;" text="Not a member?">
+         <TextField layoutX="66.0" layoutY="301.0" prefHeight="21.0" prefWidth="78.0" style="-fx-background-color: e7ebff;" text="Not a member?">
             <font>
                <Font name="System Italic" size="10.0" />
             </font>

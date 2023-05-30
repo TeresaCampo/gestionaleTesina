@@ -31,7 +31,7 @@ public class AddressApplication extends Application {
         Parent pane= loader.load();
         stg.getScene().setRoot(pane);
 
-        if(fxml.equals("singUp-view.fxml")) {
+        if(fxml.equals("signUp-view.fxml")) {
             System.out.println("SignUpController loaded and initialized");
             SignUpController signUpController = loader.getController();
             signUpController.initialize();
