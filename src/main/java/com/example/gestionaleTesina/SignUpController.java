@@ -1,13 +1,11 @@
 package com.example.gestionaleTesina;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 
+import java.sql.*;
 import java.util.LinkedList;
 
 
@@ -31,11 +29,15 @@ public class SignUpController {
     @FXML
     private AnchorPane gp_background;
 
+    DBConnection connector = new DBConnection();
+    AddressApplication main = new AddressApplication();
     LinkedList<Label> lb_userNames= new LinkedList<>();
     LinkedList<TextField> tf_userNames= new LinkedList<>();
     int userNumber=1;
 
-    void initialize() {
+    public void initialize() {
+        connector.getConnection();
+
         tf_userNames.add(tf_userName1);
         lb_userNames.add(lb_user1);
 
@@ -57,10 +59,10 @@ public class SignUpController {
                 gp_background.getChildren().remove(removeButton);
             }
         });
-
     }
 
-    public void onPlusButton(){
+    @FXML
+    void onPlusButton(){
         ++userNumber;
         plusButton.setTranslateY(plusButton.getTranslateY()+30);
 
@@ -90,46 +92,74 @@ public class SignUpController {
         gp_background.getChildren().add(lb_newUser);
     }
 
-    public void onSignUpButton(){
-        //check if there is at least one userName and if all the userName are compiled and if all the userNames are different
-        //check if all the data are insert
-        //check if password and repeated password are equal
-
+    private boolean checkEmptyFields(){
         long checkEmptyUserNames= tf_userNames.stream()
                 .filter(user->user.getText().isEmpty())
                 .count();
 
-       long checkEqualUserNames= tf_userNames.stream()
-               .map(element -> element.getText())
-               .distinct()
-               .count();
+        long checkEqualUserNames= tf_userNames.stream()
+                .map(element -> element.getText())
+                .distinct()
+                .count();
 
-       if(checkEmptyUserNames!=0){
+        if(checkEmptyUserNames!=0){
             lb_message.setText("Please enter the usernames of all members");
-       } else if (checkEqualUserNames!=tf_userNames.size()) {
+            return true;
+        } else if (checkEqualUserNames!=tf_userNames.size()) {
+            System.out.println("numero user tf_usernames="+tf_userNames.size());
+            System.out.println("user1"+tf_userNames.get(0).getText());
+            System.out.println("user1"+tf_userNames.get(1).getText());
             lb_message.setText("Please choose a distinct username for each member");
-
-       } else if(tf_groupID.getText().isEmpty() || pf_password.getText().isEmpty() || pf_passwordRepeated.getText().isEmpty()){
+            return true;
+        } else if(tf_groupID.getText().isEmpty() || pf_password.getText().isEmpty() || pf_passwordRepeated.getText().isEmpty()){
             lb_message.setText("Incomplete credentials");
-       }
-       else{
+            return true;
+        }
+        return false;
+    }
+
+    @FXML
+    void onSignUpButton() {
+        //check if there is at least one userName and if all the userName are compiled and if all the userNames are different
+        //check if all the data are insert
+        //check if password and repeated password are equal
+        if(checkEmptyFields()==false){
             String password= pf_password.getText();
+            String groupID=tf_groupID.getText();
             if(!pf_passwordRepeated.getText().equals(password)){
                 lb_message.setText("It seems like you entered two different passwords. Check it!");
             }
-            //check if the user id is already present in the DB
-            //success, insert data in the DB and come back to login page
-           else {
-                try {
-                    AddressApplication main = new AddressApplication();
-                    main.changeScene("login-view.fxml");
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+            try (Connection connection = connector.dataSource.getConnection();
+                PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
+                checkData.setString(1, groupID);
+                ResultSet accountFound = checkData.executeQuery();
+
+                if (!accountFound.isBeforeFirst()) {
+                    PreparedStatement insertCredentials = connection.prepareStatement("INSERT INTO authentication (groupID, password) VALUES (?, ?)");
+                        insertCredentials.setString(1, groupID);
+                        insertCredentials.setString(2, password);
+                        insertCredentials.executeUpdate();
+                    PreparedStatement insertUsernames = connection.prepareStatement("INSERT INTO groupusernames (groupID, username) VALUES (?, ?)");
+                        for(int i=0; i<userNumber; ++i){
+                            insertUsernames.setString(1, groupID);
+                            insertUsernames.setString(2, tf_userNames.get(i).getText());
+                            insertUsernames.executeUpdate();
+                        }
+                    try {
+                        main.changeScene("login-view.fxml");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+                else{
+                    lb_message.setText(groupID+" is already used, choose a different groupID");
+                }
+            }catch (SQLException e){
+                new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
             }
        }
-
     }
 
     public void onCancelButton(){

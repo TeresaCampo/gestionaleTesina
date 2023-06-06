@@ -21,7 +21,9 @@ public class LoginController{
     public void initialize(){
         connector.getConnection();
     }
-    public void signInButtonOnAction(){
+
+    @FXML
+    void onSignInButton(){
         if(IDGroupTextField.getText().isEmpty() || enterPasswordField.getText().isEmpty()){
             loginWarningLabel.setText("Please enter all your data");
         }
@@ -38,7 +40,8 @@ public class LoginController{
             }
         }
     }
-    public void cancelButtonOnAction() {
+    @FXML
+    void onCancelButton() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
@@ -64,6 +67,7 @@ public class LoginController{
         }
     }
 
+    @FXML
     public void onRegisterButton(){
         try {
             String signUpScene="signUp-view.fxml";

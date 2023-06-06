@@ -36,12 +36,12 @@
          </Label>
          <TextField layoutX="59.0" layoutY="208.0" prefHeight="20.0" prefWidth="173.0" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: #a0bdff;" />
          <PasswordField fx:id="enterPasswordField" layoutX="59.0" layoutY="208.0" prefHeight="26.0" prefWidth="173.0" promptText="Type your password" style="-fx-border-radius: 25px; -fx-border-color: #012657; -fx-background-color: e7ebff;" />
-         <Button fx:id="signInButton" layoutX="77.0" layoutY="269.0" mnemonicParsing="false" onAction="#signInButtonOnAction" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Sign In" textAlignment="CENTER" textFill="#022757">
+         <Button fx:id="signInButton" layoutX="77.0" layoutY="269.0" mnemonicParsing="false" onAction="#onSignInButton" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Sign In" textAlignment="CENTER" textFill="#022757">
             <font>
                <Font name="Segoe UI Semibold" size="13.0" />
             </font>
          </Button>
-         <Button fx:id="cancelButton" cancelButton="true" layoutX="150.0" layoutY="269.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Cancel" textAlignment="CENTER" textFill="#022757">
+         <Button fx:id="cancelButton" cancelButton="true" layoutX="150.0" layoutY="269.0" mnemonicParsing="false" onAction="#onCancelButton" opacity="0.78" prefHeight="0.0" prefWidth="62.0" style="-fx-background-color: #eb7ccb; -fx-background-radius: 25px; -fx-border-color: #d62090; -fx-border-radius: 25px;" text="Cancel" textAlignment="CENTER" textFill="#022757">
             <font>
                <Font name="Segoe UI Semibold" size="13.0" />
             </font>
