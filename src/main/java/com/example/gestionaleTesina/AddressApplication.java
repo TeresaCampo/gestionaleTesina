@@ -25,13 +25,12 @@ public class AddressApplication extends Application {
         primaryStage.show();
     }
 
-    public void changeScene(String fxml) throws IOException{
+    public FXMLLoader changeScene(String fxml) throws IOException{
         FXMLLoader loader= new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource(fxml)));
-        Parent pane= loader.load();
-        stg.getScene().setRoot(pane);
-        loader.getController();
-
+        Scene scene = new Scene(loader.load());
+        stg.setScene(scene);
+        return loader;
     }
 
     public static void main(String[] args) {

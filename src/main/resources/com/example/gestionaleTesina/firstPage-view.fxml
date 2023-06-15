@@ -1,15 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="backgroundGradient" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.FirstPageController">
    <top>
-      <AnchorPane prefHeight="46.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="anchorPane" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="39.0" fitWidth="40.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+            <Button layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="GROUP MEMEBERS" AnchorPane.topAnchor="6.0" />
+            <Button layoutX="443.0" layoutY="6.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="LOGOUT" AnchorPane.topAnchor="6.0" />
+            <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/2023-06-12.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </top>
+   <center>
+      <TabPane prefHeight="315.0" prefWidth="606.0" style="-fx-background-color: #e7ebff;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Travels to do">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table1" layoutX="14.0" prefHeight="289.6" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="table1" prefWidth="599.2000122070312" text="C1" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Travels done">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView prefHeight="289.6" prefWidth="600.0" style="-fx-background-color: #e7ebff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn prefWidth="599.2000122070312" style="-fx-max-height: 0; -fx-pref-height: 0; -fx-min-height: 0;" text="C1" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TabPane>
+   </center>
+   <bottom>
+      <AnchorPane prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="141.0" layoutY="4.0" mnemonicParsing="false" prefWidth="146.0" text="New travel" />
+            <Button layoutX="311.0" layoutY="4.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="146.0" text="Delete" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

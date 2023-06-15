@@ -61,6 +61,10 @@ public class SignUpController {
         });
     }
 
+    /**onPlusButton to add textField for usernames
+     *
+     */
+
     @FXML
     void onPlusButton(){
         ++userNumber;
@@ -92,6 +96,110 @@ public class SignUpController {
         gp_background.getChildren().add(lb_newUser);
     }
 
+    /**onSignUpButton
+     * to check data and eventually insert them in the database
+     *
+     */
+
+    @FXML
+    void onSignUpButton() {
+        //check if there is at least one userName and if all the userName are compiled and if all the userNames are different
+        //check if all the data are insert
+        //check if password and repeated password are equal
+        String password= pf_password.getText();
+        String groupID=tf_groupID.getText();
+
+        if(checkEmptyFields())
+            return;
+        if(!checkLengthFields())
+            return;
+
+        if(!pf_passwordRepeated.getText().equals(password)){
+            lb_message.setText("It seems like you entered two different passwords. Check it!");
+            return;
+        }
+
+        try {
+            if (checkGroupNameExists(groupID)) {
+                lb_message.setText(groupID + " is already used, choose a different groupID");
+                return;
+            }
+        }catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
+        }
+
+        try{
+            loadData(groupID, password);
+            main.changeScene("login-view.fxml");
+        } catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
+            removeChanges(groupID);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**functions to check data, load it and to restore database if exceptions happen
+     *
+     */
+
+    private void loadData(String groupID, String password) throws SQLException {
+        try( Connection connection = connector.dataSource.getConnection();
+             PreparedStatement insertCredentials = connection.prepareStatement("INSERT INTO authentication (groupID, password) VALUES (?, ?)")){
+            insertCredentials.setString(1, groupID);
+            insertCredentials.setString(2, password);
+            insertCredentials.executeUpdate();
+        }
+        try( Connection connection = connector.dataSource.getConnection();
+             PreparedStatement insertUsernames = connection.prepareStatement("INSERT INTO usernames (groupID, username) VALUES (?, ?)")) {
+            for (int i = 0; i < userNumber; ++i) {
+                insertUsernames.setString(1, groupID);
+                insertUsernames.setString(2, tf_userNames.get(i).getText());
+                insertUsernames.executeUpdate();
+            }
+        }
+    }
+
+
+    private void removeChanges(String groupID) {
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement removeGroupAuthentication = connection.prepareStatement("DELETE FROM authentication WHERE groupID = ?")) {
+            removeGroupAuthentication.setString(1, groupID);
+            removeGroupAuthentication.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("FATAL ERROR, CHECK THE DATABASE authentication\nLAST GROUP ADDED IS "+groupID);
+        }
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement removeGroupUsernames = connection.prepareStatement("DELETE FROM usernames WHERE groupID = ?")) {
+            removeGroupUsernames.setString(1, groupID);
+            removeGroupUsernames.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("FATAL ERROR, CHECK THE DATABASE usernames\nLAST GROUP ADDED IS "+groupID);
+        }
+    }
+
+    private boolean checkLengthFields() {
+        Boolean tooLongFiled=tf_userNames.stream()
+                .map(user->user.getText().length())
+                .anyMatch(length->length>20);
+        if(tooLongFiled){
+            lb_message.setText("Usernames must be at last 20 characters");
+            return false;
+        }
+
+        if(tf_groupID.getText().length()>20){
+            lb_message.setText("GroupID must be at last 20 characters");
+            return false;
+        }
+        if(pf_password.getText().length()>20){
+            lb_message.setText("Password must be at last 20 characters");
+            return false;
+        }
+        return true;
+    }
+
     private boolean checkEmptyFields(){
         long checkEmptyUserNames= tf_userNames.stream()
                 .filter(user->user.getText().isEmpty())
@@ -106,9 +214,6 @@ public class SignUpController {
             lb_message.setText("Please enter the usernames of all members");
             return true;
         } else if (checkEqualUserNames!=tf_userNames.size()) {
-            System.out.println("numero user tf_usernames="+tf_userNames.size());
-            System.out.println("user1"+tf_userNames.get(0).getText());
-            System.out.println("user1"+tf_userNames.get(1).getText());
             lb_message.setText("Please choose a distinct username for each member");
             return true;
         } else if(tf_groupID.getText().isEmpty() || pf_password.getText().isEmpty() || pf_passwordRepeated.getText().isEmpty()){
@@ -117,50 +222,18 @@ public class SignUpController {
         }
         return false;
     }
-
-    @FXML
-    void onSignUpButton() {
-        //check if there is at least one userName and if all the userName are compiled and if all the userNames are different
-        //check if all the data are insert
-        //check if password and repeated password are equal
-        if(checkEmptyFields()==false){
-            String password= pf_password.getText();
-            String groupID=tf_groupID.getText();
-            if(!pf_passwordRepeated.getText().equals(password)){
-                lb_message.setText("It seems like you entered two different passwords. Check it!");
+    private boolean checkGroupNameExists(String groupID) throws SQLException {
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
+            checkData.setString(1, groupID);
+            ResultSet accountFound = checkData.executeQuery();
+            if (accountFound.isBeforeFirst()) {
+                return true;
             }
-
-            try (Connection connection = connector.dataSource.getConnection();
-                PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
-                checkData.setString(1, groupID);
-                ResultSet accountFound = checkData.executeQuery();
-
-                if (!accountFound.isBeforeFirst()) {
-                    PreparedStatement insertCredentials = connection.prepareStatement("INSERT INTO authentication (groupID, password) VALUES (?, ?)");
-                        insertCredentials.setString(1, groupID);
-                        insertCredentials.setString(2, password);
-                        insertCredentials.executeUpdate();
-                    PreparedStatement insertUsernames = connection.prepareStatement("INSERT INTO groupusernames (groupID, username) VALUES (?, ?)");
-                        for(int i=0; i<userNumber; ++i){
-                            insertUsernames.setString(1, groupID);
-                            insertUsernames.setString(2, tf_userNames.get(i).getText());
-                            insertUsernames.executeUpdate();
-                        }
-                    try {
-                        main.changeScene("login-view.fxml");
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                else{
-                    lb_message.setText(groupID+" is already used, choose a different groupID");
-                }
-            }catch (SQLException e){
-                new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
-            }
-       }
+            return false;
+        }
     }
+
 
     public void onCancelButton(){
         try {

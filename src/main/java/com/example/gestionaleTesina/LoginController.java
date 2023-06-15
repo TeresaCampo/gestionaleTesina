@@ -2,6 +2,7 @@ package com.example.gestionaleTesina;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.sql.*;
@@ -9,6 +10,7 @@ import java.sql.*;
 public class LoginController{
     DBConnection connector = new DBConnection();
     AddressApplication main = new AddressApplication();
+
     @FXML
     private TextField IDGroupTextField;
     @FXML
@@ -22,33 +24,69 @@ public class LoginController{
         connector.getConnection();
     }
 
+    /**
+     * To go to the Register page
+     */
     @FXML
-    void onSignInButton(){
-        if(IDGroupTextField.getText().isEmpty() || enterPasswordField.getText().isEmpty()){
-            loginWarningLabel.setText("Please enter all your data");
-        }
-        else{
-            String groupID = IDGroupTextField.getText();
-            String password = enterPasswordField.getText();
+    public void onRegisterButton(){
+        try {
+            String signUpScene="signUp-view.fxml";
+            main.changeScene(signUpScene);
 
-            try{
-                if(validateLogin(groupID, password)){
-                    loginWarningLabel.setText("Loading...");
-                }
-            }catch (SQLException e){
-                new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    /**
+     * To close the app
+     */
     @FXML
     void onCancelButton() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * To signIn
+     * Check data and eventually goes to First Page
+     */
+
+    @FXML
+    void onSignInButton(){
+        if(IDGroupTextField.getText().isEmpty() || enterPasswordField.getText().isEmpty()){
+            loginWarningLabel.setText("Please enter all your data");
+            return;
+        }
+        String groupID = IDGroupTextField.getText();
+        String password = enterPasswordField.getText();
+
+        try {
+            if (!validateLogin(groupID, password))
+                return;
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
+        }
+
+        loginWarningLabel.setText("Loading...");
+        try {
+            FXMLLoader loader=main.changeScene("firstPage-view.fxml");
+            FirstPageController controller= loader.getController();
+            controller.setGroupID(groupID);
+            controller.setPassword(password);
+
+        } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("FIRST-PAGE NOT FOUND");
+        }
+    }
+
+    /**
+     * To check authentication data
+     */
     private boolean validateLogin(String groupID, String password) throws SQLException {
         try (Connection connection = connector.dataSource.getConnection();
-             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
+            PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
             checkData.setString(1, groupID);
             ResultSet accountFound = checkData.executeQuery();
 
@@ -67,15 +105,6 @@ public class LoginController{
         }
     }
 
-    @FXML
-    public void onRegisterButton(){
-        try {
-            String signUpScene="signUp-view.fxml";
-            main.changeScene(signUpScene);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
 
