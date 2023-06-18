@@ -1,16 +1,20 @@
 package com.example.gestionaleTesina;
 
+import java.util.TreeSet;
+
 public class TravelOption {
     String name;
     double totalCost;
     double perPersonCost;
     String comment;
+    TreeSet<TravelOptionComponent> components;
 
-    public TravelOption(String name, double totalCost, double perPersonCost, String comment) {
+    public TravelOption(String name, double totalCost, double perPersonCost, String comment, TreeSet<TravelOptionComponent> components) {
         this.name = name;
         this.totalCost = totalCost;
         this.perPersonCost = perPersonCost;
         this.comment = comment;
+        this.components = components;
     }
 
     public String getName() {
@@ -44,5 +48,6 @@ public class TravelOption {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
 
 }

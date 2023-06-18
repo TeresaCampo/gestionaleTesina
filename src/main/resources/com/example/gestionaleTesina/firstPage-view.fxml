@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -27,45 +26,24 @@
    </top>
    <center>
       <TabPane prefHeight="315.0" prefWidth="606.0" style="-fx-background-color: #e7ebff;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Travels to do">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="table1" layoutX="14.0" prefHeight="289.6" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn fx:id="table1" prefWidth="599.2000122070312" text="C1" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Travels done">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView prefHeight="289.6" prefWidth="600.0" style="-fx-background-color: #e7ebff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn prefWidth="599.2000122070312" style="-fx-max-height: 0; -fx-pref-height: 0; -fx-min-height: 0;" text="C1" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
       </TabPane>
    </center>
-   <bottom>
-      <AnchorPane prefHeight="36.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;" BorderPane.alignment="CENTER">
+   <left>
+      <AnchorPane prefHeight="314.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="141.0" layoutY="4.0" mnemonicParsing="false" prefWidth="146.0" text="New travel" />
-            <Button layoutX="311.0" layoutY="4.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="146.0" text="Delete" />
+            <Button layoutX="120.0" layoutY="310.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="new travel" />
+            <Button layoutX="336.0" layoutY="309.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
+            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="305.0" prefWidth="600.0">
+              <columns>
+                <TableColumn fx:id="travelsColumn" prefWidth="442.4000244140625" text="Travels" />
+                <TableColumn fx:id="numberOptionsColumn" minWidth="0.0" prefWidth="72.0" text="number of &#10;options" />
+                  <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="86.4000244140625" text="status" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
-   </bottom>
+   </left>
 </BorderPane>

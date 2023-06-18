@@ -6,15 +6,13 @@ public class Group {
     String groupID;
     String password;
     ArrayList<String> users;
-    ArrayList<Travel> travelsToDo;
-    ArrayList<Travel> travelsDone;
+    ArrayList<Travel> travels;
 
-    public Group(String groupID, String password, ArrayList<String> users, ArrayList<Travel> travelsToDo, ArrayList<Travel> travelsDone) {
+    public Group(String groupID, String password, ArrayList<String> users, ArrayList<Travel> travels) {
         this.groupID = groupID;
         this.password = password;
         this.users = users;
-        this.travelsToDo = travelsToDo;
-        this.travelsDone = travelsDone;
+        this.travels = travels;
     }
 
     public String getGroupID() {
@@ -41,19 +39,11 @@ public class Group {
         this.users = users;
     }
 
-    public ArrayList<Travel> getTravelsToDo() {
-        return travelsToDo;
+    public ArrayList<Travel> getTravels() {
+        return travels;
     }
 
-    public void setTravelsToDo(ArrayList<Travel> travelsToDo) {
-        this.travelsToDo = travelsToDo;
-    }
-
-    public ArrayList<Travel> getTravelsDone() {
-        return travelsDone;
-    }
-
-    public void setTravelsDone(ArrayList<Travel> travelsDone) {
-        this.travelsDone = travelsDone;
+    public void setTravels(ArrayList<Travel> travels) {
+        this.travels = travels;
     }
 }

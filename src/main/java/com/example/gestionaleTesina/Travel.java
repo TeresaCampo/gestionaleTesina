@@ -1,24 +1,33 @@
 package com.example.gestionaleTesina;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 
 public class Travel {
     String name;
     ArrayList<TravelOption> options;
-    Option favouriteOption;
+    Integer numberOfOptions;
+    String favouriteOption;
+    SwitchButton statusButton;
+    boolean status;
 
-    public Travel(String name, ArrayList<TravelOption> options, Option favouriteOption) {
+    void initialize(){
+        //this.statusButton.setSelected(status);
+    }
+
+    public Travel(String name, ArrayList<TravelOption> options, String favouriteOption, boolean status, SwitchButton statusButton) {
         this.name = name;
         this.options = options;
         this.favouriteOption = favouriteOption;
+        this.status=status;
+        this.numberOfOptions=options.size();
+        this.statusButton=statusButton;
     }
 
-    public Option getFavouriteOption() {
+    public String getFavouriteOption() {
         return favouriteOption;
     }
 
-    public void setFavouriteOption(Option favouriteOption) {
+    public void setFavouriteOption(String favouriteOption) {
         this.favouriteOption = favouriteOption;
     }
 
@@ -36,5 +45,40 @@ public class Travel {
 
     public void setOptions(ArrayList<TravelOption> options) {
         this.options = options;
+    }
+
+    public Integer getNumberOfOptions() {
+        return numberOfOptions;
+    }
+
+    public void setNumberOfOptions(Integer numberOfOptions) {
+        this.numberOfOptions = numberOfOptions;
+    }
+
+    public SwitchButton getStatusButton() {
+        return statusButton;
+    }
+
+    public void setStatusButton(SwitchButton statusButton) {
+        this.statusButton = statusButton;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Travel{" +
+                "name='" + name + '\'' +
+                ", options=" + options +
+                ", numberOfOptions=" + numberOfOptions +
+                ", favouriteOption=" + favouriteOption +
+                ", statusButton=" + statusButton +
+                '}';
     }
 }

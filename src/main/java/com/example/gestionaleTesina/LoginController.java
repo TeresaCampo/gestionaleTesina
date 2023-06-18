@@ -1,15 +1,19 @@
 package com.example.gestionaleTesina;
 
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class LoginController{
     DBConnection connector = new DBConnection();
     AddressApplication main = new AddressApplication();
+    FirstPageController firstPageController;
+
 
     @FXML
     private TextField IDGroupTextField;
@@ -22,6 +26,7 @@ public class LoginController{
 
     public void initialize(){
         connector.getConnection();
+
     }
 
     /**
@@ -71,13 +76,14 @@ public class LoginController{
         loginWarningLabel.setText("Loading...");
         try {
             FXMLLoader loader=main.changeScene("firstPage-view.fxml");
-            FirstPageController controller= loader.getController();
-            controller.setGroupID(groupID);
-            controller.setPassword(password);
-
+            firstPageController= loader.getController();
+            firstPageController.setGroup( new Group(groupID, password, new ArrayList<String>(), new ArrayList<Travel>()));
+            firstPageController.setGroupID(groupID);
+            firstPageController.setPassword(password);
+            firstPageApp();
         } catch (Exception e) {
-        e.printStackTrace();
-        System.out.println("FIRST-PAGE NOT FOUND");
+            e.printStackTrace();
+            System.out.println("FIRST-PAGE NOT FOUND");
         }
     }
 
@@ -103,6 +109,18 @@ public class LoginController{
                 }
             }
         }
+    }
+
+    /**
+     * To control the whole app
+     */
+
+    void firstPageApp(){
+        firstPageController.loadData();
+
+
+
+
     }
 
 
