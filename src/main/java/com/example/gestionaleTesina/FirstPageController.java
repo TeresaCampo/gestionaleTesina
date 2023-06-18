@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.TreeSet;
 
 
@@ -56,12 +55,13 @@ public class FirstPageController {
     void loadUsernames() throws SQLException {
         try (Connection connection = connector.dataSource.getConnection();
              PreparedStatement loadUsernames = connection.prepareStatement("SELECT username FROM usernames WHERE groupID = ?")) {
+            //test stamp
             System.out.println("Loading usernames of "+groupID);
             loadUsernames.setString(1, groupID);
             ResultSet rs = loadUsernames.executeQuery();
             while (rs.next()) {
                 group.users.add(rs.getString("username"));
-                //to check usernames found
+                //test stamp
                 System.out.println(rs.getString("username"));
             }
         }
@@ -74,6 +74,7 @@ public class FirstPageController {
             loadTravels.setString(1, groupID);
             ResultSet rs = loadTravels.executeQuery();
             while (rs.next()) {
+                //test stamp
                 System.out.println(rs.getString("travelName"));
                 group.travels.add(new Travel(
                         rs.getString("travelName"),
@@ -96,6 +97,7 @@ public class FirstPageController {
             ResultSet rs = loadTravelOptions.executeQuery();
 
             while (rs.next()) {
+                //test stamp
                 System.out.println(rs.getString("optionName"));
                 travelOptions.add(new TravelOption(
                         rs.getString("optionName"),
@@ -130,6 +132,8 @@ public class FirstPageController {
             loadOptionComponent.setString(3, optionName);
             ResultSet rs = loadOptionComponent.executeQuery();
             while(rs.next()){
+                //test stamp
+                System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new Accommodation(
                         rs.getString("groupID"),
                         rs.getString("travelName"),
@@ -157,6 +161,8 @@ public class FirstPageController {
             loadOptionComponent.setString(3, optionName);
             ResultSet rs = loadOptionComponent.executeQuery();
             while(rs.next()){
+                //test stamp
+                System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new Transport(
                         rs.getString("groupID"),
                         rs.getString("travelName"),
@@ -165,10 +171,10 @@ public class FirstPageController {
                         rs.getString("payed"),
                         rs.getDouble("price"),
                         rs.getString("name"),
-                        rs.getDate("checkInDay"),
-                        rs.getDate("checkOutDay"),
-                        rs.getTime("checkInTime"),
-                        rs.getTime("checkOutTime"),
+                        rs.getDate("arrivalDay"),
+                        rs.getDate("departureDay"),
+                        rs.getTime("arrivalTime"),
+                        rs.getTime("departureTime"),
                         rs.getString("from"),
                         rs.getString("to")
                 ));
@@ -185,6 +191,8 @@ public class FirstPageController {
             loadOptionComponent.setString(3, optionName);
             ResultSet rs = loadOptionComponent.executeQuery();
             while(rs.next()){
+                //test stamp
+                System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new Rental(
                         rs.getString("groupID"),
                         rs.getString("travelName"),
@@ -213,6 +221,7 @@ public class FirstPageController {
             ResultSet rs = loadFavouriteOption.executeQuery();
 
             while (rs.next()) {
+                //test stamp
                 System.out.println("opzione preferita è "+rs.getString("optionName"));
                 favouriteOption=rs.getString("optionName");
             }
