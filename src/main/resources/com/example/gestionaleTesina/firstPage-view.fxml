@@ -15,7 +15,7 @@
       <AnchorPane fx:id="anchorPane" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="GROUP MEMEBERS" AnchorPane.topAnchor="6.0" />
-            <Button layoutX="443.0" layoutY="6.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="LOGOUT" AnchorPane.topAnchor="6.0" />
+            <Button layoutX="443.0" layoutY="6.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="33.0" prefWidth="146.0" text="LOGOUT" AnchorPane.topAnchor="6.0" />
             <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/2023-06-12.png" />
@@ -35,7 +35,7 @@
       <AnchorPane prefHeight="314.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="120.0" layoutY="310.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="new travel" />
-            <Button layoutX="336.0" layoutY="309.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
+            <Button layoutX="336.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
             <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="305.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="travelsColumn" prefWidth="442.4000244140625" text="Travels" />

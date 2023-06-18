@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.TreeSet;
-
 
 
 public class FirstPageController {
@@ -29,7 +29,7 @@ public class FirstPageController {
     private TableColumn<Travel, Integer> numberOptionsColumn;
 
     @FXML
-    private TableColumn<Travel, ToggleButton>statusColumn;
+    private TableColumn<Travel, SwitchButton>statusColumn;
 
     @FXML
     private TableColumn<Travel, String> travelsColumn;
@@ -39,6 +39,10 @@ public class FirstPageController {
         travelsColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         numberOptionsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfOptions"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("statusButton"));
+    }
+
+    public void initializeForSwitchButton(){
+        connector.getConnection();
     }
 
     public void loadData() {
@@ -76,14 +80,14 @@ public class FirstPageController {
             while (rs.next()) {
                 //test stamp
                 System.out.println(rs.getString("travelName"));
-                group.travels.add(new Travel(
-                        rs.getString("travelName"),
-                        loadTravelOption(rs.getString("travelName")),
-                        loadFavouriteOption(rs.getString("travelName")),
-                        rs.getBoolean("status"),
-                        new SwitchButton(rs.getBoolean("status"))
-                ));
-
+                Travel toBeAdded= new Travel(
+                                rs.getString("travelName"),
+                                loadTravelOption(rs.getString("travelName")),
+                                loadFavouriteOption(rs.getString("travelName")),
+                                rs.getBoolean("status"),
+                                null);
+                toBeAdded.statusButton=new SwitchButton(group, toBeAdded);
+                group.travels.add(toBeAdded);
             }
         }
         tableTravels.setItems(FXCollections.observableArrayList(group.travels));
@@ -229,6 +233,99 @@ public class FirstPageController {
         return favouriteOption;
     }
 
+    /**
+     * to find the selected travel
+     */
+    int selectedIndex() {
+        int selectedIndex = tableTravels.getSelectionModel().getSelectedIndex();
+        if (selectedIndex < 0) {
+            throw new NoSuchElementException();
+        }
+        return selectedIndex;
+    }
+    /**
+     * to delete a travel
+     */
+    @FXML
+    private void onDeleteTravel() {
+        try {
+            int selectedIndex = selectedIndex();
+            try {
+                deleteTravelDB(tableTravels.getItems().get(selectedIndex));
+            }catch (SQLException e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Database Error\n Error while removing travel "+tableTravels.getItems().get(selectedIndex).name).showAndWait();
+            }
+            tableTravels.getItems().remove(selectedIndex);
+        } catch (NoSuchElementException e) {
+            new Alert(Alert.AlertType.WARNING, "No Travel Selected\nPlease select one from the table." ).showAndWait();
+        }
+    }
+
+    void deleteTravelDB(Travel travel) throws SQLException {
+        try (Connection connection = connector.dataSource.getConnection();
+            PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM travels WHERE groupID = ? AND travelName = ?")) {
+            removeTravel.setString(1, groupID);
+            removeTravel.setString(2, travel.name);
+            removeTravel.executeUpdate();
+        }
+        try (Connection connection = connector.dataSource.getConnection();
+            PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM traveloptions WHERE groupID = ? AND travelName = ?")) {
+            removeTravel.setString(1, groupID);
+            removeTravel.setString(2, travel.name);
+            removeTravel.executeUpdate();
+        }
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM accommodation WHERE groupID = ? AND travelName = ?")) {
+            removeTravel.setString(1, groupID);
+            removeTravel.setString(2, travel.name);
+            removeTravel.executeUpdate();
+        }
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM transport WHERE groupID = ? AND travelName = ?")) {
+            removeTravel.setString(1, groupID);
+            removeTravel.setString(2, travel.name);
+            removeTravel.executeUpdate();
+        }
+        try (Connection connection = connector.dataSource.getConnection();
+             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM rental WHERE groupID = ? AND travelName = ?")) {
+            removeTravel.setString(1, groupID);
+            removeTravel.setString(2, travel.name);
+            removeTravel.executeUpdate();
+        }
+    }
+
+    /**
+     * To update travel status through SwitchButton
+     */
+    void updateTravelStatus(String groupName, String travelName, boolean newStatus){
+        try (Connection connection = connector.dataSource.getConnection();
+            PreparedStatement  updateTravelStatus= connection.prepareStatement("UPDATE travels SET status = ? WHERE groupID = ? AND travelName = ?")) {
+            updateTravelStatus.setBoolean(1, newStatus);
+            updateTravelStatus.setString(2, groupName);
+            updateTravelStatus.setString(3, travelName);
+            updateTravelStatus.executeUpdate();
+            System.out.println(newStatus);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Database Error\n Error while updating travelStatus").showAndWait();
+        }
+
+    }
+
+    /**
+     * to logOut
+     */
+    @FXML
+    void onLogoutButton(){
+        try {
+            main.changeScene("login-view.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("LOGIN-PAGE NOT FOUND");
+        }
+    }
 
     /**
      * Getter and Setter

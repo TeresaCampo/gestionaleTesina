@@ -1,7 +1,5 @@
 package com.example.gestionaleTesina;
 
-
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -35,8 +33,7 @@ public class LoginController{
     @FXML
     public void onRegisterButton(){
         try {
-            String signUpScene="signUp-view.fxml";
-            main.changeScene(signUpScene);
+            main.changeScene("signUp-view.fxml");
 
         } catch (Exception e) {
             e.printStackTrace();
