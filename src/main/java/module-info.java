@@ -11,4 +11,5 @@ open module com.example.gestionaletesina {
     requires org.controlsfx.controls;
 
     exports com.example.gestionaleTesina;
+    exports com.example.gestionaleTesina.classes;
 }

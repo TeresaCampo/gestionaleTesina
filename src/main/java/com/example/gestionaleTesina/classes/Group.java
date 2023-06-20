@@ -1,18 +1,25 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.classes;
 
 import java.util.ArrayList;
 
 public class Group {
-    String groupID;
-    String password;
-    ArrayList<String> users;
-    ArrayList<Travel> travels;
+     String groupID;
+     String password;
+     ArrayList<String> users;
+     ArrayList<Travel> travels;
 
     public Group(String groupID, String password, ArrayList<String> users, ArrayList<Travel> travels) {
         this.groupID = groupID;
         this.password = password;
         this.users = users;
         this.travels = travels;
+    }
+
+    public void addUser(String toBeAdded) {
+        users.add(toBeAdded);
+    }
+    public void addTravel(Travel toBeAdded) {
+        travels.add(toBeAdded);
     }
 
     public String getGroupID() {
@@ -46,4 +53,5 @@ public class Group {
     public void setTravels(ArrayList<Travel> travels) {
         this.travels = travels;
     }
+
 }

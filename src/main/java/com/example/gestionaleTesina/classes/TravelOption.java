@@ -1,4 +1,4 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.classes;
 
 import java.util.TreeSet;
 

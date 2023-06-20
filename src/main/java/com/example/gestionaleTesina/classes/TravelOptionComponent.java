@@ -1,9 +1,9 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.classes;
 
 import java.sql.Time;
 import java.util.Date;
 
-public abstract class TravelOptionComponent {
+public class TravelOptionComponent {
     //key
     String groupID;
     String travelName;
@@ -25,7 +25,10 @@ public abstract class TravelOptionComponent {
     String from;
     String to;
 
-    public TravelOptionComponent(String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime) {
+    /**
+     * Constructor for accommodation
+     */
+    public TravelOptionComponent(String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, Integer numberOfRooms, boolean privateToilet) {
         this.groupID = groupID;
         this.travelName = travelName;
         this.optionName = optionName;
@@ -37,6 +40,49 @@ public abstract class TravelOptionComponent {
         this.checkOutDate = checkOutDate;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+
+        this.numberOfRooms=numberOfRooms;
+        this.privateToilet=privateToilet;
+    }
+
+
+    /**
+     * Constructor for travel
+     */
+    public TravelOptionComponent(String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, String from, String to) {
+        this.groupID = groupID;
+        this.travelName = travelName;
+        this.optionName = optionName;
+        this.posInTravelOption = posInTravelOption;
+        this.payed = payed;
+        this.price = price;
+        this.name = name;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+
+        this.from=from;
+        this.to=to;
+    }
+
+    /**
+     * Constructor for rental
+     */
+    public TravelOptionComponent(String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, String kindOfRental) {
+        this.groupID = groupID;
+        this.travelName = travelName;
+        this.optionName = optionName;
+        this.posInTravelOption = posInTravelOption;
+        this.payed = payed;
+        this.price = price;
+        this.name = name;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+
+        this.kindOfRental=kindOfRental;
     }
 
 

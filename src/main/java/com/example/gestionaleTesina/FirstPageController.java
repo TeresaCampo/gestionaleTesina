@@ -1,11 +1,11 @@
 package com.example.gestionaleTesina;
 
+import com.example.gestionaleTesina.classes.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,7 +64,7 @@ public class FirstPageController {
             loadUsernames.setString(1, groupID);
             ResultSet rs = loadUsernames.executeQuery();
             while (rs.next()) {
-                group.users.add(rs.getString("username"));
+                group.addUser(rs.getString("username"));
                 //test stamp
                 System.out.println(rs.getString("username"));
             }
@@ -86,11 +86,11 @@ public class FirstPageController {
                                 loadFavouriteOption(rs.getString("travelName")),
                                 rs.getBoolean("status"),
                                 null);
-                toBeAdded.statusButton=new SwitchButton(group, toBeAdded);
-                group.travels.add(toBeAdded);
+                toBeAdded.setStatusButton(new SwitchButton(group, toBeAdded));
+                group.addTravel(toBeAdded);
             }
         }
-        tableTravels.setItems(FXCollections.observableArrayList(group.travels));
+        tableTravels.setItems(FXCollections.observableArrayList(group.getTravels()));
     }
     ArrayList<TravelOption> loadTravelOption(String travelName) throws SQLException {
         ArrayList<TravelOption> travelOptions=new ArrayList<>();
@@ -116,7 +116,7 @@ public class FirstPageController {
     }
 
     TreeSet<TravelOptionComponent> loadOption(String travelName, String optionName) throws SQLException {
-        TreeSet<TravelOptionComponent> travelOptions = new TreeSet<TravelOptionComponent>(( TravelOptionComponent e1,  TravelOptionComponent e2 )-> e1.posInTravelOption.compareTo(e2.posInTravelOption));
+        TreeSet<TravelOptionComponent> travelOptions = new TreeSet<>((TravelOptionComponent e1, TravelOptionComponent e2) -> e1.getPosInTravelOption().compareTo(e2.getPosInTravelOption()));
 
         travelOptions=loadFromAccommodation(travelName, optionName, travelOptions);
         travelOptions=loadFromTransport(travelName, optionName,travelOptions);
@@ -138,7 +138,7 @@ public class FirstPageController {
             while(rs.next()){
                 //test stamp
                 System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
-                travelOptions.add(new Accommodation(
+                travelOptions.add(new TravelOptionComponent(
                         rs.getString("groupID"),
                         rs.getString("travelName"),
                         rs.getString("optionName"),
@@ -167,7 +167,7 @@ public class FirstPageController {
             while(rs.next()){
                 //test stamp
                 System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
-                travelOptions.add(new Transport(
+                travelOptions.add(new TravelOptionComponent(
                         rs.getString("groupID"),
                         rs.getString("travelName"),
                         rs.getString("optionName"),
@@ -197,7 +197,7 @@ public class FirstPageController {
             while(rs.next()){
                 //test stamp
                 System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
-                travelOptions.add(new Rental(
+                travelOptions.add(new TravelOptionComponent(
                         rs.getString("groupID"),
                         rs.getString("travelName"),
                         rs.getString("optionName"),
@@ -254,7 +254,7 @@ public class FirstPageController {
                 deleteTravelDB(tableTravels.getItems().get(selectedIndex));
             }catch (SQLException e) {
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Database Error\n Error while removing travel "+tableTravels.getItems().get(selectedIndex).name).showAndWait();
+                new Alert(Alert.AlertType.ERROR, "Database Error\n Error while removing travel "+tableTravels.getItems().get(selectedIndex).getName()).showAndWait();
             }
             tableTravels.getItems().remove(selectedIndex);
         } catch (NoSuchElementException e) {
@@ -266,31 +266,31 @@ public class FirstPageController {
         try (Connection connection = connector.dataSource.getConnection();
             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM travels WHERE groupID = ? AND travelName = ?")) {
             removeTravel.setString(1, groupID);
-            removeTravel.setString(2, travel.name);
+            removeTravel.setString(2, travel.getName());
             removeTravel.executeUpdate();
         }
         try (Connection connection = connector.dataSource.getConnection();
             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM traveloptions WHERE groupID = ? AND travelName = ?")) {
             removeTravel.setString(1, groupID);
-            removeTravel.setString(2, travel.name);
+            removeTravel.setString(2, travel.getName());
             removeTravel.executeUpdate();
         }
         try (Connection connection = connector.dataSource.getConnection();
              PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM accommodation WHERE groupID = ? AND travelName = ?")) {
             removeTravel.setString(1, groupID);
-            removeTravel.setString(2, travel.name);
+            removeTravel.setString(2, travel.getName());
             removeTravel.executeUpdate();
         }
         try (Connection connection = connector.dataSource.getConnection();
              PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM transport WHERE groupID = ? AND travelName = ?")) {
             removeTravel.setString(1, groupID);
-            removeTravel.setString(2, travel.name);
+            removeTravel.setString(2, travel.getName());
             removeTravel.executeUpdate();
         }
         try (Connection connection = connector.dataSource.getConnection();
              PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM rental WHERE groupID = ? AND travelName = ?")) {
             removeTravel.setString(1, groupID);
-            removeTravel.setString(2, travel.name);
+            removeTravel.setString(2, travel.getName());
             removeTravel.executeUpdate();
         }
     }
@@ -298,7 +298,7 @@ public class FirstPageController {
     /**
      * To update travel status through SwitchButton
      */
-    void updateTravelStatus(String groupName, String travelName, boolean newStatus){
+    public void updateTravelStatus(String groupName, String travelName, boolean newStatus){
         try (Connection connection = connector.dataSource.getConnection();
             PreparedStatement  updateTravelStatus= connection.prepareStatement("UPDATE travels SET status = ? WHERE groupID = ? AND travelName = ?")) {
             updateTravelStatus.setBoolean(1, newStatus);
@@ -326,6 +326,7 @@ public class FirstPageController {
             System.out.println("LOGIN-PAGE NOT FOUND");
         }
     }
+
 
     /**
      * Getter and Setter

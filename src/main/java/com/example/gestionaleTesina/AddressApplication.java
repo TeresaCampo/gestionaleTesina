@@ -23,6 +23,7 @@ public class AddressApplication extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
+        //changeScene("editPage-view.fxml");
     }
 
     public FXMLLoader changeScene(String fxml) throws IOException{

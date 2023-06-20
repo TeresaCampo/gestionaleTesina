@@ -1,4 +1,4 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.classes;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,6 @@ public class Travel {
     SwitchButton statusButton;
     boolean status;
 
-    void initialize(){
-        //this.statusButton.setSelected(status);
-    }
 
     public Travel(String name, ArrayList<TravelOption> options, String favouriteOption, boolean status, SwitchButton statusButton) {
         this.name = name;
@@ -63,7 +60,7 @@ public class Travel {
         this.statusButton = statusButton;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 

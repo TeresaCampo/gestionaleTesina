@@ -5,8 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.util.TimeZone;
 
 public class DBConnection {
-    HikariDataSource dataSource;
-    void getConnection() {
+    public HikariDataSource dataSource;
+    public void getConnection() {
         String schemeName="progettojavafx";
         String userName="progettojavafx";
         String password="siSperabene!";

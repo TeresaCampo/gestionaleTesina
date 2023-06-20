@@ -1,5 +1,7 @@
 package com.example.gestionaleTesina;
 
+import com.example.gestionaleTesina.classes.Group;
+import com.example.gestionaleTesina.classes.Travel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -74,7 +76,7 @@ public class LoginController{
         try {
             FXMLLoader loader=main.changeScene("firstPage-view.fxml");
             firstPageController= loader.getController();
-            firstPageController.setGroup( new Group(groupID, password, new ArrayList<String>(), new ArrayList<Travel>()));
+            firstPageController.setGroup( new Group(groupID, password, new ArrayList<>(), new ArrayList<>()));
             firstPageController.setGroupID(groupID);
             firstPageController.setPassword(password);
             firstPageApp();
