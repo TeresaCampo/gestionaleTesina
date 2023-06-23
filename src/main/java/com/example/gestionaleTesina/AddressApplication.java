@@ -23,7 +23,7 @@ public class AddressApplication extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
-        //changeScene("editPage-view.fxml");
+        changeScene("editPage-view.fxml");
     }
 
     public FXMLLoader changeScene(String fxml) throws IOException{
@@ -32,6 +32,7 @@ public class AddressApplication extends Application {
         Scene scene = new Scene(loader.load());
         stg.setScene(scene);
         return loader;
+
     }
 
     public static void main(String[] args) {
