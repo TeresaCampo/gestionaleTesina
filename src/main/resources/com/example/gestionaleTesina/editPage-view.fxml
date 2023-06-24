@@ -33,7 +33,7 @@
                <children>
                   <Label layoutX="24.0" layoutY="25.0" text="Option name" />
                   <TextField fx:id="tf_optionName" layoutX="102.0" layoutY="21.0" />
-                  <Button fx:id="plusButton" layoutX="24.0" layoutY="77.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="+" />
+                  <Button fx:id="plusButton" layoutX="24.0" layoutY="77.0" maxHeight="26.0" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="+" />
                </children>
             </AnchorPane>
         </content>

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.TreeSet;
 
@@ -116,7 +117,7 @@ public class FirstPageController {
     }
 
     TreeSet<TravelOptionComponent> loadOption(String travelName, String optionName) throws SQLException {
-        TreeSet<TravelOptionComponent> travelOptions = new TreeSet<>((TravelOptionComponent e1, TravelOptionComponent e2) -> e1.getPosInTravelOption().compareTo(e2.getPosInTravelOption()));
+        TreeSet<TravelOptionComponent> travelOptions = new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
 
         travelOptions=loadFromAccommodation(travelName, optionName, travelOptions);
         travelOptions=loadFromTransport(travelName, optionName,travelOptions);
@@ -139,6 +140,7 @@ public class FirstPageController {
                 //test stamp
                 System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new TravelOptionComponent(
+                        "accommodation",
                         rs.getString("groupID"),
                         rs.getString("travelName"),
                         rs.getString("optionName"),
@@ -168,6 +170,7 @@ public class FirstPageController {
                 //test stamp
                 System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new TravelOptionComponent(
+                        "transport",
                         rs.getString("groupID"),
                         rs.getString("travelName"),
                         rs.getString("optionName"),
@@ -180,7 +183,8 @@ public class FirstPageController {
                         rs.getTime("arrivalTime"),
                         rs.getTime("departureTime"),
                         rs.getString("from"),
-                        rs.getString("to")
+                        rs.getString("to"),
+                        rs.getString("kindOfTransport")
                 ));
             }
         }
@@ -198,6 +202,7 @@ public class FirstPageController {
                 //test stamp
                 System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new TravelOptionComponent(
+                        "rental",
                         rs.getString("groupID"),
                         rs.getString("travelName"),
                         rs.getString("optionName"),
