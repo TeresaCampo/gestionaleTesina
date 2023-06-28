@@ -4,7 +4,12 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
+import java.sql.Time;
 import java.time.ZoneId;
+import java.util.Date;
+
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 
 
 public class OptionComponentsGraphic extends Node {
@@ -444,9 +449,195 @@ public class OptionComponentsGraphic extends Node {
     }
 
     /**
+     * to convert from grafic component to TravelOptionComponent
+     */
+    Double converterTF_Double(TextField tf){
+        if(tf.getText().isEmpty()) return null;
+        return parseDouble(tf.getText());
+    }
+
+    Date converterDP_Date(DatePicker dp){
+        if(dp.getValue()==null) return null;
+        return Date.from((dp.getValue()).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    Time converterTF_Time(TextField tfHOur, TextField tfMinute){
+        if(tfHOur.getText().isEmpty() || tfMinute.getText().isEmpty()) return null;
+        return new Time(parseInt(tfHOur.getText()), parseInt(tfMinute.getText()), 0);
+    }
+
+    Integer converterTF_integer(TextField tf){
+        if(tf.getText().isEmpty()) return null;
+        return parseInt(tf.getText());
+    }
+
+
+    public TravelOptionComponent convertAccommodation(String groupID, String travelName, String optionName,  Integer tmpPosInTravelOption){
+        System.out.println("Converting Accommodation...");
+        return new TravelOptionComponent("accommodation",
+                groupID,
+                travelName,
+                optionName,
+                tmpPosInTravelOption,
+                null,
+                converterTF_Double(tf_price),
+                tf_name.getText(),
+                converterDP_Date(dp_from),
+                converterDP_Date(dp_to),
+                converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn),
+                converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut),
+                converterTF_integer(tf_nOfRoom),
+                bt_sharedWC.isSelected()
+        );
+    }
+
+
+    public TravelOptionComponent convertRental(String groupID, String travelName, String optionName,  Integer tmpPosInTravelOption){
+        System.out.println("Converting Rental...");
+        return new TravelOptionComponent("rental",
+                groupID,
+                travelName,
+                optionName,
+                tmpPosInTravelOption,
+                null,
+                converterTF_Double(tf_price),
+                tf_name.getText(),
+                converterDP_Date(dp_from),
+                converterDP_Date(dp_to),
+                converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn),
+                converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut),
+                tf_kindRental.getText()
+        );
+    }
+
+    public TravelOptionComponent convertTransport(String groupID, String travelName, String optionName,  Integer tmpPosInTravelOption){
+        System.out.println("Converting Transport...");
+        return new TravelOptionComponent("transport",
+                groupID,
+                travelName,
+                optionName,
+                tmpPosInTravelOption,
+                null,
+                converterTF_Double(tf_price),
+                tf_name.getText(),
+                converterDP_Date(dp_from),
+                converterDP_Date(dp_to),
+                converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn),
+                converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut),
+                tf_kindRental.getText(),
+                tf_fromPlace.getText(),
+                tf_toPlace.getText()
+        );
+    }
+    /**
+     * to string
+     */
+    @Override
+    public String toString() {
+        return "OptionComponentsGraphic{" +
+                "tf_name=" + tf_name.getText() +
+                ", lb_kindOfComponent=" + lb_kindOfComponent.getText() +
+                '}';
+    }
+
+    public AnchorPane getBackground() {
+        return background;
+    }
+
+    public RadioButton getBt_sharedWC() {
+        return bt_sharedWC;
+    }
+
+    public DatePicker getDp_from() {
+        return dp_from;
+    }
+
+    public DatePicker getDp_to() {
+        return dp_to;
+    }
+
+    public Label getLb_checkIn() {
+        return lb_checkIn;
+    }
+
+    public Label getLb_checkOut() {
+        return lb_checkOut;
+    }
+
+    public Label getLb_from() {
+        return lb_from;
+    }
+
+    public Label getLb_nOfRoom() {
+        return lb_nOfRoom;
+    }
+
+    public Label getLb_price() {
+        return lb_price;
+    }
+
+    public Label getLb_to() {
+        return lb_to;
+    }
+
+    public TextField getTf_hourCheckIn() {
+        return tf_hourCheckIn;
+    }
+
+    public TextField getTf_hourCheckOut() {
+        return tf_hourCheckOut;
+    }
+
+    public TextField getTf_minuteCheckIn() {
+        return tf_minuteCheckIn;
+    }
+
+    public TextField getTf_minuteCheckOut() {
+        return tf_minuteCheckOut;
+    }
+
+    public TextField getTf_nOfRoom() {
+        return tf_nOfRoom;
+    }
+
+    public Label getTf_timeCheckIn() {
+        return tf_timeCheckIn;
+    }
+
+    public Label getTf_timeCheckOut() {
+        return tf_timeCheckOut;
+    }
+
+    public Label getLb_kindOfComponent() {
+        return lb_kindOfComponent;
+    }
+
+    public TextField getTf_kindRental() {
+        return tf_kindRental;
+    }
+
+    public TextField getTf_fromPlace() {
+        return tf_fromPlace;
+    }
+
+    public TextField getTf_toPlace() {
+        return tf_toPlace;
+    }
+
+    public Label getLb_toPlace() {
+        return lb_toPlace;
+    }
+
+    /**
      * getter and setter
      */
+
     public TextField getTf_price() {
         return tf_price;
     }
+
+    public TextField getTf_name() {
+        return tf_name;
+    }
+
 }

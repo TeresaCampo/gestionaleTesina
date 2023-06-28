@@ -20,7 +20,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Button layoutX="213.0" layoutY="675.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="SAVE" />
+      <Button layoutX="213.0" layoutY="675.0" mnemonicParsing="false" onAction="#onSaveButton" prefHeight="33.0" prefWidth="146.0" text="SAVE" />
       <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/2023-06-12.png" />
@@ -33,7 +33,7 @@
                <children>
                   <Label layoutX="24.0" layoutY="25.0" text="Option name" />
                   <TextField fx:id="tf_optionName" layoutX="102.0" layoutY="21.0" />
-                  <Button fx:id="plusButton" layoutX="24.0" layoutY="77.0" maxHeight="26.0" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="+" />
+                  <Button fx:id="firstPlusButton" layoutX="24.0" layoutY="77.0" maxHeight="26.0" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="+" />
                </children>
             </AnchorPane>
         </content>

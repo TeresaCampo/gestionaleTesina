@@ -51,7 +51,7 @@ public class TravelOptionComponent {
 
 
     /**
-     * Constructor for travel
+     * Constructor for transport
      */
     public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, String from, String to, String kindOfTransport) {
         this.componentName=componentName;
