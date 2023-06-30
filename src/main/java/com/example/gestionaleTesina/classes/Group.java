@@ -3,10 +3,10 @@ package com.example.gestionaleTesina.classes;
 import java.util.ArrayList;
 
 public class Group {
-     String groupID;
-     String password;
-     ArrayList<String> users;
-     ArrayList<Travel> travels;
+    private String groupID;
+    private String password;
+    private ArrayList<String> users;
+    private ArrayList<Travel> travels;
 
     public Group(String groupID, String password, ArrayList<String> users, ArrayList<Travel> travels) {
         this.groupID = groupID;

@@ -3,14 +3,13 @@ package com.example.gestionaleTesina.classes;
 import java.util.ArrayList;
 
 public class Travel {
-    String groupID;
-    String travelName;
-    ArrayList<TravelOption> options;
-    String favouriteOption;
-    boolean status;
-
-    SwitchButton statusButton;
-    Integer numberOfOptions;
+    private String groupID;
+    private String travelName;
+    private ArrayList<TravelOption> options;
+    private String favouriteOption;
+    private boolean status;
+    private SwitchButton statusButton;
+    private Integer numberOfOptions;
 
     /**
      * Create new travel for editPage.

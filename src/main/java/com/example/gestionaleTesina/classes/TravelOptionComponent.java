@@ -6,27 +6,27 @@ import java.util.Optional;
 
 public class TravelOptionComponent {
     //key
-    String componentName;
-    String groupID;
-    String travelName;
-    String optionName;
-    Integer posInTravelOption;
-    String payed;
-    Double price;
+    private String componentName;
+    private String groupID;
+    private String travelName;
+    private String optionName;
+    private Integer posInTravelOption;
+    private String payed;
+    private Double price;
 
     //common one
-    String name;
-    Date checkInDate;
-    Date checkOutDate;
-    Time checkInTime;
-    Time checkOutTime;
+    private String name;
+    private Date checkInDate;
+    private Date checkOutDate;
+    private Time checkInTime;
+    private Time checkOutTime;
     //Additional one
-    Integer numberOfRooms;
-    boolean privateToilet;
-    String kindOfRental;
-    String from;
-    String to;
-    String kindOfTransport;
+    private Integer numberOfRooms;
+    private boolean privateToilet;
+    private String kindOfRental;
+    private String from;
+    private String to;
+    private String kindOfTransport;
 
     /**
      * Constructor for accommodation

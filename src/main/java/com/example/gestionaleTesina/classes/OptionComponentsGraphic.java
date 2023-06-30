@@ -15,42 +15,25 @@ import static java.lang.Integer.parseInt;
 public class OptionComponentsGraphic extends Node {
     int layoutX;
     int layoutY;
-
     private AnchorPane background;
-
     private RadioButton bt_sharedWC;
-
     private DatePicker dp_from;
-
     private DatePicker dp_to;
-
     private Label lb_checkIn;
-
     private Label lb_checkOut;
-
     private Label lb_from;
-
     private Label lb_nOfRoom;
-
     private Label lb_payedBy;
-
     private Label lb_price;
-
     private Label lb_to;
     private TextField tf_name;
-
     private TextField tf_hourCheckIn;
-
     private TextField tf_hourCheckOut;
-
     private TextField tf_minuteCheckIn;
     private TextField tf_minuteCheckOut;
     private TextField tf_nOfRoom;
-
     private TextField tf_price;
-
     private Label tf_timeCheckIn;
-
     private Label tf_timeCheckOut;
     javafx.scene.control.Label lb_kindOfComponent;
     private TextField tf_kindRental;
