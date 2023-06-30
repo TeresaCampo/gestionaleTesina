@@ -1,14 +1,11 @@
 package com.example.gestionaleTesina;
 
+import com.example.gestionaleTesina.classes.Group;
 import com.example.gestionaleTesina.classes.Travel;
-import com.example.gestionaleTesina.classes.TravelOption;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-
-
-import java.util.TreeSet;
 
 public class MetaPageController {
     DBConnection connector = new DBConnection();
@@ -49,7 +46,7 @@ public class MetaPageController {
     private TableColumn<?, ?> tv_tabOptions;
     @FXML
     void onLogoutButton(ActionEvent event) {}
-
+    private Group group;
     private Travel travel;
 
     @FXML
@@ -87,5 +84,13 @@ public class MetaPageController {
 
     public void setTravel(Travel travel) {
         this.travel = travel;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

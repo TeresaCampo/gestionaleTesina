@@ -1,11 +1,8 @@
 package com.example.gestionaleTesina;
 
-import com.example.gestionaleTesina.classes.OptionComponentsGraphic;
-import com.example.gestionaleTesina.classes.TravelOption;
-import com.example.gestionaleTesina.classes.TravelOptionComponent;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
+import com.example.gestionaleTesina.classes.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import java.sql.*;
@@ -28,17 +25,18 @@ public class EditPageController {
 
     AddressApplication main= new AddressApplication();
     DBConnection database = new DBConnection();
-    String groupID;
-    Integer numberOfMemebers;
-    //String travelName;
-    TravelOption travelOption;
+    private TravelOption travelOption;
+    private Group group;
     ListView<String> componentsListView;
 
 
     /**
-     * Display existing components
+     * Initialize database, plusButtonList, firstPlusButton
+     * Create componentsListView to display choices for the new component to be created
+     * Display actual components
      */
     public void initialize(){
+
         database.initializeConnection();
         //initialize plusButtonList
         plusButtonList.add(firstPlusButton);
@@ -52,14 +50,17 @@ public class EditPageController {
         componentsListView.setMaxHeight(90);    componentsListView.setLayoutX(firstPlusButton.getLayoutX()+firstPlusButton.getPrefWidth()+5);
         componentsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[hide listview]"))  background.getChildren().remove(componentsListView);
-            else addComponent(plusButtonJustClicked);});
+            else addComponent();});
 
 
         //to test
-        numberOfMemebers=3;
+        travelOption=new TravelOption("test", 20);
+        group.setUsers(new ArrayList<>());
+        group.getUsers().add("terry");
+        group.getUsers().add("otta");
+
         travelOption.setGroupID("speriam");
         travelOption.setTravelName("speriamDavvero");
-        travelOption=new TravelOption("test", 20, null);
         travelOption.getComponents().add(new TravelOptionComponent("accommodation", "a", "agosto", "test", 2, "aleks", 100.0, "hotel Sirena", new Date(2023, Calendar.JULY, 1), null, null, null, null, true ));
         travelOption.getComponents().add(new TravelOptionComponent("rental", "a", "agosto", "test", 1, "aleks", 100.0, "kayak", null, null, null, new Time(16, 45, 00), 7, true ));
         //end test
@@ -75,13 +76,12 @@ public class EditPageController {
             if (c.getComponentName().get().equals("accommodation")) {
                 addAccommodation(plusButtonJustClicked).initializeAccommodation(c);
             }
-            createButtons(plusButtonJustClicked);
+            createButtons();
         }
     }
 
     /**
-     * Plus button action:
-     * displays a list of component and create the new component if the user selects it
+     * Set plusButtonJustClicked and display listView components
      */
     void onPlusButton(Button plusButton){
         plusButtonJustClicked=plusButton;
@@ -90,14 +90,10 @@ public class EditPageController {
     }
 
     /**
-     * LessButton action:
-     * deletes graphic components of the OptionComponentGraphic
-     * deletes the OptionComponentGraphic, plusButton and lessButton from the LinkedLIst*
-     *
-     * @param lessButton at the beginning of the OptionComponentGraphic to be deleted
+     * Remove the selected OptionComponentGraphic
+     * @param lessButton just clicked lessButton
      */
     void onLessButton(Button lessButton){
-        //System.out.println("DEBUG LESSBUTTON-> lessButton prima "+lessButtonList.toString()+"\nplusButton prima "+plusButtonList.toString()+"\ncomponents prima"+componentsList.toString());
         //remove elements from layout
         background.getChildren().removeIf(el-> (el.getLayoutY()>=lessButton.getLayoutY()) && el.getLayoutY()<(lessButton.getLayoutY())+200);
 
@@ -123,47 +119,26 @@ public class EditPageController {
                     }
         });
     }
-    /**
-     * To create the following plusButton
-     * To create the actual lessButton
-     * @param plusButton that has been clicked
-     */
-    void createButtons(Button plusButton){
-        Button nextPlusButton=new Button("+");  nextPlusButton.setPrefHeight(26);    nextPlusButton.setPrefWidth(26);
-        nextPlusButton.setLayoutX(plusButton.getLayoutX()); nextPlusButton.setLayoutY(plusButton.getLayoutY()+200);
-        plusButtonList.add(nextPlusButton); background.getChildren().add(nextPlusButton);
-        nextPlusButton.setOnAction(h-> onPlusButton(nextPlusButton));
-
-        Button nextLessButton=new Button("-");  nextLessButton.setPrefHeight(26);    nextLessButton.setPrefWidth(26);
-        nextLessButton.setLayoutX(plusButton.getLayoutX()+plusButton.getPrefWidth()+10); nextLessButton.setLayoutY(plusButton.getLayoutY()+1);
-        lessButtonList.add(nextLessButton); background.getChildren().add(nextLessButton);
-        nextLessButton.setOnAction(h-> onLessButton(nextLessButton));
-
-    }
 
     /**
-     * To add a new OptionComponentGraphic
-     * creates a default layout of the corresponding TravelOptionComponent
-     * calls createButtons to create the corresponding plusButton and lessButton
-     *
-     * @param plusButton that has been clicked
+     * Add a new OptionComponentGraphic
      */
-    void addComponent(Button plusButton){
+    void addComponent(){
         background.getChildren().forEach(el-> {
-                    if(el.getLayoutY()>plusButton.getLayoutY()) {
+                    if(el.getLayoutY()>plusButtonJustClicked.getLayoutY()) {
                         el.setLayoutY(el.getLayoutY()+200);
                     }
         });
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[accommodation]")){
-            addAccommodation(plusButton);
+            addAccommodation(plusButtonJustClicked);
         }
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[rental]")){
-            addRental(plusButton);
+            addRental(plusButtonJustClicked);
         }
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[transport]")){
-            addTransport(plusButton);
+            addTransport(plusButtonJustClicked);
         }
-        createButtons(plusButton);
+        createButtons();
         componentsListView.getSelectionModel().select("hide listview");
     }
 
@@ -183,116 +158,119 @@ public class EditPageController {
         return componentTransport;
     }
 
+    /**
+     * Create plusButton to create following component
+     * Create lessButton to delete actual component
+     */
+    void createButtons(){
+        Button nextPlusButton=new Button("+");  nextPlusButton.setPrefHeight(26);    nextPlusButton.setPrefWidth(26);
+        nextPlusButton.setLayoutX(plusButtonJustClicked.getLayoutX()); nextPlusButton.setLayoutY(plusButtonJustClicked.getLayoutY()+200);
+        plusButtonList.add(nextPlusButton); background.getChildren().add(nextPlusButton);
+        nextPlusButton.setOnAction(h-> onPlusButton(nextPlusButton));
+
+        Button nextLessButton=new Button("-");  nextLessButton.setPrefHeight(26);    nextLessButton.setPrefWidth(26);
+        nextLessButton.setLayoutX(plusButtonJustClicked.getLayoutX()+plusButtonJustClicked.getPrefWidth()+10); nextLessButton.setLayoutY(plusButtonJustClicked.getLayoutY()+1);
+        lessButtonList.add(nextLessButton); background.getChildren().add(nextLessButton);
+        nextLessButton.setOnAction(h-> onLessButton(nextLessButton));
+    }
+
     @FXML
-    TravelOption onSaveButton() {
-        /*
-        1) check if the option name has been changed
-        yes-> check if already present and in this case ask a newOne
-            set it as new option name in accommodation, rental and transport in (3)
-        no-> continue
-
-        2)create-> TreeSet<TravelOptionComponent> components= new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
-        3)add all the graphic elements
-          in the same time update the database
-        4) calculate perPerson cost, totalCost
-        set OptionName right in travelOption and latter information
-         */
-
+    void onSaveButton() {
         //check if the optionName has been changed-> in case check if it is already present in the database
-        /*
-        if (!tf_optionName.getText().equals(travelOption.getName())) {
+        if (!tf_optionName.getText().equals(travelOption.getOptionName())) {
             try {
-                if (checkOptionNameExists(groupID, travelName, tf_optionName.getText())) {
+                if (checkOptionNameExists(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText())) {
                     new Alert(Alert.AlertType.ERROR, "This option name is already used for this travel, choose a new one").showAndWait();
-                    return null;
+                    return;
                 }
             } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
             }
         }
 
-
-        //delete the existing info about this option in the database Accommodation, Rental, Transport
+        //delete the existing info about this option in the database Accommodation, Rental, Transport and traveloptions
         try{
-            database.deleteTravelOption(groupID, travelName, travelOption.getName());
+            database.deleteTravelOption(travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName());
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Database Error\n previous option configuration is lost").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Database Error\nPrevious option configuration is lost").showAndWait();
             System.out.println("FATAL ERROR, PREVIOUS OPTION CONFIGURATION IS LOST");
         }
-         */
 
-        //creation of new TreeSet<TravelOptionComponent> components to return to MetaPage
-        //meanwhile storing data in the database
-        TreeSet<TravelOptionComponent> components = new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
+        //set new travelName
+        travelOption.setOptionName(tf_optionName.getText());
+        //set new components and store them in the database
+        TreeSet<TravelOptionComponent> newComponents = new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
         Integer tmpPosInTravelOption = 1;
         System.out.println("DEBUG SAVE-> componentsList "+componentsList.toString());
-
         for (OptionComponentsGraphic c : componentsList) {
             TravelOptionComponent newComponent = null;
             System.out.println(c.getLb_kindOfComponent().getText());
             if ("Accommodation".equals(c.getLb_kindOfComponent().getText())) {
                 newComponent = c.convertAccommodation(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
                 try {
-                    database.storeAccommodation(newComponent, groupID, travelOption.getTravelName(), tf_optionName.getText());
+                    database.storeAccommodation(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Accommodation").showAndWait();
                 }
             }
             if ("Rental".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertRental(groupID, travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
+                newComponent = c.convertRental(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
                 try {
-                    database.storeRental(newComponent, groupID, travelOption.getTravelName(), tf_optionName.getText());
+                    database.storeRental(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Rental").showAndWait();
                 }
             }
             if ("Transport".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertTransport(groupID, travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
+                newComponent = c.convertTransport(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
                 try {
-                    database.storeTransport(newComponent, groupID, travelOption.getTravelName(), tf_optionName.getText());
+                    database.storeTransport(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Transport").showAndWait();
                 }
             }
             ++tmpPosInTravelOption;
-            components.add(newComponent);
+            newComponents.add(newComponent);
         }
-
-        //update travelOption Table
-        travelOption.setOptionName(tf_optionName.getText());
-        travelOption.setComponents(components);
+        travelOption.setComponents(newComponents);
+        //set total cost
         travelOption.setTotalCost(
-                components.stream()
+                newComponents.stream()
                         .mapToDouble(el -> el.getPrice().orElse(0.0))
                         .sum()
         );
-        travelOption.setPerPersonCost(travelOption.getTotalCost()/numberOfMemebers);
+        //set per person cost
+        travelOption.setPerPersonCost(travelOption.getTotalCost()/group.getTravels().size());
+
+        //store travelOption
         try {
-            database.storeTravelOption(groupID, travelOption.getTravelName(), travelOption);
+            database.storeTravelOption(travelOption);
         } catch (SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing TravelOption").showAndWait();
         }
-        /*
+
         //comeback to the previous page
         try {
-            main.changeScene("metaPage-view.fxml");
-        } catch (Exception e) {
+            FXMLLoader loader =main.changeScene("metaPage-view.fxml");
+            MetaPageController metaPageController= loader.getController();
+
+            Travel updatedTravel= new Travel(travelOption.getGroupID(), travelOption.getTravelName());
+            updatedTravel.setOptions(database.loadTravelOption(updatedTravel.getGroupID(), updatedTravel.getTravelName()));
+            updatedTravel.setFavouriteOption(database.loadFavouriteOption(updatedTravel.getGroupID(), updatedTravel.getTravelName()));
+            metaPageController.setTravel(updatedTravel);
+            metaPageController.setGroup(group);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println("META-PAGE NOT FOUND");
         }
-         */
 
-
-        return travelOption;
     }
-
-
-
 
     private boolean checkOptionNameExists(String groupID, String travelName, String optionName) throws SQLException {
         try (Connection connection = database.dataSource.getConnection();

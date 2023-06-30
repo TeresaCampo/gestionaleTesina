@@ -68,7 +68,10 @@ public class FirstPageController {
         try {
             int selectedIndex = selectedIndex();
             try {
-                database.deleteTravelDB(tableTravels.getItems().get(selectedIndex));
+                Travel toBeDeleted= tableTravels.getItems().get(selectedIndex);
+                database.deleteTravelDB(toBeDeleted);
+                group.getTravels().remove(toBeDeleted);
+                System.out.println(group.getTravels().toString());
             }catch (SQLException e) {
                 e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Database Error\n Error while removing travel "+tableTravels.getItems().get(selectedIndex).getTravelName()).showAndWait();
@@ -122,7 +125,7 @@ public class FirstPageController {
     }
 
     /**
-     * Display metaPage and set a new travel in metaPageController
+     * Display metaPage and set new travel in metaPageController
      */
     @FXML
     private void onNewTravel() {
@@ -130,6 +133,7 @@ public class FirstPageController {
             FXMLLoader loader =main.changeScene("metaPage-view.fxml");
             MetaPageController metaPageController= loader.getController();
             metaPageController.setTravel(new Travel(group.getGroupID()));
+            metaPageController.setGroup(group);
         }
         catch (Exception e) {
             e.printStackTrace();

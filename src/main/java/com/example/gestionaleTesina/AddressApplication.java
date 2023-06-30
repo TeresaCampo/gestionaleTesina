@@ -25,6 +25,8 @@ public class AddressApplication extends Application {
         stg.setScene(scene);
         stg.show();
         centreWindow(stg);
+
+        //changeScene("editPage-view.fxml");
     }
 
     /**

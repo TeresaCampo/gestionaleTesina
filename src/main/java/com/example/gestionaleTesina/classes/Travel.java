@@ -12,31 +12,15 @@ public class Travel {
     SwitchButton statusButton;
     Integer numberOfOptions;
 
-
-    public Travel(String groupID, String travelName, ArrayList<TravelOption> options, String favouriteOption, boolean status, SwitchButton statusButton) {
-        this.groupID=groupID;
-        this.travelName = travelName;
-        this.options = options;
-        this.favouriteOption = favouriteOption;
-        this.status=status;
-        this.numberOfOptions=options.size();
-        this.statusButton=statusButton;
-    }
-
     /**
-     * Create a new travel for editPage.
-     * @param groupID group
+     * Create new travel for editPage.
      */
     public Travel(String groupID) {
         this.groupID = groupID;
     }
 
     /**
-     * Create a Travel for firstPage (needs only travelName, statusButton)
-     * @param travelName travel's name
-     * @param numberOfOptions number of options for this travel
-     * @param status travel's state
-     * @param statusButton button to display travel's state
+     * Create travel for firstPage
      */
     public Travel(String groupID, String travelName, Integer numberOfOptions, boolean status, SwitchButton statusButton) {
         this.groupID=groupID;
@@ -44,6 +28,16 @@ public class Travel {
         this.numberOfOptions=numberOfOptions;
         this.status = status;
         this.statusButton=statusButton;
+        statusButton.switchOnProperty().addListener(((observable, oldValue, newValue) -> this.status=statusButton.switchOnProperty().get()));
+    }
+
+    /**
+     * Create travel for EditPage
+     */
+
+    public Travel(String groupID, String travelName) {
+        this.groupID = groupID;
+        this.travelName = travelName;
     }
 
     public String getFavouriteOption() {

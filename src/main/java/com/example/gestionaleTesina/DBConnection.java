@@ -3,12 +3,9 @@ package com.example.gestionaleTesina;
 import com.example.gestionaleTesina.classes.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
 public class DBConnection {
@@ -32,33 +29,9 @@ public class DBConnection {
         dataSource = new HikariDataSource(config);
     }
 
+    //To load->
     /**
-     * Store authentication data into authentication and usernames tables.
-     * @param groupID group's name
-     * @param password group's password
-     * @param tf_userNames members' usernames of the group
-     * @throws SQLException if connection fails
-     */
-
-    void storeAuthenticationData(String groupID, String password, LinkedList<TextField> tf_userNames) throws SQLException {
-        try( Connection connection = dataSource.getConnection();
-             PreparedStatement insertCredentials = connection.prepareStatement("INSERT INTO authentication (groupID, password) VALUES (?, ?)")){
-            insertCredentials.setString(1, groupID);
-            insertCredentials.setString(2, password);
-            insertCredentials.executeUpdate();
-        }
-        try( Connection connection =dataSource.getConnection();
-             PreparedStatement insertUsernames = connection.prepareStatement("INSERT INTO usernames (groupID, username) VALUES (?, ?)")) {
-            for (TextField user: tf_userNames) {
-                insertUsernames.setString(1, groupID);
-                insertUsernames.setString(2, user.getText());
-                insertUsernames.executeUpdate();
-            }
-        }
-    }
-
-    /**
-     * Given a group with its groupID, load its usernames(from usernames table).
+     * Given a group (groupID), load its usernames(from usernames table).
      * @return group updated with its usernames
      * @param group groupID selected
      * @throws SQLException if connection fails
@@ -78,10 +51,10 @@ public class DBConnection {
      }
 
     /**
-     * Given a group with its groupID, load its travels(from travels table).
+     * Given a group (groupID), load its travels(from travels table).
      * For each travel loads only travelName, numberOfOptions, status
-     * @param group groupID selected
      * @return group updated with its travels
+     * @param group group selected
      * @throws SQLException if connection fails
      */
     Group loadTravels(Group group) throws SQLException {
@@ -109,8 +82,8 @@ public class DBConnection {
 
     /**
      * Given a travel(groupID, travelName), load its travelOptions(from traveloptions table).
-     * @param groupID group selected
-     * @param travelName travel selected
+     * @param groupID key1
+     * @param travelName key2
      * @return list of travelOptions
      * @throws SQLException if connection fails
      */
@@ -141,9 +114,10 @@ public class DBConnection {
 
     /**
      * Given a travelOption(groupID, travelName, optionName), load its components(from accommodation, rental, transport tables).
-     * @param groupID group selected
-     * @param travelName travel selected
-     * @return list of travelComponents
+     * @param groupID ke1
+     * @param travelName key2
+     * @param optionName key3
+     * @return set of travelComponents
      * @throws SQLException if connection fails
      */
     TreeSet<TravelOptionComponent> loadOption(String groupID,String travelName, String optionName) throws SQLException {
@@ -268,6 +242,7 @@ public class DBConnection {
         return favouriteOption;
     }
 
+    //to update->
     /**
      * Update travelStatus when its switchButton is clicked.
      * @param groupName groupID associated to the travel
@@ -289,8 +264,9 @@ public class DBConnection {
         }
     }
 
+    //to delete->
     /**
-     * Delete selected travel from travels, traveloptions, accommodation, rental, transport, favouriteoptions tables.
+     * Given a selected Travel, delete it from travels, traveloptions, accommodation, rental, transport, favouriteoptions tables.
      * @param travel to be deleted
      * @throws SQLException if connection fails
      */
@@ -317,8 +293,53 @@ public class DBConnection {
         }
     }
 
-    //sistemaaaa
+    /**
+     * Given a selected travelOption(groupID, travelName, optionName), delete it from traveloptions table.
+     * @param groupID key1
+     * @param travelName key2
+     * @param optionName key3
+     * @throws SQLException if connection fails
+     */
+    void deleteTravelOption(String groupID, String travelName, String optionName  ) throws SQLException {
+        ArrayList<String> tables= new ArrayList<>();
+        tables.add("traveloptions");
+        tables.add("accommodation");
+        tables.add("transport");
+        tables.add("rental");
+        for (String table: tables) {
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement removeTravelOption = connection.prepareStatement("DELETE FROM "+table+" WHERE groupID = ? AND travelName = ? AND optionName = ?")){
+                removeTravelOption.setString(1, groupID);
+                removeTravelOption.setString(2, travelName);
+                removeTravelOption.setString(3, optionName);
+                removeTravelOption.executeUpdate();
+            }
 
+        }
+    }
+
+    //To store->
+    /**
+     * Store TravelOption in traveloptions
+     * @param travelOption to be stored
+     * @throws SQLException id connection fails
+     */
+    void  storeTravelOption(TravelOption travelOption) throws SQLException {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement insertTravelOption = connection.prepareStatement("INSERT INTO traveloptions (groupID, travelName, optionName, totalCost, perPersonCost, comment) VALUES (?, ?, ?, ?, ?, ?)")) {
+            insertTravelOption.setString(1, travelOption.getGroupID());
+            insertTravelOption.setString(2, travelOption.getTravelName());
+            insertTravelOption.setString(3, travelOption.getOptionName());
+            insertTravelOption.setDouble(4, travelOption.getTotalCost());
+            insertTravelOption.setDouble(5, travelOption.getPerPersonCost());
+            insertTravelOption.setString(6, travelOption.getComment());
+            insertTravelOption.executeUpdate();
+        }
+    }
+
+    /**
+     *Store optionComponents in accommodation, transport, rental
+     */
     void storeAccommodation(TravelOptionComponent newComponent, String groupID, String travelName, String optionName) throws SQLException {
         System.out.println("Storing Accommodation in the database...");
         try(Connection connection = dataSource.getConnection();
@@ -428,44 +449,28 @@ public class DBConnection {
         }
 
     }
-    void deleteTravelOption(String groupID, String travelName, String optionName  ) throws SQLException {
-    try (Connection connection = dataSource.getConnection();
-        PreparedStatement removeExistingOptionAccommodation = connection.prepareStatement("DELETE FROM accommodation WHERE groupID = ? AND travelName = ? AND optionName = ?");
-        PreparedStatement removeExistingOptionRental = connection.prepareStatement("DELETE FROM rental WHERE groupID = ? AND travelName = ? AND optionName = ?");
-        PreparedStatement removeExistingOptionTransport = connection.prepareStatement("DELETE FROM transport WHERE groupID = ? AND travelName = ? AND optionName = ?");
-        PreparedStatement removeExistingOption = connection.prepareStatement("DELETE FROM traveloptions WHERE groupID = ? AND travelName = ? AND optionName = ?")
-    ) {
-            removeExistingOptionAccommodation.setString(1, groupID);
-            removeExistingOptionAccommodation.setString(2, travelName);
-            removeExistingOptionAccommodation.setString(3, optionName);
-            removeExistingOptionAccommodation.executeUpdate();
 
-            removeExistingOptionRental.setString(1, groupID);
-            removeExistingOptionRental.setString(2, travelName);
-            removeExistingOptionRental.setString(3, optionName);
-            removeExistingOptionRental.executeUpdate();
-
-            removeExistingOptionTransport.setString(1, groupID);
-            removeExistingOptionTransport.setString(2, travelName);
-            removeExistingOptionTransport.setString(3, optionName);
-            removeExistingOptionTransport.executeUpdate();
-
-            removeExistingOption.setString(1, groupID);
-            removeExistingOption.setString(2, travelName);
-            removeExistingOption.setString(3, optionName);
-            removeExistingOption.executeUpdate();
+    /**
+     * Store authentication data into authentication and usernames tables.
+     * @param groupID group's name
+     * @param password group's password
+     * @param tf_userNames members' usernames of the group
+     * @throws SQLException if connection fails
+     */
+    void storeAuthenticationData(String groupID, String password, LinkedList<TextField> tf_userNames) throws SQLException {
+        try( Connection connection = dataSource.getConnection();
+             PreparedStatement insertCredentials = connection.prepareStatement("INSERT INTO authentication (groupID, password) VALUES (?, ?)")){
+            insertCredentials.setString(1, groupID);
+            insertCredentials.setString(2, password);
+            insertCredentials.executeUpdate();
         }
-    }
-    void  storeTravelOption(String groupID, String travelName, TravelOption travelOption) throws SQLException {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement insertTravelOption = connection.prepareStatement("INSERT INTO traveloptions (groupID, travelName, optionName, totalCost, perPersonCost, comment) VALUES (?, ?, ?, ?, ?, ?)")) {
-            insertTravelOption.setString(1, groupID);
-            insertTravelOption.setString(2, travelName);
-            insertTravelOption.setString(3, travelOption.getOptionName());
-            insertTravelOption.setDouble(4, travelOption.getTotalCost());
-            insertTravelOption.setDouble(5, travelOption.getPerPersonCost());
-            insertTravelOption.setString(6, travelOption.getComment());
-            insertTravelOption.executeUpdate();
+        try( Connection connection =dataSource.getConnection();
+             PreparedStatement insertUsernames = connection.prepareStatement("INSERT INTO usernames (groupID, username) VALUES (?, ?)")) {
+            for (TextField user: tf_userNames) {
+                insertUsernames.setString(1, groupID);
+                insertUsernames.setString(2, user.getText());
+                insertUsernames.executeUpdate();
+            }
         }
     }
 }

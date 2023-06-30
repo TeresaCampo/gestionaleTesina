@@ -12,7 +12,9 @@ public class TravelOption {
     private String comment;
     private TreeSet<TravelOptionComponent> components= new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
 
-    //constructor
+    /**
+     *Create travelOption
+     */
     public TravelOption(String groupID, String travelName, String optionName, double totalCost, double perPersonCost, String comment, TreeSet<TravelOptionComponent> components) {
         this.groupID = groupID;
         this.travelName = travelName;
@@ -24,10 +26,9 @@ public class TravelOption {
     }
 
     //constructor to test
-    public TravelOption(String optionName, double totalCost, TreeSet<TravelOptionComponent> components) {
+    public TravelOption(String optionName, double totalCost ) {
         this.optionName = optionName;
         this.totalCost = totalCost;
-        this.components = components;
     }
 
     //getter and setter
