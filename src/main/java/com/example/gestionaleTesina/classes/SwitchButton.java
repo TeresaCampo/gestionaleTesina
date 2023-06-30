@@ -1,6 +1,6 @@
 package com.example.gestionaleTesina.classes;
 
-import com.example.gestionaleTesina.FirstPageController;
+import com.example.gestionaleTesina.DBConnection;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -8,22 +8,24 @@ import javafx.scene.control.Label;
 
     public class SwitchButton extends Label
     {
+        DBConnection database = new DBConnection();
         private SimpleBooleanProperty switchedOn= new SimpleBooleanProperty(false);
         public SimpleBooleanProperty switchOnProperty() { return switchedOn; }
 
 
-        public SwitchButton(Group group, Travel travel)
+        public SwitchButton(String groupID, String travelName, boolean status)
         {
-            FirstPageController controller= new FirstPageController();
-            controller.initializeForSwitchButton();
+            /*FirstPageController controller= new FirstPageController();
+            controller.initializeForSwitchButton();*/
+            database.initializeConnection();
 
             Button switchBtn = new Button();
             switchBtn.setPrefWidth(15);
             switchBtn.setPrefHeight(15);
             setGraphic(switchBtn);
 
-            switchedOn.set(travel.getStatus());
-            if (travel.getStatus()) {
+            switchedOn.set(status);
+            if (status) {
                 setText("DONE");
                 setStyle("-fx-background-color: green;-fx-text-fill:white;");
                 setContentDisplay(ContentDisplay.RIGHT);
@@ -36,8 +38,7 @@ import javafx.scene.control.Label;
 
             switchBtn.setOnAction(h -> {
                 switchedOn.set(!switchedOn.get());
-                travel.setStatus(switchedOn.get());
-                controller.updateTravelStatus(group.getGroupID(), travel.getName(), travel.getStatus());
+                database.updateTravelStatus(groupID, travelName, switchedOn.get());
             });
 
             switchedOn.addListener((ov, t, t1) -> {

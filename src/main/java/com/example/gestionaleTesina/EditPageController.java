@@ -3,6 +3,8 @@ package com.example.gestionaleTesina;
 import com.example.gestionaleTesina.classes.OptionComponentsGraphic;
 import com.example.gestionaleTesina.classes.TravelOption;
 import com.example.gestionaleTesina.classes.TravelOptionComponent;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -28,16 +30,16 @@ public class EditPageController {
     DBConnection database = new DBConnection();
     String groupID;
     Integer numberOfMemebers;
-    String travelName;
+    //String travelName;
     TravelOption travelOption;
     ListView<String> componentsListView;
 
 
     /**
-     * to initialize an existing travel
+     * Display existing components
      */
     public void initialize(){
-        database.initialize();
+        database.initializeConnection();
         //initialize plusButtonList
         plusButtonList.add(firstPlusButton);
         firstPlusButton.setOnAction(h->onPlusButton(firstPlusButton));    firstPlusButton.setPrefWidth(26);
@@ -52,11 +54,12 @@ public class EditPageController {
             if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[hide listview]"))  background.getChildren().remove(componentsListView);
             else addComponent(plusButtonJustClicked);});
 
+
         //to test
         numberOfMemebers=3;
-        groupID="speriam";
-        travelName="speriamDavvero";
-        travelOption=new TravelOption("test", 13, 4, null);
+        travelOption.setGroupID("speriam");
+        travelOption.setTravelName("speriamDavvero");
+        travelOption=new TravelOption("test", 20, null);
         travelOption.getComponents().add(new TravelOptionComponent("accommodation", "a", "agosto", "test", 2, "aleks", 100.0, "hotel Sirena", new Date(2023, Calendar.JULY, 1), null, null, null, null, true ));
         travelOption.getComponents().add(new TravelOptionComponent("rental", "a", "agosto", "test", 1, "aleks", 100.0, "kayak", null, null, null, new Time(16, 45, 00), 7, true ));
         //end test
@@ -229,27 +232,27 @@ public class EditPageController {
             TravelOptionComponent newComponent = null;
             System.out.println(c.getLb_kindOfComponent().getText());
             if ("Accommodation".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertAccommodation(groupID, travelOption.getName(), tf_optionName.getText(), tmpPosInTravelOption);
+                newComponent = c.convertAccommodation(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
                 try {
-                    database.storeAccommodation(newComponent, groupID, travelName, tf_optionName.getText());
+                    database.storeAccommodation(newComponent, groupID, travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Accommodation").showAndWait();
                 }
             }
             if ("Rental".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertRental(groupID, travelOption.getName(), tf_optionName.getText(), tmpPosInTravelOption);
+                newComponent = c.convertRental(groupID, travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
                 try {
-                    database.storeRental(newComponent, groupID, travelName, tf_optionName.getText());
+                    database.storeRental(newComponent, groupID, travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Rental").showAndWait();
                 }
             }
             if ("Transport".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertTransport(groupID, travelOption.getName(), tf_optionName.getText(), tmpPosInTravelOption);
+                newComponent = c.convertTransport(groupID, travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
                 try {
-                    database.storeTransport(newComponent, groupID, travelName, tf_optionName.getText());
+                    database.storeTransport(newComponent, groupID, travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
                     e.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Transport").showAndWait();
@@ -260,7 +263,7 @@ public class EditPageController {
         }
 
         //update travelOption Table
-        travelOption.setName(tf_optionName.getText());
+        travelOption.setOptionName(tf_optionName.getText());
         travelOption.setComponents(components);
         travelOption.setTotalCost(
                 components.stream()
@@ -269,7 +272,7 @@ public class EditPageController {
         );
         travelOption.setPerPersonCost(travelOption.getTotalCost()/numberOfMemebers);
         try {
-            database.storeTravelOption(groupID, travelName, travelOption);
+            database.storeTravelOption(groupID, travelOption.getTravelName(), travelOption);
         } catch (SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing TravelOption").showAndWait();

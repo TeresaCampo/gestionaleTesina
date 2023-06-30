@@ -29,14 +29,14 @@ public class SignUpController {
     @FXML
     private AnchorPane gp_background;
 
-    DBConnection connector = new DBConnection();
+    DBConnection database = new DBConnection();
     AddressApplication main = new AddressApplication();
     LinkedList<Label> lb_userNames= new LinkedList<>();
     LinkedList<TextField> tf_userNames= new LinkedList<>();
     int userNumber=1;
 
     public void initialize() {
-        connector.getConnection();
+        database.initializeConnection();
 
         tf_userNames.add(tf_userName1);
         lb_userNames.add(lb_user1);
@@ -60,11 +60,22 @@ public class SignUpController {
             }
         });
     }
+    @FXML
+    public void onCancelButton(){
+        try {
+            String loginScene="login-view.fxml";
+            AddressApplication main= new AddressApplication();
+            main.changeScene(loginScene);
 
-    /**onPlusButton to add textField for usernames
-     *
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("LOGIN-PAGE NOT FOUND");
+        }
+    }
+
+    /**
+     * Add labels and textFields for new usernames
      */
-
     @FXML
     void onPlusButton(){
         ++userNumber;
@@ -86,7 +97,6 @@ public class SignUpController {
             gp_background.getChildren().add(removeButton);
         }
 
-
         Label lb_newUser= new Label("User "+userNumber);
         lb_newUser.setLayoutX(lb_user1.getLayoutX());
         lb_newUser.setLayoutY(lb_userNames.getLast().getLayoutY()+30);
@@ -96,16 +106,11 @@ public class SignUpController {
         gp_background.getChildren().add(lb_newUser);
     }
 
-    /**onSignUpButton
-     * to check data and eventually insert them in the database
-     *
+    /**
+     * Check inserted data and eventually store in the database
      */
-
     @FXML
     void onSignUpButton() {
-        //check if there is at least one userName and if all the userName are compiled and if all the userNames are different
-        //check if all the data are insert
-        //check if password and repeated password are equal
         String password= pf_password.getText();
         String groupID=tf_groupID.getText();
 
@@ -129,7 +134,7 @@ public class SignUpController {
         }
 
         try{
-            loadData(groupID, password);
+            database.storeAuthenticationData(groupID, password, tf_userNames);
             main.changeScene("login-view.fxml");
         } catch (SQLException e){
             new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
@@ -138,48 +143,6 @@ public class SignUpController {
             e.printStackTrace();
         }
     }
-
-    /**functions to check data, load it and to restore database if exceptions happen
-     *
-     */
-
-    private void loadData(String groupID, String password) throws SQLException {
-        try( Connection connection = connector.dataSource.getConnection();
-             PreparedStatement insertCredentials = connection.prepareStatement("INSERT INTO authentication (groupID, password) VALUES (?, ?)")){
-            insertCredentials.setString(1, groupID);
-            insertCredentials.setString(2, password);
-            insertCredentials.executeUpdate();
-        }
-        try( Connection connection = connector.dataSource.getConnection();
-             PreparedStatement insertUsernames = connection.prepareStatement("INSERT INTO usernames (groupID, username) VALUES (?, ?)")) {
-            for (int i = 0; i < userNumber; ++i) {
-                insertUsernames.setString(1, groupID);
-                insertUsernames.setString(2, tf_userNames.get(i).getText());
-                insertUsernames.executeUpdate();
-            }
-        }
-    }
-
-
-    private void removeChanges(String groupID) {
-        try (Connection connection = connector.dataSource.getConnection();
-             PreparedStatement removeGroupAuthentication = connection.prepareStatement("DELETE FROM authentication WHERE groupID = ?")) {
-            removeGroupAuthentication.setString(1, groupID);
-            removeGroupAuthentication.executeUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("FATAL ERROR, CHECK THE DATABASE authentication\nLAST GROUP ADDED IS "+groupID);
-        }
-        try (Connection connection = connector.dataSource.getConnection();
-             PreparedStatement removeGroupUsernames = connection.prepareStatement("DELETE FROM usernames WHERE groupID = ?")) {
-            removeGroupUsernames.setString(1, groupID);
-            removeGroupUsernames.executeUpdate();
-        } catch (Exception e){
-            e.printStackTrace();
-            System.out.println("FATAL ERROR, CHECK THE DATABASE usernames\nLAST GROUP ADDED IS "+groupID);
-        }
-    }
-
     private boolean checkLengthFields() {
         Boolean tooLongFiled=tf_userNames.stream()
                 .map(user->user.getText().length())
@@ -223,7 +186,7 @@ public class SignUpController {
         return false;
     }
     private boolean checkGroupNameExists(String groupID) throws SQLException {
-        try (Connection connection = connector.dataSource.getConnection();
+        try (Connection connection = database.dataSource.getConnection();
              PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
             checkData.setString(1, groupID);
             ResultSet accountFound = checkData.executeQuery();
@@ -234,15 +197,26 @@ public class SignUpController {
         }
     }
 
-
-    public void onCancelButton(){
-        try {
-            String loginScene="login-view.fxml";
-            AddressApplication main= new AddressApplication();
-            main.changeScene(loginScene);
-
-        } catch (Exception e) {
+    /**
+     * Remove changes to the database if storeAuthenticationData fails
+     * @param groupID group to be created
+     */
+    private void removeChanges(String groupID) {
+        try (Connection connection = database.dataSource.getConnection();
+             PreparedStatement removeGroupAuthentication = connection.prepareStatement("DELETE FROM authentication WHERE groupID = ?")) {
+            removeGroupAuthentication.setString(1, groupID);
+            removeGroupAuthentication.executeUpdate();
+        }catch (Exception e){
             e.printStackTrace();
+            System.out.println("FATAL ERROR, CHECK THE DATABASE authentication\nLAST GROUP ADDED IS "+groupID);
+        }
+        try (Connection connection = database.dataSource.getConnection();
+             PreparedStatement removeGroupUsernames = connection.prepareStatement("DELETE FROM usernames WHERE groupID = ?")) {
+            removeGroupUsernames.setString(1, groupID);
+            removeGroupUsernames.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("FATAL ERROR, CHECK THE DATABASE usernames\nLAST GROUP ADDED IS "+groupID);
         }
     }
 }

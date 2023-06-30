@@ -34,8 +34,8 @@
    <left>
       <AnchorPane prefHeight="314.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="120.0" layoutY="310.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="new travel" />
-            <Button layoutX="336.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
+            <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#onNewTravel" prefHeight="33.0" prefWidth="146.0" text="new travel" />
+            <Button layoutX="411.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
             <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="305.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="travelsColumn" prefWidth="442.4000244140625" text="Travels" />
@@ -43,6 +43,7 @@
                   <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="86.4000244140625" text="status" />
               </columns>
             </TableView>
+            <Button layoutX="221.0" layoutY="310.0" mnemonicParsing="false" onAction="#onEditTravel" prefHeight="33.0" prefWidth="146.0" text="edit travel" />
          </children>
       </AnchorPane>
    </left>

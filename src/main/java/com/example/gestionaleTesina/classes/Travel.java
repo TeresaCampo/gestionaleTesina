@@ -3,20 +3,46 @@ package com.example.gestionaleTesina.classes;
 import java.util.ArrayList;
 
 public class Travel {
-    String name;
+    String groupID;
+    String travelName;
     ArrayList<TravelOption> options;
-    Integer numberOfOptions;
     String favouriteOption;
-    SwitchButton statusButton;
     boolean status;
 
+    SwitchButton statusButton;
+    Integer numberOfOptions;
 
-    public Travel(String name, ArrayList<TravelOption> options, String favouriteOption, boolean status, SwitchButton statusButton) {
-        this.name = name;
+
+    public Travel(String groupID, String travelName, ArrayList<TravelOption> options, String favouriteOption, boolean status, SwitchButton statusButton) {
+        this.groupID=groupID;
+        this.travelName = travelName;
         this.options = options;
         this.favouriteOption = favouriteOption;
         this.status=status;
         this.numberOfOptions=options.size();
+        this.statusButton=statusButton;
+    }
+
+    /**
+     * Create a new travel for editPage.
+     * @param groupID group
+     */
+    public Travel(String groupID) {
+        this.groupID = groupID;
+    }
+
+    /**
+     * Create a Travel for firstPage (needs only travelName, statusButton)
+     * @param travelName travel's name
+     * @param numberOfOptions number of options for this travel
+     * @param status travel's state
+     * @param statusButton button to display travel's state
+     */
+    public Travel(String groupID, String travelName, Integer numberOfOptions, boolean status, SwitchButton statusButton) {
+        this.groupID=groupID;
+        this.travelName = travelName;
+        this.numberOfOptions=numberOfOptions;
+        this.status = status;
         this.statusButton=statusButton;
     }
 
@@ -28,12 +54,12 @@ public class Travel {
         this.favouriteOption = favouriteOption;
     }
 
-    public String getName() {
-        return name;
+    public String getTravelName() {
+        return travelName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTravelName(String travelName) {
+        this.travelName = travelName;
     }
 
     public ArrayList<TravelOption> getOptions() {
@@ -68,10 +94,22 @@ public class Travel {
         this.status = status;
     }
 
+    public String getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(String groupID) {
+        this.groupID = groupID;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         return "Travel{" +
-                "name='" + name + '\'' +
+                "travelName='" + travelName + '\'' +
                 ", options=" + options +
                 ", numberOfOptions=" + numberOfOptions +
                 ", favouriteOption=" + favouriteOption +

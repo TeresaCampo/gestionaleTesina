@@ -1,7 +1,6 @@
 package com.example.gestionaleTesina;
 
 import com.example.gestionaleTesina.classes.Group;
-import com.example.gestionaleTesina.classes.Travel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -9,11 +8,7 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LoginController{
-    DBConnection connector = new DBConnection();
-    AddressApplication main = new AddressApplication();
-    FirstPageController firstPageController;
-
+public class LoginController {
 
     @FXML
     private TextField IDGroupTextField;
@@ -24,26 +19,29 @@ public class LoginController{
     @FXML
     private Label loginWarningLabel;
 
-    public void initialize(){
-        connector.getConnection();
+    DBConnection database = new DBConnection();
+    AddressApplication main = new AddressApplication();
+    FirstPageController firstPageController;
 
+    public void initialize() {
+        database.initializeConnection();
     }
 
     /**
-     * To go to the Register page
+     * Display signUpPage.
      */
     @FXML
-    public void onRegisterButton(){
+    public void onRegisterButton() {
         try {
             main.changeScene("signUp-view.fxml");
-
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("SIGNUP-PAGE NOT FOUND");
         }
     }
 
     /**
-     * To close the app
+     * Close application.
      */
     @FXML
     void onCancelButton() {
@@ -52,34 +50,29 @@ public class LoginController{
     }
 
     /**
-     * To signIn
-     * Check data and eventually goes to First Page
+     * SignIn: check inserted data and eventually display firstPage.
      */
-
     @FXML
-    void onSignInButton(){
-        if(IDGroupTextField.getText().isEmpty() || enterPasswordField.getText().isEmpty()){
+    void onSignInButton() {
+        if (IDGroupTextField.getText().isEmpty() || enterPasswordField.getText().isEmpty()) {
             loginWarningLabel.setText("Please enter all your data");
             return;
         }
+
         String groupID = IDGroupTextField.getText();
         String password = enterPasswordField.getText();
-
         try {
-            if (!validateLogin(groupID, password))
-                return;
-        }catch (SQLException e){
+            if (!validateLogin(groupID, password)) return;
+        } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
         }
 
         loginWarningLabel.setText("Loading...");
         try {
-            FXMLLoader loader=main.changeScene("firstPage-view.fxml");
-            firstPageController= loader.getController();
-            firstPageController.setGroup( new Group(groupID, password, new ArrayList<>(), new ArrayList<>()));
-            firstPageController.setGroupID(groupID);
-            firstPageController.setPassword(password);
-            firstPageApp();
+            FXMLLoader loader = main.changeScene("firstPage-view.fxml");
+            firstPageController = loader.getController();
+            firstPageController.setGroup(new Group(groupID, password, new ArrayList<>(), new ArrayList<>()));
+            firstPageController.loadData();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("FIRST-PAGE NOT FOUND");
@@ -87,11 +80,11 @@ public class LoginController{
     }
 
     /**
-     * To check authentication data
+     * To check authentication data.
      */
     private boolean validateLogin(String groupID, String password) throws SQLException {
-        try (Connection connection = connector.dataSource.getConnection();
-            PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
+        try (Connection connection = database.dataSource.getConnection();
+             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
             checkData.setString(1, groupID);
             ResultSet accountFound = checkData.executeQuery();
 
@@ -109,19 +102,6 @@ public class LoginController{
             }
         }
     }
-
-    /**
-     * To control the whole app
-     */
-
-    void firstPageApp(){
-        firstPageController.loadData();
-
-
-
-
-    }
-
 
 }
 

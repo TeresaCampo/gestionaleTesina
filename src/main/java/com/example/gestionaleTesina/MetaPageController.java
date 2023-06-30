@@ -1,13 +1,14 @@
 package com.example.gestionaleTesina;
 
+import com.example.gestionaleTesina.classes.Travel;
+import com.example.gestionaleTesina.classes.TravelOption;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
-import java.awt.*;
+
+import java.util.TreeSet;
 
 public class MetaPageController {
     DBConnection connector = new DBConnection();
@@ -39,7 +40,7 @@ public class MetaPageController {
     @FXML
     private ScrollBar sb_options;
     @FXML
-    private Button showDetailsButton;
+    private javafx.scene.control.Button showDetailsButton;
     @FXML
     private TextArea ta_info;
     @FXML
@@ -48,6 +49,8 @@ public class MetaPageController {
     private TableColumn<?, ?> tv_tabOptions;
     @FXML
     void onLogoutButton(ActionEvent event) {}
+
+    private Travel travel;
 
     @FXML
     void onShowDetailsButton(ActionEvent event) {
@@ -77,4 +80,12 @@ public class MetaPageController {
         }
     }
 
+    //getter and setter
+    public Travel getTravel() {
+        return travel;
+    }
+
+    public void setTravel(Travel travel) {
+        this.travel = travel;
+    }
 }
