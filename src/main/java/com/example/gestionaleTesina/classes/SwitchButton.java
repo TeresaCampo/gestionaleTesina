@@ -8,16 +8,22 @@ import javafx.scene.control.Label;
 
     public class SwitchButton extends Label
     {
-        DBConnection database = new DBConnection();
         private SimpleBooleanProperty switchedOn= new SimpleBooleanProperty(false);
         public SimpleBooleanProperty switchOnProperty() { return switchedOn; }
+        private String travelName;
+        DBConnection database;
 
+        public void setTravelName(String travelName) {
+            this.travelName = travelName;
+        }
 
-        public SwitchButton(String groupID, String travelName, boolean status)
+        public SwitchButton(String groupID, String travelName, boolean status, DBConnection database)
         {
             /*FirstPageController controller= new FirstPageController();
             controller.initializeForSwitchButton();*/
-            database.initializeConnection();
+            //database.initializeConnection();
+            this.travelName=travelName;
+            this.database=database;
 
             Button switchBtn = new Button();
             switchBtn.setPrefWidth(15);
@@ -38,7 +44,7 @@ import javafx.scene.control.Label;
 
             switchBtn.setOnAction(h -> {
                 switchedOn.set(!switchedOn.get());
-                database.updateTravelStatus(groupID, travelName, switchedOn.get());
+                database.updateTravelStatus(groupID, this.travelName, switchedOn.get());
             });
 
             switchedOn.addListener((ov, t, t1) -> {

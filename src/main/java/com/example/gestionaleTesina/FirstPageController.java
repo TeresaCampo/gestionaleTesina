@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
@@ -20,16 +21,14 @@ public class FirstPageController {
     @FXML
     private TableColumn<Travel, SwitchButton>statusColumn;
     @FXML
-    private TableColumn<Travel, String> travelsColumn;
+    private TableColumn<Travel, TextField> travelsColumn;
 
-    DBConnection database = new DBConnection();
+    DBConnection database;
     AddressApplication main = new AddressApplication();
     private Group group;
 
     public void initialize(){
-        database.initializeConnection();
-
-        travelsColumn.setCellValueFactory(new PropertyValueFactory<>("travelName"));
+        travelsColumn.setCellValueFactory(new PropertyValueFactory<>("tf_travelName"));
         numberOptionsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfOptions"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("statusButton"));
     }
@@ -88,6 +87,7 @@ public class FirstPageController {
     @FXML
     void onLogoutButton(){
         try {
+            database.dataSource.close();
             main.changeScene("login-view.fxml");
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,13 +103,16 @@ public class FirstPageController {
         try {
             int selectedIndex = selectedIndex();
 
-            Travel newTravel= tableTravels.getItems().get(selectedIndex);
-            newTravel.setOptions(database.loadTravelOption(newTravel.getGroupID(), newTravel.getTravelName()));
-            newTravel.setFavouriteOption(database.loadFavouriteOption(newTravel.getGroupID(), newTravel.getTravelName()));
+            Travel travelToEdit= tableTravels.getItems().get(selectedIndex);
+            travelToEdit.setOptions(database.loadTravelOption(travelToEdit.getGroupID(), travelToEdit.getTravelName()));
+            travelToEdit.setFavouriteOption(database.loadFavouriteOption(travelToEdit.getGroupID(), travelToEdit.getTravelName()));
 
             FXMLLoader loader =main.changeScene("metaPage-view.fxml");
             MetaPageController metaPageController= loader.getController();
-            metaPageController.setTravel(newTravel);
+            metaPageController.setTravel(travelToEdit);
+            metaPageController.setGroup(group);
+            metaPageController.setDatabase(database);
+            metaPageController.loadData();
         }
         catch (NoSuchElementException e) {
             new Alert(Alert.AlertType.WARNING, "No travel Selected\nPlease select one from the table.").showAndWait();
@@ -129,15 +132,13 @@ public class FirstPageController {
      */
     @FXML
     private void onNewTravel() {
+        Travel newTravel= new Travel(group.getGroupID(), "Type_here_travel_name_"+(tableTravels.getItems().size()+1), 0, false, new SwitchButton(group.getGroupID(), "Type_here_travel_name_"+(tableTravels.getItems().size()+1) , false, database), database );
+        tableTravels.getItems().add(newTravel);
         try {
-            FXMLLoader loader =main.changeScene("metaPage-view.fxml");
-            MetaPageController metaPageController= loader.getController();
-            metaPageController.setTravel(new Travel(group.getGroupID()));
-            metaPageController.setGroup(group);
-        }
-        catch (Exception e) {
+            database.storeNewTravel(newTravel);
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("META-PAGE NOT FOUND");
+            new Alert(Alert.AlertType.ERROR, "Database Error\nError while storing new travel.").showAndWait();
         }
     }
 
@@ -147,5 +148,13 @@ public class FirstPageController {
     }
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public DBConnection getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DBConnection database) {
+        this.database = database;
     }
 }

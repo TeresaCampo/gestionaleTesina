@@ -64,7 +64,7 @@ public class SignUpController {
     public void onCancelButton(){
         try {
             String loginScene="login-view.fxml";
-            AddressApplication main= new AddressApplication();
+            database.dataSource.close();
             main.changeScene(loginScene);
 
         } catch (Exception e) {
@@ -135,6 +135,7 @@ public class SignUpController {
 
         try{
             database.storeAuthenticationData(groupID, password, tf_userNames);
+            database.dataSource.close();
             main.changeScene("login-view.fxml");
         } catch (SQLException e){
             new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();

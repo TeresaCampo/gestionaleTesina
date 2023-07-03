@@ -29,6 +29,13 @@ public class DBConnection {
         dataSource = new HikariDataSource(config);
     }
 
+    public void setDataSource(HikariDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public HikariDataSource getDataSource() {
+        return dataSource;
+    }
     //To load->
     /**
      * Given a group (groupID), load its usernames(from usernames table).
@@ -72,7 +79,8 @@ public class DBConnection {
                         rs.getString("travelName"),
                         loadTravelOption(group.getGroupID(), rs.getString("travelName")).size(),
                         rs.getBoolean("status"),
-                        new SwitchButton(group.getGroupID(), rs.getString("travelName"), rs.getBoolean("status"))
+                        new SwitchButton(group.getGroupID(), rs.getString("travelName"), rs.getBoolean("status"), this),
+                        this
                         );
                 group.addTravel(toBeAdded);
             }
@@ -97,7 +105,7 @@ public class DBConnection {
 
             while (rs.next()) {
                 //test stamp
-                System.out.println(rs.getString("optionName"));
+                System.out.println("just loaded OPTION "+rs.getString("optionName"));
                 travelOptions.add(new TravelOption(
                         groupID,
                         travelName,
@@ -105,7 +113,8 @@ public class DBConnection {
                         rs.getDouble("totalCost"),
                         rs.getDouble("perPersonCost"),
                         rs.getString("comment"),
-                        loadOption(groupID,travelName, rs.getString("optionName"))
+                        loadOption(groupID,travelName, rs.getString("optionName")),
+                        this
                 ));
             }
         }
@@ -137,7 +146,7 @@ public class DBConnection {
             ResultSet rs = loadOptionComponent.executeQuery();
             while(rs.next()){
                 //test stamp
-                System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
+                System.out.println("for travelOption "+ optionName +" component " +rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new TravelOptionComponent(
                         "accommodation",
                         rs.getString("groupID"),
@@ -167,7 +176,7 @@ public class DBConnection {
             ResultSet rs = loadOptionComponent.executeQuery();
             while(rs.next()){
                 //test stamp
-                System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
+                System.out.println("for travelOption "+ optionName +" component " +rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new TravelOptionComponent(
                         "transport",
                         rs.getString("groupID"),
@@ -181,8 +190,8 @@ public class DBConnection {
                         rs.getDate("departureDay"),
                         rs.getTime("arrivalTime"),
                         rs.getTime("departureTime"),
-                        rs.getString("from"),
-                        rs.getString("to"),
+                        rs.getString("fromPlace"),
+                        rs.getString("toPlace"),
                         rs.getString("kindOfTransport")
                 ));
             }
@@ -198,7 +207,7 @@ public class DBConnection {
             ResultSet rs = loadOptionComponent.executeQuery();
             while(rs.next()){
                 //test stamp
-                System.out.println(rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
+                System.out.println("for travelOption "+ optionName +" component " +rs.getString("name")+" alla posizione "+ rs.getInt("posInTravelOption"));
                 travelOptions.add(new TravelOptionComponent(
                         "rental",
                         rs.getString("groupID"),
@@ -264,6 +273,59 @@ public class DBConnection {
         }
     }
 
+    public void updateTravelName(Travel travel, String newTravelName) throws SQLException {
+        ArrayList<String> tables = new ArrayList<>();
+        tables.add("travels");
+        tables.add("traveloptions");
+        tables.add("accommodation");
+        tables.add("transport");
+        tables.add("rental");
+        for (String table : tables) {
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement updateTravelName = connection.prepareStatement("UPDATE " + table + " SET travelName=? WHERE groupID = ? AND travelName = ?")) {
+                updateTravelName.setString(1, newTravelName);
+                updateTravelName.setString(2, travel.getGroupID());
+                updateTravelName.setString(3, travel.getTravelName());
+                updateTravelName.executeUpdate();
+            }
+
+        }
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement updateTravelName = connection.prepareStatement("UPDATE favouriteoptions SET travelName = ?  WHERE groupID = ? AND travelName = ?")) {
+            updateTravelName.setString(1, newTravelName);
+            updateTravelName.setString(2, travel.getGroupID());
+            updateTravelName.setString(3, travel.getTravelName());
+            updateTravelName.executeUpdate();
+        }
+    }
+
+    public void updateTravelOptionName(TravelOption travelOption, String newTravelOptionName) throws SQLException {
+        ArrayList<String> tables = new ArrayList<>();
+        tables.add("traveloptions");
+        tables.add("accommodation");
+        tables.add("transport");
+        tables.add("rental");
+        for (String table : tables) {
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement updateTravelName = connection.prepareStatement("UPDATE " + table + " SET optionName=? WHERE groupID = ? AND travelName = ? AND optionName = ?")) {
+                updateTravelName.setString(1, newTravelOptionName);
+                updateTravelName.setString(2, travelOption.getGroupID());
+                updateTravelName.setString(3, travelOption.getTravelName());
+                updateTravelName.setString(4, travelOption.getOptionName());
+                updateTravelName.executeUpdate();
+            }
+
+        }
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement updateTravelName = connection.prepareStatement("UPDATE favouriteoptions SET optionName = ?  WHERE groupID = ? AND travelName = ? AND optionName = ?")) {
+            updateTravelName.setString(1, newTravelOptionName);
+            updateTravelName.setString(2, travelOption.getGroupID());
+            updateTravelName.setString(3, travelOption.getTravelName());
+            updateTravelName.setString(4, travelOption.getOptionName());
+            updateTravelName.executeUpdate();
+        }
+    }
+
     //to delete->
     /**
      * Given a selected Travel, delete it from travels, traveloptions, accommodation, rental, transport, favouriteoptions tables.
@@ -319,6 +381,22 @@ public class DBConnection {
     }
 
     //To store->
+
+
+    /**
+     * Store new travel in travels table.
+     * @param newTravel to be stored
+     * @throws SQLException if connection leaks
+     */
+    void storeNewTravel(Travel newTravel) throws SQLException {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement insertTravelOption = connection.prepareStatement("INSERT INTO travels (groupID, travelName, status) VALUES (?, ?, ?)")) {
+            insertTravelOption.setString(1, newTravel.getGroupID());
+            insertTravelOption.setString(2, newTravel.getTravelName());
+            insertTravelOption.setBoolean(3, newTravel.getStatus());
+            insertTravelOption.executeUpdate();
+        }
+    }
     /**
      * Store TravelOption in traveloptions
      * @param travelOption to be stored

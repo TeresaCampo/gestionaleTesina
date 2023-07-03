@@ -1,9 +1,18 @@
 package com.example.gestionaleTesina.classes;
 
+import com.example.gestionaleTesina.DBConnection;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.TreeSet;
 
 public class TravelOption {
+    DBConnection database;
     private String groupID;
     private String travelName;
     private String optionName;
@@ -11,18 +20,58 @@ public class TravelOption {
     private double perPersonCost;
     private String comment;
     private TreeSet<TravelOptionComponent> components= new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
-
+    private TextField tf_optionName;
     /**
      *Create travelOption
      */
-    public TravelOption(String groupID, String travelName, String optionName, double totalCost, double perPersonCost, String comment, TreeSet<TravelOptionComponent> components) {
+    public TravelOption(String groupID, String travelName, String optionName, double totalCost, double perPersonCost, String comment, TreeSet<TravelOptionComponent> components, DBConnection database) {
         this.groupID = groupID;
         this.travelName = travelName;
         this.optionName = optionName;
+        this.tf_optionName=new TextField(optionName);
+        tf_optionName.setOnAction((h)-> updateTables(groupID, travelName, tf_optionName.getText()));
+        this.database=database;
         this.totalCost = totalCost;
         this.perPersonCost = perPersonCost;
         this.comment = comment;
         this.components = components;
+    }
+
+    void updateTables(String groupID, String travelName, String newTravelOptionName){
+        System.out.println("provo ad aggironare");
+        try {
+            if (!checkTravelOptionNameExists(groupID, travelName, newTravelOptionName) && !newTravelOptionName.isEmpty()) {
+                database.updateTravelOptionName(this, newTravelOptionName);
+                this.setOptionName(newTravelOptionName);
+                return;
+            }
+            if(newTravelOptionName.isEmpty()){
+                new Alert(Alert.AlertType.ERROR, "TravelOption name can't be an empty string\nPlease choose a new one").showAndWait();
+                return;
+            }
+            else{
+                new Alert(Alert.AlertType.ERROR, "This travelOption name already exists in your travel\nPlease choose a new one").showAndWait();
+                return;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
+        }
+
+    }
+
+    private boolean checkTravelOptionNameExists(String groupID, String travelName, String newTravelOptionName) throws SQLException {
+        try (Connection connection = database.dataSource.getConnection();
+             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM traveloptions WHERE groupID = ? AND travelName=? AND optionName = ?")) {
+            checkData.setString(1, groupID);
+            checkData.setString(2, travelName);
+            checkData.setString(3, newTravelOptionName);
+            ResultSet accountFound = checkData.executeQuery();
+            if (accountFound.isBeforeFirst()) {
+                return true;
+            }
+            return false;
+        }
     }
 
     //constructor to test
@@ -86,5 +135,21 @@ public class TravelOption {
 
     public void setComponents(TreeSet<TravelOptionComponent> components) {
         this.components = components;
+    }
+
+    public DBConnection getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DBConnection database) {
+        this.database = database;
+    }
+
+    public TextField getTf_optionName() {
+        return tf_optionName;
+    }
+
+    public void setTf_optionName(TextField tf_optionName) {
+        this.tf_optionName = tf_optionName;
     }
 }

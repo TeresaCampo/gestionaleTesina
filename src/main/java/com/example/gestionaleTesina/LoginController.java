@@ -34,6 +34,7 @@ public class LoginController {
     public void onRegisterButton() {
         try {
             main.changeScene("signUp-view.fxml");
+            database.dataSource.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("SIGNUP-PAGE NOT FOUND");
@@ -72,6 +73,7 @@ public class LoginController {
             FXMLLoader loader = main.changeScene("firstPage-view.fxml");
             firstPageController = loader.getController();
             firstPageController.setGroup(new Group(groupID, password, new ArrayList<>(), new ArrayList<>()));
+            firstPageController.setDatabase(database);
             firstPageController.loadData();
         } catch (Exception e) {
             e.printStackTrace();

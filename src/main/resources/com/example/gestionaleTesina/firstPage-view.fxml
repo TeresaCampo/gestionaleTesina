@@ -36,7 +36,7 @@
          <children>
             <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#onNewTravel" prefHeight="33.0" prefWidth="146.0" text="new travel" />
             <Button layoutX="411.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
-            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="305.0" prefWidth="600.0">
+            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="301.0" prefWidth="600.0">
               <columns>
                 <TableColumn fx:id="travelsColumn" prefWidth="442.4000244140625" text="Travels" />
                 <TableColumn fx:id="numberOptionsColumn" minWidth="0.0" prefWidth="72.0" text="number of &#10;options" />
