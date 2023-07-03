@@ -29,6 +29,7 @@ public class TravelOption {
         this.travelName = travelName;
         this.optionName = optionName;
         this.tf_optionName=new TextField(optionName);
+        tf_optionName.setMaxWidth(150);
         tf_optionName.setOnAction((h)-> updateTables(groupID, travelName, tf_optionName.getText()));
         this.database=database;
         this.totalCost = totalCost;

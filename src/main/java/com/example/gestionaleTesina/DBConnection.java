@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DBConnection {
@@ -121,6 +122,10 @@ public class DBConnection {
         return travelOptions;
     }
 
+    LocalDate translateSqlDate_LocalDate(java.sql.Date dateSql){
+        if(dateSql==null) return  null;
+        else return dateSql.toLocalDate();
+    }
     /**
      * Given a travelOption(groupID, travelName, optionName), load its components(from accommodation, rental, transport tables).
      * @param groupID ke1
@@ -156,8 +161,8 @@ public class DBConnection {
                         rs.getString("payed"),
                         rs.getDouble("price"),
                         rs.getString("name"),
-                        rs.getDate("checkInDay"),
-                        rs.getDate("checkOutDay"),
+                        translateSqlDate_LocalDate(rs.getDate("checkInDay")),
+                        translateSqlDate_LocalDate(rs.getDate("checkOutDay")),
                         rs.getTime("checkInTime"),
                         rs.getTime("checkOutTime"),
                         rs.getInt("numberOfRoom"),
@@ -186,8 +191,8 @@ public class DBConnection {
                         rs.getString("payed"),
                         rs.getDouble("price"),
                         rs.getString("name"),
-                        rs.getDate("arrivalDay"),
-                        rs.getDate("departureDay"),
+                        translateSqlDate_LocalDate(rs.getDate("arrivalDay")),
+                        translateSqlDate_LocalDate(rs.getDate("departureDay")),
                         rs.getTime("arrivalTime"),
                         rs.getTime("departureTime"),
                         rs.getString("fromPlace"),
@@ -217,8 +222,8 @@ public class DBConnection {
                         rs.getString("payed"),
                         rs.getDouble("price"),
                         rs.getString("name"),
-                        rs.getDate("checkInDay"),
-                        rs.getDate("checkOutDay"),
+                        translateSqlDate_LocalDate(rs.getDate("checkInDay")),
+                        translateSqlDate_LocalDate(rs.getDate("checkOutDay")),
                         rs.getTime("checkInTime"),
                         rs.getTime("checkOutTime"),
                         rs.getString("kindOfRental")
@@ -273,6 +278,12 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Update travel name
+     * @param travel selected travel
+     * @param newTravelName new travel name
+     * @throws SQLException if connection leaks
+     */
     public void updateTravelName(Travel travel, String newTravelName) throws SQLException {
         ArrayList<String> tables = new ArrayList<>();
         tables.add("travels");
@@ -299,6 +310,12 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Update travel option name
+     * @param travelOption travel option selected
+     * @param newTravelOptionName new travel option name
+     * @throws SQLException if connection leaks
+     */
     public void updateTravelOptionName(TravelOption travelOption, String newTravelOptionName) throws SQLException {
         ArrayList<String> tables = new ArrayList<>();
         tables.add("traveloptions");
@@ -426,10 +443,10 @@ public class DBConnection {
             insertAccommodation.setString(2, travelName);
             insertAccommodation.setString(3, optionName);
             insertAccommodation.setInt(4, newComponent.getPosInTravelOption().get());
-            if(newComponent.getComponentName().isPresent()) insertAccommodation.setString(5, newComponent.getComponentName().get());
+            if(newComponent.getName().isPresent()) insertAccommodation.setString(5, newComponent.getName().get());
             else insertAccommodation.setNull(5, Types.VARCHAR);
 
-            if(newComponent.getCheckInDate().isPresent()) insertAccommodation.setDate(6, new java.sql.Date(newComponent.getCheckInDate().get().getTime()));
+            if(newComponent.getCheckInDate().isPresent()) insertAccommodation.setDate(6, java.sql.Date.valueOf(newComponent.getCheckInDate().get()));
             else insertAccommodation.setNull(6, Types.DATE);
 
             if(newComponent.getCheckInTime().isPresent()) insertAccommodation.setTime(7, newComponent.getCheckInTime().get());
@@ -438,7 +455,7 @@ public class DBConnection {
             if(newComponent.getCheckOutTime().isPresent()) insertAccommodation.setTime(8, newComponent.getCheckOutTime().get());
             else insertAccommodation.setNull(8, Types.TIME);
 
-            if(newComponent.getCheckOutDate().isPresent()) insertAccommodation.setDate(9, new java.sql.Date(newComponent.getCheckOutDate().get().getTime()));
+            if(newComponent.getCheckOutDate().isPresent()) insertAccommodation.setDate(9, java.sql.Date.valueOf(newComponent.getCheckOutDate().get()));
             else insertAccommodation.setNull(9, Types.DATE);
 
             if(newComponent.getNumberOfRooms().isPresent()) insertAccommodation.setInt(10, newComponent.getNumberOfRooms().get());
@@ -462,10 +479,10 @@ public class DBConnection {
             insertTransport.setString(2, travelName);
             insertTransport.setString(3, optionName);
             insertTransport.setInt(4, newComponent.getPosInTravelOption().get());
-            if(newComponent.getComponentName().isPresent()) insertTransport.setString(5, newComponent.getComponentName().get());
+            if(newComponent.getName().isPresent()) insertTransport.setString(5, newComponent.getName().get());
             else insertTransport.setNull(5, Types.VARCHAR);
 
-            if(newComponent.getCheckInDate().isPresent()) insertTransport.setDate(6, new java.sql.Date(newComponent.getCheckInDate().get().getTime()));
+            if(newComponent.getCheckInDate().isPresent()) insertTransport.setDate(6, java.sql.Date.valueOf(newComponent.getCheckInDate().get()));
             else insertTransport.setNull(6, Types.DATE);
 
             if(newComponent.getCheckInTime().isPresent()) insertTransport.setTime(7, newComponent.getCheckInTime().get());
@@ -474,7 +491,7 @@ public class DBConnection {
             if(newComponent.getCheckOutTime().isPresent()) insertTransport.setTime(8, newComponent.getCheckOutTime().get());
             else insertTransport.setNull(8, Types.TIME);
 
-            if(newComponent.getCheckOutDate().isPresent()) insertTransport.setDate(9, new java.sql.Date(newComponent.getCheckOutDate().get().getTime()));
+            if(newComponent.getCheckOutDate().isPresent()) insertTransport.setDate(9, java.sql.Date.valueOf(newComponent.getCheckOutDate().get()));
             else insertTransport.setNull(9, Types.DATE);
 
             if(newComponent.getFrom().isPresent()) insertTransport.setString(10, newComponent.getFrom().get());
@@ -500,13 +517,13 @@ public class DBConnection {
             insertRental.setString(2, travelName);
             insertRental.setString(3, optionName);
             insertRental.setInt(4, newComponent.getPosInTravelOption().get());
-            if(newComponent.getComponentName().isPresent()) insertRental.setString(5, newComponent.getComponentName().get());
+            if(newComponent.getName().isPresent()) insertRental.setString(5, newComponent.getName().get());
             else insertRental.setString(5, null);
 
             if(newComponent.getComponentName().isPresent()) insertRental.setString(5, newComponent.getComponentName().get());
             else insertRental.setNull(5, Types.VARCHAR);
 
-            if(newComponent.getCheckInDate().isPresent()) insertRental.setDate(6, new java.sql.Date(newComponent.getCheckInDate().get().getTime()));
+            if(newComponent.getCheckInDate().isPresent()) insertRental.setDate(6, java.sql.Date.valueOf(newComponent.getCheckInDate().get()));
             else insertRental.setNull(6, Types.DATE);
 
             if(newComponent.getCheckInTime().isPresent()) insertRental.setTime(7, newComponent.getCheckInTime().get());
@@ -515,7 +532,7 @@ public class DBConnection {
             if(newComponent.getCheckOutTime().isPresent()) insertRental.setTime(8, newComponent.getCheckOutTime().get());
             else insertRental.setNull(8, Types.TIME);
 
-            if(newComponent.getCheckOutDate().isPresent()) insertRental.setDate(9, new java.sql.Date(newComponent.getCheckOutDate().get().getTime()));
+            if(newComponent.getCheckOutDate().isPresent()) insertRental.setDate(9, java.sql.Date.valueOf(newComponent.getCheckOutDate().get()));
             else insertRental.setNull(9, Types.DATE);
 
             if(newComponent.getKindOfRental().isPresent()) insertRental.setString(10, newComponent.getKindOfRental().get());

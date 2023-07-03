@@ -7,8 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
-
 
 public class EditPageController {
 
@@ -24,8 +22,9 @@ public class EditPageController {
     TreeSet<OptionComponentsGraphic> componentsList=new TreeSet<>(Comparator.comparing((OptionComponentsGraphic c)-> c.getTf_name().getLayoutY()));
 
     AddressApplication main= new AddressApplication();
-    DBConnection database = new DBConnection();
+    DBConnection database;
     private TravelOption travelOption;
+    private Travel travel;
     private Group group;
     ListView<String> componentsListView;
 
@@ -36,8 +35,6 @@ public class EditPageController {
      * Display actual components
      */
     public void initialize(){
-
-        database.initializeConnection();
         //initialize plusButtonList
         plusButtonList.add(firstPlusButton);
         firstPlusButton.setOnAction(h->onPlusButton(firstPlusButton));    firstPlusButton.setPrefWidth(26);
@@ -53,7 +50,7 @@ public class EditPageController {
             else addComponent();});
 
 
-        //to test
+        /*
         travelOption=new TravelOption("test", 20);
         group.setUsers(new ArrayList<>());
         group.getUsers().add("terry");
@@ -63,9 +60,31 @@ public class EditPageController {
         travelOption.setTravelName("speriamDavvero");
         travelOption.getComponents().add(new TravelOptionComponent("accommodation", "a", "agosto", "test", 2, "aleks", 100.0, "hotel Sirena", new Date(2023, Calendar.JULY, 1), null, null, null, null, true ));
         travelOption.getComponents().add(new TravelOptionComponent("rental", "a", "agosto", "test", 1, "aleks", 100.0, "kayak", null, null, null, new Time(16, 45, 00), 7, true ));
-        //end test
+
 
         for (TravelOptionComponent c : travelOption.getComponents()) {
+            plusButtonJustClicked=plusButtonList.last();
+            if (c.getComponentName().get().equals("transport")) {
+                addTransport(plusButtonJustClicked).initializeTransport(c);
+            }
+            if (c.getComponentName().get().equals("rental")) {
+                addRental(plusButtonJustClicked).initializeRental(c);
+            }
+            if (c.getComponentName().get().equals("accommodation")) {
+                addAccommodation(plusButtonJustClicked).initializeAccommodation(c);
+            }
+            createButtons();
+        }
+
+         */
+    }
+
+    void loadData(){
+        //initialize tf_optionName
+        tf_optionName.setText(travelOption.getOptionName());
+        //initialize existing components
+        for (TravelOptionComponent c : travelOption.getComponents()) {
+            System.out.println(plusButtonList.toString());
             plusButtonJustClicked=plusButtonList.last();
             if (c.getComponentName().get().equals("transport")) {
                 addTransport(plusButtonJustClicked).initializeTransport(c);
@@ -175,6 +194,23 @@ public class EditPageController {
     }
 
     @FXML
+    void onCancelButton() {
+        try {
+            FXMLLoader loader =main.changeScene("metaPage-view.fxml");
+            MetaPageController metaPageController= loader.getController();
+
+            metaPageController.setGroup(group);
+            metaPageController.setTravel(travel);
+            metaPageController.setDatabase(database);
+            metaPageController.loadData();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("META-PAGE NOT FOUND");
+        }
+    }
+
+    @FXML
     void onSaveButton() {
         //check if the optionName has been changed-> in case check if it is already present in the database
         if (!tf_optionName.getText().equals(travelOption.getOptionName())) {
@@ -225,7 +261,9 @@ public class EditPageController {
                 }
             }
             if ("Transport".equals(c.getLb_kindOfComponent().getText())) {
+                System.out.println("Transport name: "+c.getTf_name().getText());
                 newComponent = c.convertTransport(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
+                System.out.println("Transport name: "+newComponent.getName().get());
                 try {
                     database.storeTransport(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
                 } catch (SQLException e) {
@@ -259,11 +297,13 @@ public class EditPageController {
             FXMLLoader loader =main.changeScene("metaPage-view.fxml");
             MetaPageController metaPageController= loader.getController();
 
-            Travel updatedTravel= new Travel(travelOption.getGroupID(), travelOption.getTravelName());
+            Travel updatedTravel=travel;
             updatedTravel.setOptions(database.loadTravelOption(updatedTravel.getGroupID(), updatedTravel.getTravelName()));
             updatedTravel.setFavouriteOption(database.loadFavouriteOption(updatedTravel.getGroupID(), updatedTravel.getTravelName()));
-            metaPageController.setTravel(updatedTravel);
             metaPageController.setGroup(group);
+            metaPageController.setTravel(updatedTravel);
+            metaPageController.setDatabase(database);
+            metaPageController.loadData();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -296,6 +336,30 @@ public class EditPageController {
     }
     public void setTravelOption(TravelOption travelOption) {
         this.travelOption = travelOption;
+    }
+
+    public DBConnection getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DBConnection database) {
+        this.database = database;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Travel getTravel() {
+        return travel;
+    }
+
+    public void setTravel(Travel travel) {
+        this.travel = travel;
     }
 }
 

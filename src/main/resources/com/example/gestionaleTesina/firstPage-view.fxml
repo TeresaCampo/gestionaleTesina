@@ -15,12 +15,13 @@
       <AnchorPane fx:id="anchorPane" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="GROUP MEMEBERS" AnchorPane.topAnchor="6.0" />
-            <Button layoutX="443.0" layoutY="6.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="33.0" prefWidth="146.0" text="LOGOUT" AnchorPane.topAnchor="6.0" />
+            <Button layoutX="518.0" layoutY="5.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="34.0" prefWidth="66.0" text="LOGOUT" AnchorPane.topAnchor="5.0" />
             <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/2023-06-12.png" />
                </image>
             </ImageView>
+            <Button layoutX="445.0" layoutY="4.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="66.0" text="BACK" />
          </children>
       </AnchorPane>
    </top>

@@ -5,9 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.sql.Time;
-import java.time.ZoneId;
-import java.util.Date;
-
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
@@ -372,8 +369,8 @@ public class OptionComponentsGraphic extends Node {
         //1st line
         componentInfo.getName().ifPresent(h->tf_name.setText(componentInfo.getName().get()));
         //2nd line
-        componentInfo.getCheckInDate().ifPresent(h->dp_from.setValue(componentInfo.getCheckInDate().get().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-        componentInfo.getCheckOutDate().ifPresent(h->dp_to.setValue(componentInfo.getCheckOutDate().get().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        componentInfo.getCheckInDate().ifPresent(h->dp_from.setValue(componentInfo.getCheckInDate().get()));
+        componentInfo.getCheckOutDate().ifPresent(h->dp_to.setValue(componentInfo.getCheckOutDate().get()));
         //3rd
         componentInfo.getCheckInTime().ifPresent(h-> {
             tf_hourCheckIn.setText(String.valueOf(componentInfo.getCheckInTime().get().getHours()));
@@ -394,8 +391,8 @@ public class OptionComponentsGraphic extends Node {
         componentInfo.getName().ifPresent(h->tf_name.setText(componentInfo.getName().get()));
         componentInfo.getKindOfRental().ifPresent(h->tf_kindRental.setText(componentInfo.getKindOfRental().get()));
         //2nd line
-        componentInfo.getCheckInDate().ifPresent(h->dp_from.setValue(componentInfo.getCheckInDate().get().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-        componentInfo.getCheckOutDate().ifPresent(h->dp_to.setValue(componentInfo.getCheckOutDate().get().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        componentInfo.getCheckInDate().ifPresent(h->dp_from.setValue(componentInfo.getCheckInDate().get()));
+        componentInfo.getCheckOutDate().ifPresent(h->dp_to.setValue(componentInfo.getCheckOutDate().get()));
         //3rd line
         componentInfo.getCheckInTime().ifPresent(h-> {
             tf_hourCheckIn.setText(String.valueOf(componentInfo.getCheckInTime().get().getHours()));
@@ -416,8 +413,8 @@ public class OptionComponentsGraphic extends Node {
         componentInfo.getFrom().ifPresent(h->tf_fromPlace.setText(componentInfo.getFrom().get()));
         componentInfo.getTo().ifPresent(h->tf_toPlace.setText(componentInfo.getTo().get()));
         //3rd line
-        componentInfo.getCheckInDate().ifPresent(h->dp_from.setValue(componentInfo.getCheckInDate().get().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-        componentInfo.getCheckOutDate().ifPresent(h->dp_to.setValue(componentInfo.getCheckOutDate().get().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        componentInfo.getCheckInDate().ifPresent(h->dp_from.setValue(componentInfo.getCheckInDate().get()));
+        componentInfo.getCheckOutDate().ifPresent(h->dp_to.setValue(componentInfo.getCheckOutDate().get()));
         //4rd line
         componentInfo.getCheckInTime().ifPresent(h-> {
             tf_hourCheckIn.setText(String.valueOf(componentInfo.getCheckInTime().get().getHours()));
@@ -432,16 +429,16 @@ public class OptionComponentsGraphic extends Node {
     }
 
     /**
-     * to convert from grafic component to TravelOptionComponent
+     * to convert from graphic component to TravelOptionComponent
      */
     Double converterTF_Double(TextField tf){
         if(tf.getText().isEmpty()) return null;
         return parseDouble(tf.getText());
     }
 
-    Date converterDP_Date(DatePicker dp){
+    java.sql.Date converterDP_Date(DatePicker dp){
         if(dp.getValue()==null) return null;
-        return Date.from((dp.getValue()).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return java.sql.Date.valueOf( dp.getValue() );
     }
 
     Time converterTF_Time(TextField tfHOur, TextField tfMinute){
@@ -456,7 +453,7 @@ public class OptionComponentsGraphic extends Node {
 
 
     public TravelOptionComponent convertAccommodation(String groupID, String travelName, String optionName,  Integer tmpPosInTravelOption){
-        System.out.println("Converting Accommodation...");
+        System.out.println("Converting Accommodation..."+tf_name.getText());
         return new TravelOptionComponent("accommodation",
                 groupID,
                 travelName,
@@ -465,8 +462,8 @@ public class OptionComponentsGraphic extends Node {
                 null,
                 converterTF_Double(tf_price),
                 tf_name.getText(),
-                converterDP_Date(dp_from),
-                converterDP_Date(dp_to),
+                dp_from.getValue(),
+                dp_to.getValue(),
                 converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn),
                 converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut),
                 converterTF_integer(tf_nOfRoom),
@@ -485,8 +482,8 @@ public class OptionComponentsGraphic extends Node {
                 null,
                 converterTF_Double(tf_price),
                 tf_name.getText(),
-                converterDP_Date(dp_from),
-                converterDP_Date(dp_to),
+                dp_from.getValue(),
+                dp_to.getValue(),
                 converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn),
                 converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut),
                 tf_kindRental.getText()
@@ -494,7 +491,7 @@ public class OptionComponentsGraphic extends Node {
     }
 
     public TravelOptionComponent convertTransport(String groupID, String travelName, String optionName,  Integer tmpPosInTravelOption){
-        System.out.println("Converting Transport...");
+        System.out.println("Converting Transport..."+ tf_name.getText());
         return new TravelOptionComponent("transport",
                 groupID,
                 travelName,
@@ -503,8 +500,8 @@ public class OptionComponentsGraphic extends Node {
                 null,
                 converterTF_Double(tf_price),
                 tf_name.getText(),
-                converterDP_Date(dp_from),
-                converterDP_Date(dp_to),
+                dp_from.getValue(),
+                dp_to.getValue(),
                 converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn),
                 converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut),
                 tf_kindRental.getText(),

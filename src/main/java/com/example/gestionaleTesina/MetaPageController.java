@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class MetaPageController {
 
@@ -45,7 +46,7 @@ public class MetaPageController {
     @FXML
     private TextArea ta_info;
     @FXML
-    private TableColumn<TravelOption, String> tv_tabOptions;
+    private TableColumn<TravelOption, TextField> tv_tabOptions;
 
 
     AddressApplication main=new AddressApplication();
@@ -54,7 +55,7 @@ public class MetaPageController {
     private Travel travel;
 
     public void initialize(){
-        tv_tabOptions.setCellValueFactory(new PropertyValueFactory<>("optionName"));
+        tv_tabOptions.setCellValueFactory(new PropertyValueFactory<>("tf_optionName"));
         optionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showTravelOptionDetails(newValue));
         //clear travelOption details.
         showTravelOptionDetails(null);
@@ -87,8 +88,19 @@ public class MetaPageController {
     @FXML
     void onEditShowButton(ActionEvent event) {
         try {
-            main.changeScene("editPage-view.fxml");
-        } catch (Exception e) {
+            TravelOption travelOptionToEdit= optionTable.getItems().get(selectedIndex());
+
+            FXMLLoader loader = main.changeScene("editPage-view.fxml");
+            EditPageController editPageController = loader.getController();
+            editPageController.setGroup(group);
+            editPageController.setTravel(travel);
+            editPageController.setTravelOption(travelOptionToEdit);
+            editPageController.setDatabase(database);
+            editPageController.loadData();
+        } catch (NoSuchElementException e) {
+            new Alert(Alert.AlertType.WARNING, "No travel Selected\nPlease select one from the table.").showAndWait();
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.out.println("EDIT-PAGE NOT FOUND");
         }
@@ -125,6 +137,17 @@ public class MetaPageController {
             e.printStackTrace();
             System.out.println("FIRST-PAGE NOT FOUND");
         }
+    }
+    /**
+     * Check if there's a selected travel
+     * @return if one travel is selected return position in the tableView, else -1 and throws NoSuchElementException
+     */
+    int selectedIndex() {
+        int selectedIndex = optionTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex < 0) {
+            throw new NoSuchElementException();
+        }
+        return selectedIndex;
     }
 
     //getter and setter

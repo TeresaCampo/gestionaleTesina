@@ -1,7 +1,7 @@
 package com.example.gestionaleTesina.classes;
 
 import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class TravelOptionComponent {
@@ -16,8 +16,8 @@ public class TravelOptionComponent {
 
     //common one
     private String name;
-    private Date checkInDate;
-    private Date checkOutDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
     private Time checkInTime;
     private Time checkOutTime;
     //Additional one
@@ -31,7 +31,7 @@ public class TravelOptionComponent {
     /**
      * Constructor for accommodation
      */
-    public TravelOptionComponent(String componentName,String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, Integer numberOfRooms, boolean privateToilet) {
+    public TravelOptionComponent(String componentName,String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, Time checkInTime, Time checkOutTime, Integer numberOfRooms, boolean privateToilet) {
         this.componentName=componentName;
         this.groupID = groupID;
         this.travelName = travelName;
@@ -53,7 +53,7 @@ public class TravelOptionComponent {
     /**
      * Constructor for transport
      */
-    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, String from, String to, String kindOfTransport) {
+    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, Time checkInTime, Time checkOutTime, String from, String to, String kindOfTransport) {
         this.componentName=componentName;
         this.groupID = groupID;
         this.travelName = travelName;
@@ -75,7 +75,7 @@ public class TravelOptionComponent {
     /**
      * Constructor for rental
      */
-    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, Date checkInDate, Date checkOutDate, Time checkInTime, Time checkOutTime, String kindOfRental) {
+    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, Time checkInTime, Time checkOutTime, String kindOfRental) {
         this.componentName=componentName;
         this.groupID = groupID;
         this.travelName = travelName;
@@ -150,19 +150,19 @@ public class TravelOptionComponent {
         this.name = name;
     }
 
-    public Optional<Date> getCheckInDate() {
+    public Optional<LocalDate> getCheckInDate() {
         return Optional.ofNullable(checkInDate);
     }
 
-    public void setCheckInDate(Date checkInDate) {
+    public void setCheckInDate(LocalDate checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public Optional<Date> getCheckOutDate() {
+    public Optional<LocalDate> getCheckOutDate() {
         return Optional.ofNullable(checkOutDate);
     }
 
-    public void setCheckOutDate(Date checkOutDate) {
+    public void setCheckOutDate(LocalDate checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 

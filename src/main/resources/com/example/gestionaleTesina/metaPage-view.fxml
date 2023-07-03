@@ -56,7 +56,7 @@
       <ButtonBar layoutX="14.0" layoutY="366.0" prefHeight="40.0" prefWidth="221.0">
         <buttons>
           <Button fx:id="newButton" minWidth="47.0" mnemonicParsing="false" prefHeight="26.0" text="New" />
-            <Button fx:id="editButton" minWidth="51.0" mnemonicParsing="false" prefHeight="25.0" text="Edit/ show" />
+            <Button fx:id="editButton" minWidth="51.0" mnemonicParsing="false" onAction="#onEditShowButton" prefHeight="25.0" text="Edit / show" />
             <Button fx:id="deleteButton" minWidth="51.0" mnemonicParsing="false" prefHeight="24.0" text="Delete" />
         </buttons>
       </ButtonBar>
