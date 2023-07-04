@@ -1,5 +1,6 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.controllers;
 
+import com.example.gestionaleTesina.AddressApplication;
 import com.example.gestionaleTesina.classes.Group;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class LoginController {
-
     @FXML
     private TextField IDGroupTextField;
     @FXML
@@ -19,12 +19,12 @@ public class LoginController {
     @FXML
     private Label loginWarningLabel;
 
-    DBConnection database = new DBConnection();
-    AddressApplication main = new AddressApplication();
-    FirstPageController firstPageController;
+    private DBConnection database = new DBConnection();
+    private AddressApplication main = new AddressApplication();
 
     public void initialize() {
-        database.initializeConnection();
+        if(database.dataSource==null)   database.initializeConnection();
+        MyTextField.maxLen20(IDGroupTextField);
     }
 
     /**
@@ -33,8 +33,9 @@ public class LoginController {
     @FXML
     public void onRegisterButton() {
         try {
-            main.changeScene("signUp-view.fxml");
-            database.dataSource.close();
+            FXMLLoader loader= main.changeScene("signUp-view.fxml");
+            SignUpController signUpController=loader.getController();
+            signUpController.setDatabase(database);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("SIGNUP-PAGE NOT FOUND");
@@ -46,6 +47,7 @@ public class LoginController {
      */
     @FXML
     void onCancelButton() {
+        database.dataSource.close();
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
@@ -71,7 +73,7 @@ public class LoginController {
         loginWarningLabel.setText("Loading...");
         try {
             FXMLLoader loader = main.changeScene("firstPage-view.fxml");
-            firstPageController = loader.getController();
+            FirstPageController firstPageController = loader.getController();
             firstPageController.setGroup(new Group(groupID, password, new ArrayList<>(), new ArrayList<>()));
             firstPageController.setDatabase(database);
             firstPageController.loadData();
@@ -82,7 +84,11 @@ public class LoginController {
     }
 
     /**
-     * To check authentication data.
+     * Check authentication data.
+     * @param groupID groupID to be checked
+     * @param password password to be checked
+     * @return true if account exists and password matches it
+     * @throws SQLException if connection leaks
      */
     private boolean validateLogin(String groupID, String password) throws SQLException {
         try (Connection connection = database.dataSource.getConnection();
@@ -93,17 +99,22 @@ public class LoginController {
             if (!accountFound.isBeforeFirst()) {
                 loginWarningLabel.setText("Wrong GroupID or Password");
                 return false;
-            } else {
-                accountFound.next();
-                if (!accountFound.getString("password").equals(password)) {
-                    loginWarningLabel.setText("Wrong GroupID or Password");
-                    return false;
-                } else {
-                    return true;
-                }
             }
+
+            accountFound.next();
+            if (!accountFound.getString("password").equals(password)) {
+                loginWarningLabel.setText("Wrong GroupID or Password");
+                return false;
+            }
+
+            return true;
         }
     }
 
+    //getter and setter
+
+    public void setDatabase(DBConnection database) {
+        this.database = database;
+    }
 }
 

@@ -1,5 +1,6 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.controllers;
 
+import com.example.gestionaleTesina.AddressApplication;
 import com.example.gestionaleTesina.classes.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -11,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
-
 
 public class FirstPageController {
     @FXML

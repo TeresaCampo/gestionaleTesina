@@ -1,6 +1,7 @@
 package com.example.gestionaleTesina.classes;
 
-import com.example.gestionaleTesina.DBConnection;
+import com.example.gestionaleTesina.controllers.DBConnection;
+import com.example.gestionaleTesina.controllers.MyTextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
@@ -29,6 +30,7 @@ public class TravelOption {
         this.travelName = travelName;
         this.optionName = optionName;
         this.tf_optionName=new TextField(optionName);
+        MyTextField.maxLen45(tf_optionName);
         tf_optionName.setMaxWidth(150);
         tf_optionName.setOnAction((h)-> updateTables(groupID, travelName, tf_optionName.getText()));
         this.database=database;

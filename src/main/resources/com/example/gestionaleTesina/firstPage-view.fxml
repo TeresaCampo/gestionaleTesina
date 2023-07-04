@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.FirstPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.FirstPageController">
    <top>
       <AnchorPane fx:id="anchorPane" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" BorderPane.alignment="CENTER">
          <children>
@@ -21,7 +21,6 @@
                   <Image url="@img/2023-06-12.png" />
                </image>
             </ImageView>
-            <Button layoutX="445.0" layoutY="4.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="66.0" text="BACK" />
          </children>
       </AnchorPane>
    </top>
@@ -37,7 +36,7 @@
          <children>
             <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#onNewTravel" prefHeight="33.0" prefWidth="146.0" text="new travel" />
             <Button layoutX="411.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
-            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="301.0" prefWidth="600.0">
+            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="301.0" prefWidth="600.0" stylesheets="@styleTable.css">
               <columns>
                 <TableColumn fx:id="travelsColumn" prefWidth="442.4000244140625" text="Travels" />
                 <TableColumn fx:id="numberOptionsColumn" minWidth="0.0" prefWidth="72.0" text="number of &#10;options" />

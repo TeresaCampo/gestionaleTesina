@@ -1,6 +1,6 @@
 package com.example.gestionaleTesina.classes;
 
-import com.example.gestionaleTesina.DBConnection;
+import com.example.gestionaleTesina.controllers.DBConnection;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;

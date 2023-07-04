@@ -1,5 +1,6 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.controllers;
 
+import com.example.gestionaleTesina.AddressApplication;
 import com.example.gestionaleTesina.classes.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,6 @@ import java.sql.*;
 import java.util.*;
 
 public class EditPageController {
-
     @FXML
     private AnchorPane background;
     @FXML
@@ -17,16 +17,16 @@ public class EditPageController {
     @FXML
     private Button firstPlusButton;
     private Button plusButtonJustClicked;
-    TreeSet<Button> lessButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
-    TreeSet<Button> plusButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
-    TreeSet<OptionComponentsGraphic> componentsList=new TreeSet<>(Comparator.comparing((OptionComponentsGraphic c)-> c.getTf_name().getLayoutY()));
 
-    AddressApplication main= new AddressApplication();
-    DBConnection database;
+    private TreeSet<Button> lessButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
+    private TreeSet<Button> plusButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
+    private TreeSet<OptionComponentsGraphic> componentsList=new TreeSet<>(Comparator.comparing((OptionComponentsGraphic c)-> c.getTf_name().getLayoutY()));
+    private AddressApplication main= new AddressApplication();
+    private DBConnection database;
     private TravelOption travelOption;
     private Travel travel;
     private Group group;
-    ListView<String> componentsListView;
+    private ListView<String> componentsListView;
 
 
     /**

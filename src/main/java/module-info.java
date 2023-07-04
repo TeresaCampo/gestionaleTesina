@@ -12,4 +12,6 @@ open module com.example.gestionaletesina {
 
     exports com.example.gestionaleTesina;
     exports com.example.gestionaleTesina.classes;
+    exports com.example.gestionaleTesina.controllers;
+
 }

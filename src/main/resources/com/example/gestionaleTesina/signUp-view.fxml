@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.SignUpController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.SignUpController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -25,7 +25,7 @@
                            <font>
                               <Font name="Segoe UI Semibold" size="13.0" />
                            </font></Label>
-                        <TextField fx:id="tf_userName1" layoutX="164.0" layoutY="33.0" prefHeight="27.0" prefWidth="256.0" promptText="Set your username 1" style="-fx-background-color: e7ebff; -fx-border-color: #022757; -fx-border-radius: 25px;" />
+                        <TextField fx:id="tf_userName1" layoutX="164.0" layoutY="33.0" prefHeight="27.0" prefWidth="256.0" promptText="Set your username 1" style="-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;" />
                         <Button fx:id="plusButton" layoutX="114.0" layoutY="66.0" mnemonicParsing="false" onAction="#onPlusButton" opacity="0.78" prefHeight="30.0" prefWidth="31.0" style="-fx-background-radius: 25px; -fx-border-color: d62090; -fx-background-color: eb7ccb; -fx-border-radius: 25px;" text="+" textFill="#022757">
                            <font>
                               <Font name="Segoe UI Semibold" size="13.0" />

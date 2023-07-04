@@ -1,4 +1,4 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.controllers;
 
 import com.example.gestionaleTesina.classes.*;
 import com.zaxxer.hikari.HikariConfig;

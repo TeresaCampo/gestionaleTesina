@@ -1,6 +1,7 @@
 package com.example.gestionaleTesina.classes;
 
-import com.example.gestionaleTesina.DBConnection;
+import com.example.gestionaleTesina.controllers.DBConnection;
+import com.example.gestionaleTesina.controllers.MyTextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class Travel {
         this.groupID=groupID;
         this.travelName = travelName;
         this.tf_travelName=new TextField(travelName);
-        //tf_travelName.textProperty().addListener((observable, oldValue, newValue) -> updateTables(groupID, newValue));
+        MyTextField.maxLen45(tf_travelName);
         tf_travelName.setOnAction((h)-> updateTables(groupID, tf_travelName.getText()));
         this.database=database;
         this.numberOfOptions=numberOfOptions;
@@ -45,7 +46,7 @@ public class Travel {
     }
 
     void updateTables(String groupID, String newTravelName){
-        System.out.println("provo d aggironare");
+        System.out.println("Updating travel name...");
         try {
             if (!checkTravelNameExists(groupID, newTravelName) && !newTravelName.isEmpty()) {
                 database.updateTravelName(this, newTravelName);

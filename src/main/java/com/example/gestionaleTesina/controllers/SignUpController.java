@@ -1,6 +1,8 @@
-package com.example.gestionaleTesina;
+package com.example.gestionaleTesina.controllers;
 
+import com.example.gestionaleTesina.AddressApplication;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
@@ -29,18 +31,23 @@ public class SignUpController {
     @FXML
     private AnchorPane gp_background;
 
-    DBConnection database = new DBConnection();
-    AddressApplication main = new AddressApplication();
-    LinkedList<Label> lb_userNames= new LinkedList<>();
-    LinkedList<TextField> tf_userNames= new LinkedList<>();
-    int userNumber=1;
+    private DBConnection database;
+    private AddressApplication main = new AddressApplication();
+    private LinkedList<Label> lb_userNames= new LinkedList<>();
+    private LinkedList<TextField> tf_userNames= new LinkedList<>();
+    private int userNumber=1;
 
     public void initialize() {
-        database.initializeConnection();
-
+        //initialize existing textFields
+        MyTextField.maxLen20(tf_groupID);
+        MyTextField.maxLen20(pf_password);
+        MyTextField.maxLen20(pf_passwordRepeated);
+        MyTextField.maxLen20(tf_userName1);
+        //initialize textField and label lists
         tf_userNames.add(tf_userName1);
         lb_userNames.add(lb_user1);
 
+        //initialize removeButton
         removeButton.setLayoutX(tf_userName1.getLayoutX()+tf_userName1.getPrefWidth()+10);
         removeButton.setLayoutY(tf_userName1.getLayoutY());
         removeButton.setText("-");
@@ -60,13 +67,16 @@ public class SignUpController {
             }
         });
     }
+
+    /**
+     * Display logIn page.
+     */
     @FXML
     public void onCancelButton(){
         try {
-            String loginScene="login-view.fxml";
-            database.dataSource.close();
-            main.changeScene(loginScene);
-
+            FXMLLoader loader= main.changeScene("login-view.fxml");
+            LoginController loginController=loader.getController();
+            loginController.setDatabase(database);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("LOGIN-PAGE NOT FOUND");
@@ -74,7 +84,7 @@ public class SignUpController {
     }
 
     /**
-     * Add labels and textFields for new usernames
+     * Add label and textField for new username.
      */
     @FXML
     void onPlusButton(){
@@ -82,11 +92,10 @@ public class SignUpController {
         plusButton.setTranslateY(plusButton.getTranslateY()+30);
 
         TextField tf_newUser= new TextField();
-        tf_newUser.setLayoutX(tf_userName1.getLayoutX());
-        tf_newUser.setLayoutY(tf_userNames.getLast().getLayoutY()+30);
+        tf_newUser.setLayoutX(tf_userName1.getLayoutX());   tf_newUser.setLayoutY(tf_userNames.getLast().getLayoutY()+30);
         tf_newUser.setPrefSize(tf_userName1.getPrefWidth(), tf_userName1.getPrefHeight());
-        tf_newUser.setStyle("-fx-background-color: #e7ebff; -fx-border-color: #022757; -fx-border-radius: 25px;");
         tf_newUser.setPromptText("Set your username " + userNumber);
+        MyTextField.maxLen20(tf_newUser);
         gp_background.getChildren().add(tf_newUser);
         tf_userNames.add(tf_newUser);
 
@@ -107,7 +116,7 @@ public class SignUpController {
     }
 
     /**
-     * Check inserted data and eventually store in the database
+     * SignUp: check inserted data and eventually store it in the database
      */
     @FXML
     void onSignUpButton() {
@@ -115,8 +124,6 @@ public class SignUpController {
         String groupID=tf_groupID.getText();
 
         if(checkEmptyFields())
-            return;
-        if(!checkLengthFields())
             return;
 
         if(!pf_passwordRepeated.getText().equals(password)){
@@ -143,25 +150,6 @@ public class SignUpController {
         }catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    private boolean checkLengthFields() {
-        Boolean tooLongFiled=tf_userNames.stream()
-                .map(user->user.getText().length())
-                .anyMatch(length->length>20);
-        if(tooLongFiled){
-            lb_message.setText("Usernames must be at last 20 characters");
-            return false;
-        }
-
-        if(tf_groupID.getText().length()>20){
-            lb_message.setText("GroupID must be at last 20 characters");
-            return false;
-        }
-        if(pf_password.getText().length()>20){
-            lb_message.setText("Password must be at last 20 characters");
-            return false;
-        }
-        return true;
     }
 
     private boolean checkEmptyFields(){
@@ -219,5 +207,9 @@ public class SignUpController {
             e.printStackTrace();
             System.out.println("FATAL ERROR, CHECK THE DATABASE usernames\nLAST GROUP ADDED IS "+groupID);
         }
+    }
+
+    public void setDatabase(DBConnection database) {
+        this.database = database;
     }
 }
