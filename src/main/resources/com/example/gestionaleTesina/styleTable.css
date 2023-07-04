@@ -4,3 +4,32 @@
     -fx-border-color: #022757;
     -fx-border-radius: 25px;
 }
+
+.table-view .placeholder {
+    -fx-background-color: #e7ebff;
+}
+
+.table-view .column-header {
+-fx-background-color: #e7ebff;
+  -fx-border-color: #012657;
+
+}
+
+.button {
+  -fx-background-color: #eb7ccb;
+  -fx-border-radius: 25px;
+  -fx-border-color: #d62090;
+  -fx-background-radius: 25px;
+  -fx-color: white;
+  -fx-text-align: center;
+  -fx-opacity: 0.78;
+  -fx-textFill: #022757;
+}
+
+#pane {
+  -fx-background-color: #e7ebff;
+}
+
+#anchorPane {
+  -fx-background-color: #e7ebff;
+}
