@@ -395,6 +395,12 @@ public class DBConnection {
             }
 
         }
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM favouriteoptions WHERE optionName = ?")) {
+            removeTravel.setString(1, optionName);
+            removeTravel.executeUpdate();
+        }
     }
 
     //To store->
@@ -518,9 +524,6 @@ public class DBConnection {
             insertRental.setString(3, optionName);
             insertRental.setInt(4, newComponent.getPosInTravelOption().get());
             if(newComponent.getName().isPresent()) insertRental.setString(5, newComponent.getName().get());
-            else insertRental.setString(5, null);
-
-            if(newComponent.getComponentName().isPresent()) insertRental.setString(5, newComponent.getComponentName().get());
             else insertRental.setNull(5, Types.VARCHAR);
 
             if(newComponent.getCheckInDate().isPresent()) insertRental.setDate(6, java.sql.Date.valueOf(newComponent.getCheckInDate().get()));

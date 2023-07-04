@@ -224,6 +224,12 @@ public class EditPageController {
             }
         }
 
+        //check if there is at least one component
+        if(componentsList.size()<1){
+            new Alert(Alert.AlertType.ERROR, "A travel option should contain at least one component.").showAndWait();
+            return;
+        }
+
         //delete the existing info about this option in the database Accommodation, Rental, Transport and traveloptions
         try{
             database.deleteTravelOption(travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName());

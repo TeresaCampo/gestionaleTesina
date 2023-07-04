@@ -40,6 +40,16 @@ public class TravelOption {
         this.components = components;
     }
 
+    public TravelOption(String groupID, String travelName, String optionName, DBConnection database) {
+        this.groupID = groupID;
+        this.travelName = travelName;
+        this.optionName = optionName;
+        this.tf_optionName=new TextField(optionName);
+        MyTextField.maxLen45(tf_optionName);
+        tf_optionName.setMaxWidth(150);
+        tf_optionName.setOnAction((h)-> updateTables(groupID, travelName, tf_optionName.getText()));
+    }
+
     void updateTables(String groupID, String travelName, String newTravelOptionName){
         System.out.println("provo ad aggironare");
         try {

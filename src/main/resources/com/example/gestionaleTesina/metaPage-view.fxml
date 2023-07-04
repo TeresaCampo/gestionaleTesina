@@ -55,9 +55,9 @@
       <Label fx:id="lb_meta" layoutX="24.0" layoutY="57.0" text="META:" />
       <ButtonBar layoutX="14.0" layoutY="366.0" prefHeight="40.0" prefWidth="221.0">
         <buttons>
-          <Button fx:id="newButton" minWidth="47.0" mnemonicParsing="false" prefHeight="26.0" text="New" />
+          <Button fx:id="newButton" minWidth="47.0" mnemonicParsing="false" onAction="#onNewButton" prefHeight="26.0" text="New" />
             <Button fx:id="editButton" minWidth="51.0" mnemonicParsing="false" onAction="#onEditShowButton" prefHeight="25.0" text="Edit / show" />
-            <Button fx:id="deleteButton" minWidth="51.0" mnemonicParsing="false" prefHeight="24.0" text="Delete" />
+            <Button fx:id="deleteButton" minWidth="51.0" mnemonicParsing="false" onAction="#onDeleteButton" prefHeight="24.0" text="Delete" />
         </buttons>
       </ButtonBar>
       <TableView fx:id="optionTable" layoutX="14.0" layoutY="235.0" prefHeight="130.0" prefWidth="283.0" scaleShape="false" stylesheets="@styleTable.css">

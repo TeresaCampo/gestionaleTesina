@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -107,9 +109,17 @@ public class MetaPageController {
         }
     }
     @FXML
-    void onNewButton(ActionEvent event) {
+    void onNewButton() {
         try {
-            main.changeScene("editPage-view.fxml");
+            TravelOption travelOptionToEdit= new TravelOption(travel.getGroupID(), travel.getTravelName(), "new travel option", database);
+
+            FXMLLoader loader = main.changeScene("editPage-view.fxml");
+            EditPageController editPageController = loader.getController();
+            editPageController.setGroup(group);
+            editPageController.setTravel(travel);
+            editPageController.setTravelOption(travelOptionToEdit);
+            editPageController.setDatabase(database);
+            editPageController.loadData();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("EDIT-PAGE NOT FOUND");
@@ -137,6 +147,23 @@ public class MetaPageController {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("FIRST-PAGE NOT FOUND");
+        }
+    }
+    @FXML
+    void onDeleteButton() {
+        try {
+            int selectedIndex = selectedIndex();
+            try {
+                TravelOption toBeDeleted = optionTable.getItems().get(selectedIndex);
+                database.deleteTravelOption(travel.getGroupID(), travel.getTravelName(), toBeDeleted.getOptionName());
+                travel.getOptions().remove(toBeDeleted);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Database Error\n Error while removing travel option" + optionTable.getItems().get(selectedIndex).getTravelName()).showAndWait();
+            }
+            optionTable.getItems().remove(selectedIndex);
+        } catch (NoSuchElementException e) {
+            new Alert(Alert.AlertType.WARNING, "No travel Selected\nPlease select one from the table.").showAndWait();
         }
     }
     /**
