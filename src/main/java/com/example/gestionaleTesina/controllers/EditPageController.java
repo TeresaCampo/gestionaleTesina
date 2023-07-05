@@ -20,7 +20,7 @@ public class EditPageController {
 
     private TreeSet<Button> lessButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
     private TreeSet<Button> plusButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
-    private TreeSet<OptionComponentsGraphic> componentsList=new TreeSet<>(Comparator.comparing((OptionComponentsGraphic c)-> c.getTf_name().getLayoutY()));
+    private TreeSet<TravelOptionComponent> componentsList=new TreeSet<>(Comparator.comparing((TravelOptionComponent c)-> c.getTf_name().getLayoutY()));
     private AddressApplication main= new AddressApplication();
     private DBConnection database;
     private TravelOption travelOption;
@@ -49,34 +49,6 @@ public class EditPageController {
             if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[hide listview]"))  background.getChildren().remove(componentsListView);
             else addComponent();});
 
-
-        /*
-        travelOption=new TravelOption("test", 20);
-        group.setUsers(new ArrayList<>());
-        group.getUsers().add("terry");
-        group.getUsers().add("otta");
-
-        travelOption.setGroupID("speriam");
-        travelOption.setTravelName("speriamDavvero");
-        travelOption.getComponents().add(new TravelOptionComponent("accommodation", "a", "agosto", "test", 2, "aleks", 100.0, "hotel Sirena", new Date(2023, Calendar.JULY, 1), null, null, null, null, true ));
-        travelOption.getComponents().add(new TravelOptionComponent("rental", "a", "agosto", "test", 1, "aleks", 100.0, "kayak", null, null, null, new Time(16, 45, 00), 7, true ));
-
-
-        for (TravelOptionComponent c : travelOption.getComponents()) {
-            plusButtonJustClicked=plusButtonList.last();
-            if (c.getComponentName().get().equals("transport")) {
-                addTransport(plusButtonJustClicked).initializeTransport(c);
-            }
-            if (c.getComponentName().get().equals("rental")) {
-                addRental(plusButtonJustClicked).initializeRental(c);
-            }
-            if (c.getComponentName().get().equals("accommodation")) {
-                addAccommodation(plusButtonJustClicked).initializeAccommodation(c);
-            }
-            createButtons();
-        }
-
-         */
     }
 
     void loadData(){
@@ -86,15 +58,8 @@ public class EditPageController {
         for (TravelOptionComponent c : travelOption.getComponents()) {
             System.out.println(plusButtonList.toString());
             plusButtonJustClicked=plusButtonList.last();
-            if (c.getComponentName().get().equals("transport")) {
-                addTransport(plusButtonJustClicked).initializeTransport(c);
-            }
-            if (c.getComponentName().get().equals("rental")) {
-                addRental(plusButtonJustClicked).initializeRental(c);
-            }
-            if (c.getComponentName().get().equals("accommodation")) {
-                addAccommodation(plusButtonJustClicked).initializeAccommodation(c);
-            }
+            c.addInitializedGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
+            componentsList.add(c);
             createButtons();
         }
     }
@@ -125,7 +90,7 @@ public class EditPageController {
                 .filter(b-> (b.getLayoutY()>=lessButton.getLayoutY() && b.getLayoutY()<=(lessButton.getLayoutY())+200))
                 .findFirst().get();
         lessButtonList.remove(buttonToBeRemoved);
-        OptionComponentsGraphic componentToBeRemoved= componentsList.stream()
+        TravelOptionComponent componentToBeRemoved= componentsList.stream()
                 .filter(b-> (b.getTf_name().getLayoutY()>=lessButton.getLayoutY() && b.getLayoutY()<=(lessButton.getLayoutY())+200))
                 .findFirst().get();
         componentsList.remove(componentToBeRemoved);
@@ -148,33 +113,24 @@ public class EditPageController {
                         el.setLayoutY(el.getLayoutY()+200);
                     }
         });
+        System.out.println(database.toString());
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[accommodation]")){
-            addAccommodation(plusButtonJustClicked);
+            TravelOptionComponent componentAccommodation= new Accommodation("Accommodation", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null, database,null, null);
+            componentAccommodation.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
+            componentsList.add(componentAccommodation);
         }
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[rental]")){
-            addRental(plusButtonJustClicked);
+            TravelOptionComponent componentRental= new Rental("Rental", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null, database,null);
+            componentRental.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
+            componentsList.add(componentRental);
         }
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[transport]")){
-            addTransport(plusButtonJustClicked);
+            TravelOptionComponent componentTransport= new Transport("Transport", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null,database,null, null, null);
+            componentTransport.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
+            componentsList.add(componentTransport);
         }
         createButtons();
         componentsListView.getSelectionModel().select("hide listview");
-    }
-
-    OptionComponentsGraphic addAccommodation(Button plusButton){
-        OptionComponentsGraphic componentAccommodation= new OptionComponentsGraphic(((int) plusButton.getLayoutX()), (int) (plusButton.getLayoutY()+plusButton.getPrefHeight()+10), background, "accommodation");
-        componentsList.add(componentAccommodation);
-        return componentAccommodation;
-    }
-    OptionComponentsGraphic addRental(Button plusButton){
-        OptionComponentsGraphic componentRental= new OptionComponentsGraphic(((int) plusButton.getLayoutX()), (int) (plusButton.getLayoutY()+plusButton.getPrefHeight()+10), background, "rental");
-        componentsList.add(componentRental);
-        return componentRental;
-    }
-    OptionComponentsGraphic addTransport(Button plusButton){
-        OptionComponentsGraphic componentTransport= new OptionComponentsGraphic(((int) plusButton.getLayoutX()), (int) (plusButton.getLayoutY()+plusButton.getPrefHeight()+10), background, "transport");
-        componentsList.add(componentTransport);
-        return componentTransport;
     }
 
     /**
@@ -239,56 +195,25 @@ public class EditPageController {
             System.out.println("FATAL ERROR, PREVIOUS OPTION CONFIGURATION IS LOST");
         }
 
-        //set new travelName
+        //update travelOption
         travelOption.setOptionName(tf_optionName.getText());
-        //set new components and store them in the database
-        TreeSet<TravelOptionComponent> newComponents = new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
-        Integer tmpPosInTravelOption = 1;
-        System.out.println("DEBUG SAVE-> componentsList "+componentsList.toString());
-        for (OptionComponentsGraphic c : componentsList) {
-            TravelOptionComponent newComponent = null;
-            System.out.println(c.getLb_kindOfComponent().getText());
-            if ("Accommodation".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertAccommodation(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
-                try {
-                    database.storeAccommodation(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Accommodation").showAndWait();
-                }
-            }
-            if ("Rental".equals(c.getLb_kindOfComponent().getText())) {
-                newComponent = c.convertRental(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
-                try {
-                    database.storeRental(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Rental").showAndWait();
-                }
-            }
-            if ("Transport".equals(c.getLb_kindOfComponent().getText())) {
-                System.out.println("Transport name: "+c.getTf_name().getText());
-                newComponent = c.convertTransport(travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText(), tmpPosInTravelOption);
-                System.out.println("Transport name: "+newComponent.getName().get());
-                try {
-                    database.storeTransport(newComponent, travelOption.getGroupID(), travelOption.getTravelName(), tf_optionName.getText());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing Transport").showAndWait();
-                }
-            }
-            ++tmpPosInTravelOption;
-            newComponents.add(newComponent);
-        }
-        travelOption.setComponents(newComponents);
-        //set total cost
+        travelOption.setComponents(componentsList);
         travelOption.setTotalCost(
-                newComponents.stream()
+                componentsList.stream()
                         .mapToDouble(el -> el.getPrice().orElse(0.0))
                         .sum()
         );
-        //set per person cost
-        travelOption.setPerPersonCost(travelOption.getTotalCost()/group.getTravels().size());
+        travelOption.setPerPersonCost(travelOption.getTotalCost()/group.getUsers().size());
+
+        //store componentsList in the database
+        Integer tmpPosInTravelOption = 1;
+        System.out.println("DEBUG SAVE-> componentsList "+componentsList.toString());
+        for (TravelOptionComponent c : componentsList) {
+            c.setOptionName(tf_optionName.getText());
+            c.setPosInTravelOption(tmpPosInTravelOption);
+            c.storeInDB();
+            ++tmpPosInTravelOption;
+        }
 
         //store travelOption
         try {

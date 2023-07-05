@@ -1,245 +1,244 @@
 package com.example.gestionaleTesina.classes;
 
-import java.sql.Time;
+import com.example.gestionaleTesina.controllers.DBConnection;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 
-public class TravelOptionComponent {
+public abstract class TravelOptionComponent {
+    //to store in database
+    protected DBConnection database;
     //key
     private String componentName;
     private String groupID;
     private String travelName;
     private String optionName;
     private Integer posInTravelOption;
-    private String payed;
-    private Double price;
 
     //common one
-    private String name;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private Time checkInTime;
-    private Time checkOutTime;
-    //Additional one
-    private Integer numberOfRooms;
-    private boolean privateToilet;
-    private String kindOfRental;
-    private String from;
-    private String to;
-    private String kindOfTransport;
+    protected Optional<String> name;
+    private Optional<LocalDate> checkInDate;
+    private Optional<LocalDate> checkOutDate;
+    private Optional<LocalTime> checkInTime;
+    private Optional<LocalTime> checkOutTime;
+    private Optional<Double> price;
 
-    /**
-     * Constructor for accommodation
-     */
-    public TravelOptionComponent(String componentName,String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, Time checkInTime, Time checkOutTime, Integer numberOfRooms, boolean privateToilet) {
+
+    //graphicComponent
+    int layoutX;
+    int layoutY;
+    protected AnchorPane background;
+    protected DatePicker dp_from;
+    protected DatePicker dp_to;
+    protected Label lb_checkIn;
+    protected Label lb_checkOut;
+    protected Label lb_from;
+    protected Label lb_nOfRoom;
+    protected Label lb_price;
+    protected Label lb_to;
+    protected TextField tf_name;
+    protected TextField tf_hourCheckIn;
+    protected TextField tf_hourCheckOut;
+    protected TextField tf_minuteCheckIn;
+    protected TextField tf_minuteCheckOut;
+    protected TextField tf_price;
+    protected Label tf_timeCheckIn;
+    protected Label tf_timeCheckOut;
+    protected javafx.scene.control.Label lb_kindOfComponent;
+
+
+    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, LocalTime checkInTime, LocalTime checkOutTime, DBConnection database) {
         this.componentName=componentName;
         this.groupID = groupID;
         this.travelName = travelName;
         this.optionName = optionName;
-        this.posInTravelOption = posInTravelOption;
-        this.payed = payed;
-        this.price = price;
-        this.name = name;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
-
-        this.numberOfRooms=numberOfRooms;
-        this.privateToilet=privateToilet;
+        this.posInTravelOption=posInTravelOption;
+        this.price = Optional.ofNullable(price);
+        this.name = Optional.ofNullable(name);
+        this.checkInDate = Optional.ofNullable(checkInDate);
+        this.checkOutDate = Optional.ofNullable(checkOutDate);
+        this.checkInTime = Optional.ofNullable(checkInTime);
+        this.checkOutTime = Optional.ofNullable(checkOutTime);
+        this.database=database;
     }
 
+    public abstract void addEmptyGraphicComponent(int layoutX, int layoutY, AnchorPane background);
+    public abstract void addInitializedGraphicComponent(int layoutX, int layoutY, AnchorPane background);
+    void initializeCommonGraphicComponent(){
+        System.out.println(1);
+        name.ifPresent(h->tf_name.setText(name.get()));
+        System.out.println(2);
+        checkInDate.ifPresent(h->dp_from.setValue(checkInDate.get()));
+        System.out.println(3);
+        checkOutDate.ifPresent(h->dp_to.setValue(checkOutDate.get()));
+        System.out.println(4);
+        checkInTime.ifPresent(h-> {
+            tf_hourCheckIn.setText(String.valueOf(checkInTime.get().getHour()));
+            tf_minuteCheckIn.setText(String.valueOf(checkInTime.get().getMinute()));
+        });
+        System.out.println(5);
+        System.out.println(checkOutTime.toString());
+        checkOutTime.ifPresent(h-> {
+            tf_hourCheckOut.setText(String.valueOf(checkOutTime.get().getHour()));
+            tf_minuteCheckOut.setText(String.valueOf(checkOutTime.get().getMinute()));
+        });
+        System.out.println(6);
+
+        price.ifPresent(h->tf_price.setText(String.valueOf(price.get())));
+
+    }
+
+
+    void bindCommonGraphicElementToAttributes(){
+        tf_name.textProperty().addListener((observable, oldValue, newValue) -> name=Optional.ofNullable(newValue));
+        tf_hourCheckIn.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                checkInTime = Optional.ofNullable(converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn));
+                tf_hourCheckIn.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+            }
+            catch (Exception e){
+                tf_hourCheckIn.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return;
+            }
+        });
+        tf_minuteCheckIn.textProperty().addListener((observable, oldValue, newValue) -> {
+            try{
+                checkInTime=Optional.ofNullable(converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn));
+                tf_minuteCheckIn.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+            }catch (Exception e){
+                tf_minuteCheckIn.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return;
+            }
+        });
+        tf_hourCheckOut.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                checkOutTime=Optional.ofNullable(converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut));
+                tf_hourCheckOut.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+            }
+            catch (Exception e){
+                tf_hourCheckOut.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return;
+            }
+        });
+        tf_minuteCheckOut.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                checkOutTime = Optional.ofNullable(converterTF_Time(tf_hourCheckOut, tf_minuteCheckOut));
+                tf_minuteCheckOut.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+            } catch (Exception e) {
+                tf_minuteCheckOut.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return;
+            }
+        });
+        dp_from.valueProperty().addListener((observable, oldValue, newValue) -> checkInDate=Optional.ofNullable(newValue));
+        dp_to.valueProperty().addListener((observable, oldValue, newValue) -> checkOutDate=Optional.ofNullable(newValue));
+        tf_price.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                price = Optional.ofNullable(converterTF_Double(tf_price));
+            }
+            catch (Exception e){
+                tf_price.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return;
+            }
+            tf_price.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+        });
+
+    }
+
+    public abstract void storeInDB();
+    /**
+     * to convert from graphic component to TravelOptionComponent
+     */
+    Double converterTF_Double(TextField tf) throws NumberFormatException{
+        if(tf.getText().isEmpty()) return null;
+        return parseDouble(tf.getText());
+
+    }
+
+    java.sql.Date converterDP_Date(DatePicker dp){
+        if(dp.getValue()==null) return null;
+        return java.sql.Date.valueOf( dp.getValue() );
+    }
+
+    LocalTime converterTF_Time(TextField tfHOur, TextField tfMinute) throws DateTimeException, NumberFormatException {
+        if(tfHOur.getText().isEmpty() && tfMinute.getText().isEmpty()) return null;
+        if(!tfHOur.getText().isEmpty() && tfMinute.getText().isEmpty()) return LocalTime.of(parseInt(tfHOur.getText()), 0, 0);
+        if(tfHOur.getText().isEmpty() && !tfMinute.getText().isEmpty())  {
+            parseInt(tfMinute.getText());
+            return null;
+        }
+        return LocalTime.of(parseInt(tfHOur.getText()), parseInt(tfMinute.getText()), 0);
+    }
+
+    Integer converterTF_integer(TextField tf){
+        if(tf.getText().isEmpty()) return null;
+        return parseInt(tf.getText());
+    }
 
     /**
-     * Constructor for transport
+     * getter and setter
      */
-    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, Time checkInTime, Time checkOutTime, String from, String to, String kindOfTransport) {
-        this.componentName=componentName;
-        this.groupID = groupID;
-        this.travelName = travelName;
-        this.optionName = optionName;
-        this.posInTravelOption = posInTravelOption;
-        this.payed = payed;
-        this.price = price;
-        this.name = name;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
-
-        this.kindOfTransport=kindOfTransport;
-        this.from=from;
-        this.to=to;
+    public TextField getTf_name() {
+        return tf_name;
     }
 
-    /**
-     * Constructor for rental
-     */
-    public TravelOptionComponent(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, String payed, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, Time checkInTime, Time checkOutTime, String kindOfRental) {
-        this.componentName=componentName;
-        this.groupID = groupID;
-        this.travelName = travelName;
+    public int getLayoutY() {
+        return layoutY;
+    }
+    public void setOptionName(String optionName) {
         this.optionName = optionName;
-        this.posInTravelOption = posInTravelOption;
-        this.payed = payed;
-        this.price = price;
-        this.name = name;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
-
-        this.kindOfRental=kindOfRental;
     }
 
-
-
-    public Optional<String> getGroupID() {
-        return Optional.ofNullable(groupID);
+    public String getGroupID() {
+        return groupID;
     }
 
     public void setGroupID(String groupID) {
         this.groupID = groupID;
     }
 
-    public Optional<String> getTravelName() {
-        return Optional.ofNullable(travelName);
+    public String getTravelName() {
+        return travelName;
     }
 
-    public void setTravelName(String travelName) {
-        this.travelName = travelName;
+    public String getOptionName() {
+        return optionName;
+    }
+    public Optional<String> getName() {
+        return name;
+    }
+    public void setName(Optional<String> name) {
+        this.name = name;
+    }
+    public Optional<LocalDate> getCheckInDate() {
+        return checkInDate;
+    }
+    public Optional<LocalDate> getCheckOutDate() {
+        return checkOutDate;
+    }
+    public Optional<LocalTime> getCheckInTime() {
+        return checkInTime;
+    }
+    public Optional<LocalTime> getCheckOutTime() {
+        return checkOutTime;
     }
 
-    public Optional<String> getOptionName() {
-        return Optional.ofNullable(optionName);
+    public Optional<Double> getPrice() {
+        return price;
     }
 
-    public void setOptionName(String optionName) {
-        this.optionName = optionName;
-    }
-
-    public Optional<Integer> getPosInTravelOption() {
-        return Optional.ofNullable(posInTravelOption);
+    public Integer getPosInTravelOption() {
+        return posInTravelOption;
     }
 
     public void setPosInTravelOption(Integer posInTravelOption) {
         this.posInTravelOption = posInTravelOption;
-    }
-
-    public Optional<String> getPayed() {
-        return Optional.ofNullable(payed);
-    }
-
-    public void setPayed(String payed) {
-        this.payed = payed;
-    }
-
-    public Optional<Double> getPrice() {
-        return Optional.ofNullable(price);
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Optional<String> getName() {
-        return Optional.ofNullable(name);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Optional<LocalDate> getCheckInDate() {
-        return Optional.ofNullable(checkInDate);
-    }
-
-    public void setCheckInDate(LocalDate checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public Optional<LocalDate> getCheckOutDate() {
-        return Optional.ofNullable(checkOutDate);
-    }
-
-    public void setCheckOutDate(LocalDate checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public Optional<Time> getCheckInTime() {
-        return Optional.ofNullable(checkInTime);
-    }
-
-    public void setCheckInTime(Time checkInTime) {
-        this.checkInTime = checkInTime;
-    }
-
-    public Optional<Time> getCheckOutTime() {
-        return Optional.ofNullable(checkOutTime);
-    }
-
-    public void setCheckOutTime(Time checkOutTime) {
-        this.checkOutTime = checkOutTime;
-    }
-
-    public Optional<Integer> getNumberOfRooms() {
-        return Optional.ofNullable(numberOfRooms);
-    }
-
-    public void setNumberOfRooms(int numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
-
-    public Optional<Boolean> isPrivateToilet() {
-        return Optional.ofNullable(privateToilet);
-    }
-
-    public void setPrivateToilet(boolean privateToilet) {
-        this.privateToilet = privateToilet;
-    }
-
-    public Optional<String> getKindOfRental() {
-        return Optional.ofNullable(kindOfRental);
-    }
-
-    public void setKindOfRental(String kindOfRental) {
-        this.kindOfRental = kindOfRental;
-    }
-
-    public Optional<String> getFrom() {
-        return Optional.ofNullable(from);
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public Optional<String> getTo() {
-        return Optional.ofNullable(to);
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    public Optional<String> getComponentName() {
-        return Optional.ofNullable(componentName);
-    }
-
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
-    }
-
-    public void setNumberOfRooms(Integer numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
-
-    public Optional<String> getKindOfTransport() {
-        return Optional.ofNullable(kindOfTransport);
-    }
-
-    public void setKindOfTransport(String kindOfTransport) {
-        this.kindOfTransport = kindOfTransport;
     }
 }
 

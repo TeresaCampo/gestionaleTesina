@@ -5,8 +5,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 
 public class MyTextField {
-    TextField tf;
-
     public static void maxLen20(TextField tf){
         tf.setTextFormatter(new TextFormatter<>(change-> {
                     if (change.getControlNewText().length() <= 20) {
@@ -46,5 +44,4 @@ public class MyTextField {
                 })
         );
     }
-
 }

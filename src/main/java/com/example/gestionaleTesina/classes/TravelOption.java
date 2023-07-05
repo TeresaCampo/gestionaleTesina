@@ -20,7 +20,7 @@ public class TravelOption {
     private double totalCost;
     private double perPersonCost;
     private String comment;
-    private TreeSet<TravelOptionComponent> components= new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption().get()));
+    private TreeSet<TravelOptionComponent> components= new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption()));
     private TextField tf_optionName;
     /**
      *Create travelOption

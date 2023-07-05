@@ -101,7 +101,8 @@ public class MetaPageController {
             editPageController.setDatabase(database);
             editPageController.loadData();
         } catch (NoSuchElementException e) {
-            new Alert(Alert.AlertType.WARNING, "No travel Selected\nPlease select one from the table.").showAndWait();
+            e.printStackTrace();
+            new Alert(Alert.AlertType.WARNING, "No travel option Selected\nPlease select one from the table.").showAndWait();
         }
         catch (Exception e) {
             e.printStackTrace();
