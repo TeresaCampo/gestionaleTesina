@@ -38,17 +38,26 @@ public class EditPageController {
         //initialize plusButtonList
         plusButtonList.add(firstPlusButton);
         firstPlusButton.setOnAction(h->onPlusButton(firstPlusButton));    firstPlusButton.setPrefWidth(25);
-        //initialize components
+        createListView(firstPlusButton.getLayoutY());
+
+    }
+
+    /**
+     * Create a new listView to choose next component
+     * @param layoutY
+     */
+    void createListView(double layoutY){
         componentsListView= new ListView<>();
         componentsListView.getItems().add("Accommodation");
         componentsListView.getItems().add("Transport");
         componentsListView.getItems().add("Rental");
         componentsListView.getItems().add("Hide Listview");
-        componentsListView.setMaxHeight(90);    componentsListView.setLayoutX(firstPlusButton.getLayoutX()+firstPlusButton.getPrefWidth()+5);
+        componentsListView.setMaxHeight(90);
+        componentsListView.setLayoutX(firstPlusButton.getLayoutX()+firstPlusButton.getPrefWidth()+5);   componentsListView.setLayoutY(layoutY);
         componentsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(componentsListView.getSelectionModel().getSelectedItems().toString());
             if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Hide Listview]"))  background.getChildren().remove(componentsListView);
             else addComponent();});
-
     }
 
     void loadData(){
@@ -69,8 +78,9 @@ public class EditPageController {
      */
     void onPlusButton(Button plusButton){
         plusButtonJustClicked=plusButton;
-        componentsListView.setLayoutY(plusButtonJustClicked.getLayoutY());
-        if(!background.getChildren().contains(componentsListView))  background.getChildren().add(componentsListView);
+        createListView(plusButtonJustClicked.getLayoutY());
+        background.getChildren().add(componentsListView);
+        //if(!background.getChildren().contains(componentsListView))  background.getChildren().add(componentsListView);
     }
 
     /**
@@ -130,7 +140,7 @@ public class EditPageController {
             componentsList.add(componentTransport);
         }
         createButtons();
-        componentsListView.getSelectionModel().select("Hide Listview");
+        background.getChildren().remove(componentsListView);
     }
 
     /**
