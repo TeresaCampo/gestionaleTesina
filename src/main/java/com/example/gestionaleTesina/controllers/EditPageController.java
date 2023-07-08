@@ -115,7 +115,7 @@ public class EditPageController {
     }
 
     /**
-     * Add a new OptionComponentGraphic.
+     * Add a new OptionComponentGraphic
      */
     void addComponent(){
         background.getChildren().forEach(el-> {
