@@ -17,11 +17,12 @@ public class EditPageController {
     @FXML
     private Button firstPlusButton;
     private Button plusButtonJustClicked;
+    private Button lessButtonJustClicked;
 
-    private TreeSet<Button> lessButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
-    private TreeSet<Button> plusButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
-    private TreeSet<TravelOptionComponent> componentsList=new TreeSet<>(Comparator.comparing((TravelOptionComponent c)-> c.getTf_name().getLayoutY()));
-    private AddressApplication main= new AddressApplication();
+    private final TreeSet<Button> lessButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
+    private final TreeSet<Button> plusButtonList=new TreeSet<>(Comparator.comparing((Button b)-> b.getLayoutY()));
+    private final TreeSet<TravelOptionComponent> componentsList=new TreeSet<>(Comparator.comparing((TravelOptionComponent c)-> c.getTf_name().getLayoutY()));
+    private final AddressApplication main= new AddressApplication();
     private DBConnection database;
     private TravelOption travelOption;
     private Travel travel;
@@ -37,14 +38,16 @@ public class EditPageController {
     public void initialize(){
         //initialize plusButtonList
         plusButtonList.add(firstPlusButton);
-        firstPlusButton.setOnAction(h->onPlusButton(firstPlusButton));    firstPlusButton.setPrefWidth(25);
-        createListView(firstPlusButton.getLayoutY());
-
+        firstPlusButton.setOnAction(h->{
+            plusButtonJustClicked=firstPlusButton;
+            onPlusButton();
+        });
+        firstPlusButton.setPrefWidth(25);
     }
 
     /**
      * Create a new listView to choose next component
-     * @param layoutY
+     * @param layoutY Y coordinates to display the listView
      */
     void createListView(double layoutY){
         componentsListView= new ListView<>();
@@ -55,9 +58,9 @@ public class EditPageController {
         componentsListView.setMaxHeight(90);
         componentsListView.setLayoutX(firstPlusButton.getLayoutX()+firstPlusButton.getPrefWidth()+5);   componentsListView.setLayoutY(layoutY);
         componentsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(componentsListView.getSelectionModel().getSelectedItems().toString());
-            if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Hide Listview]"))  background.getChildren().remove(componentsListView);
-            else addComponent();});
+            background.getChildren().remove(componentsListView);
+            if(!componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Hide Listview]"))     addComponent();
+            });
     }
 
     void loadData(){
@@ -65,65 +68,69 @@ public class EditPageController {
         tf_optionName.setText(travelOption.getOptionName());
         //initialize existing components
         for (TravelOptionComponent c : travelOption.getComponents()) {
-            System.out.println(plusButtonList.toString());
             plusButtonJustClicked=plusButtonList.last();
             c.addInitializedGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
             componentsList.add(c);
             createButtons();
         }
+        System.out.println("Data loaded successfully!\nYou're ready to edit");
     }
 
     /**
      * Set plusButtonJustClicked and display listView components
      */
-    void onPlusButton(Button plusButton){
-        plusButtonJustClicked=plusButton;
+    void onPlusButton(){
+        background.getChildren().remove(componentsListView);
         createListView(plusButtonJustClicked.getLayoutY());
         background.getChildren().add(componentsListView);
-        //if(!background.getChildren().contains(componentsListView))  background.getChildren().add(componentsListView);
     }
 
     /**
      * Remove the selected OptionComponentGraphic
-     * @param lessButton just clicked lessButton
      */
-    void onLessButton(Button lessButton){
+    void onLessButton(){
         //remove elements from layout
-        background.getChildren().removeIf(el-> (el.getLayoutY()>=lessButton.getLayoutY()) && el.getLayoutY()<(lessButton.getLayoutY())+200);
+        background.getChildren().removeIf(el-> (el.getLayoutY()>=lessButtonJustClicked.getLayoutY()) && el.getLayoutY()<(lessButtonJustClicked.getLayoutY())+200);
 
         //remove elements from lists
         Button buttonToBeRemoved=plusButtonList.stream()
-                .filter(b-> (b.getLayoutY()>=lessButton.getLayoutY() && b.getLayoutY()<(lessButton.getLayoutY())+200))
+                .filter(b-> (b.getLayoutY()>=lessButtonJustClicked.getLayoutY() && b.getLayoutY()<(lessButtonJustClicked.getLayoutY())+200))
                 .findFirst().get();
         plusButtonList.remove(buttonToBeRemoved);
         buttonToBeRemoved=lessButtonList.stream()
-                .filter(b-> (b.getLayoutY()>=lessButton.getLayoutY() && b.getLayoutY()<=(lessButton.getLayoutY())+200))
+                .filter(b-> (b.getLayoutY()>=lessButtonJustClicked.getLayoutY() && b.getLayoutY()<=(lessButtonJustClicked.getLayoutY())+200))
                 .findFirst().get();
         lessButtonList.remove(buttonToBeRemoved);
         TravelOptionComponent componentToBeRemoved= componentsList.stream()
-                .filter(b-> (b.getTf_name().getLayoutY()>=lessButton.getLayoutY() && b.getLayoutY()<=(lessButton.getLayoutY())+200))
+                .filter(b-> (b.getTf_name().getLayoutY()>=lessButtonJustClicked.getLayoutY() && b.getLayoutY()<=(lessButtonJustClicked.getLayoutY())+200))
                 .findFirst().get();
         componentsList.remove(componentToBeRemoved);
-        System.out.println("DEBUG LESSBUTTON-> lessButton dopo "+lessButtonList.toString()+"\nplusButton dopo "+plusButtonList.toString()+"\ncomponents dopo"+componentsList.toString());
 
-        //translate elements below
+        //swipe up other elements
         background.getChildren().forEach(el-> {
-                    if(el.getLayoutY()>=lessButton.getLayoutY()) {
+                    if(el.getLayoutY()>=lessButtonJustClicked.getLayoutY()) {
                         el.setLayoutY(el.getLayoutY()-200);
                     }
         });
+        componentsList.stream()
+                .forEach(el-> el.updateLayoutY());
+        System.out.println("DEBUG LESSBUTTON-> "+ componentsList);
     }
 
     /**
-     * Add a new OptionComponentGraphic.
+     * Add a new OptionComponentGraphic
      */
     void addComponent(){
+        //swipe down other components and update their layoutY
         background.getChildren().forEach(el-> {
                     if(el.getLayoutY()>plusButtonJustClicked.getLayoutY()) {
                         el.setLayoutY(el.getLayoutY()+200);
                     }
         });
-        System.out.println(database.toString());
+        componentsList.stream()
+                .forEach(el-> el.updateLayoutY());
+
+        //add the selected kind of TravelOptionComponent
         if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Accommodation]")){
             TravelOptionComponent componentAccommodation= new Accommodation("Accommodation", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null, database,null, null);
             componentAccommodation.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
@@ -140,7 +147,7 @@ public class EditPageController {
             componentsList.add(componentTransport);
         }
         createButtons();
-        background.getChildren().remove(componentsListView);
+        System.out.println("DEBUG PLUSBUTTON-> "+ componentsList);
     }
 
     /**
@@ -151,12 +158,18 @@ public class EditPageController {
         Button nextPlusButton=new Button("+");  nextPlusButton.setPrefHeight(26);    nextPlusButton.setPrefWidth(26);
         nextPlusButton.setLayoutX(plusButtonJustClicked.getLayoutX()); nextPlusButton.setLayoutY(plusButtonJustClicked.getLayoutY()+200);
         plusButtonList.add(nextPlusButton); background.getChildren().add(nextPlusButton);
-        nextPlusButton.setOnAction(h-> onPlusButton(nextPlusButton));
+        nextPlusButton.setOnAction(h-> {
+            plusButtonJustClicked=nextPlusButton;
+            onPlusButton();
+        });
 
         Button nextLessButton=new Button("-");  nextLessButton.setPrefHeight(26);    nextLessButton.setPrefWidth(26);
         nextLessButton.setLayoutX(plusButtonJustClicked.getLayoutX()+plusButtonJustClicked.getPrefWidth()+10); nextLessButton.setLayoutY(plusButtonJustClicked.getLayoutY()+1);
         lessButtonList.add(nextLessButton); background.getChildren().add(nextLessButton);
-        nextLessButton.setOnAction(h-> onLessButton(nextLessButton));
+        nextLessButton.setOnAction(h-> {
+            lessButtonJustClicked=nextLessButton;
+            onLessButton();
+        });
     }
 
     @FXML
@@ -217,7 +230,7 @@ public class EditPageController {
 
         //store componentsList in the database
         Integer tmpPosInTravelOption = 1;
-        System.out.println("DEBUG SAVE-> componentsList "+componentsList.toString());
+        System.out.println("DEBUG SAVE-> componentsList "+ componentsList);
         for (TravelOptionComponent c : componentsList) {
             c.setOptionName(tf_optionName.getText());
             c.setPosInTravelOption(tmpPosInTravelOption);
@@ -261,10 +274,7 @@ public class EditPageController {
             checkData.setString(3, optionName);
 
             ResultSet optionFound = checkData.executeQuery();
-            if (optionFound.isBeforeFirst()) {
-                return true;
-            }
-            return false;
+            return optionFound.isBeforeFirst();
         }
     }
 
@@ -272,9 +282,6 @@ public class EditPageController {
      * getter and setter
      *
      */
-    public TravelOption getTravelOption() {
-        return travelOption;
-    }
     public void setTravelOption(TravelOption travelOption) {
         this.travelOption = travelOption;
     }
@@ -293,10 +300,6 @@ public class EditPageController {
 
     public void setGroup(Group group) {
         this.group = group;
-    }
-
-    public Travel getTravel() {
-        return travel;
     }
 
     public void setTravel(Travel travel) {

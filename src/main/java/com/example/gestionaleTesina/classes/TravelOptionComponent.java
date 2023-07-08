@@ -72,27 +72,18 @@ public abstract class TravelOptionComponent {
     public abstract void addEmptyGraphicComponent(int layoutX, int layoutY, AnchorPane background);
     public abstract void addInitializedGraphicComponent(int layoutX, int layoutY, AnchorPane background);
     void initializeCommonGraphicComponent(){
-        System.out.println(1);
         name.ifPresent(h->tf_name.setText(name.get()));
-        System.out.println(2);
         checkInDate.ifPresent(h->dp_from.setValue(checkInDate.get()));
-        System.out.println(3);
         checkOutDate.ifPresent(h->dp_to.setValue(checkOutDate.get()));
-        System.out.println(4);
         checkInTime.ifPresent(h-> {
             tf_hourCheckIn.setText(String.valueOf(checkInTime.get().getHour()));
             tf_minuteCheckIn.setText(String.valueOf(checkInTime.get().getMinute()));
         });
-        System.out.println(5);
-        System.out.println(checkOutTime.toString());
         checkOutTime.ifPresent(h-> {
             tf_hourCheckOut.setText(String.valueOf(checkOutTime.get().getHour()));
             tf_minuteCheckOut.setText(String.valueOf(checkOutTime.get().getMinute()));
         });
-        System.out.println(6);
-
         price.ifPresent(h->tf_price.setText(String.valueOf(price.get())));
-
     }
 
 
@@ -181,6 +172,9 @@ public abstract class TravelOptionComponent {
         return parseInt(tf.getText());
     }
 
+    public void updateLayoutY(){
+        layoutY=(int)lb_kindOfComponent.getLayoutY();
+    }
     /**
      * getter and setter
      */
@@ -191,6 +185,11 @@ public abstract class TravelOptionComponent {
     public int getLayoutY() {
         return layoutY;
     }
+
+    public void setLayoutY(int layoutY) {
+        this.layoutY = layoutY;
+    }
+
     public void setOptionName(String optionName) {
         this.optionName = optionName;
     }
@@ -239,6 +238,18 @@ public abstract class TravelOptionComponent {
 
     public void setPosInTravelOption(Integer posInTravelOption) {
         this.posInTravelOption = posInTravelOption;
+    }
+
+    public Label getLb_kindOfComponent() {
+        return lb_kindOfComponent;
+    }
+
+    @Override
+    public String toString() {
+        return "TravelOptionComponent{" +
+                "componentName='" + componentName + '\'' +
+                "layoutY="+layoutY+
+                '}';
     }
 }
 
