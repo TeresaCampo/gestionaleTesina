@@ -12,6 +12,9 @@ import java.sql.*;
 import java.util.NoSuchElementException;
 
 public class FirstPageController {
+
+    @FXML
+    private ComboBox<String> cb_GroupMember;
     @FXML
     private TableView<Travel> tableTravels;
     @FXML
@@ -42,6 +45,7 @@ public class FirstPageController {
             group=database.loadUsernames(group);
             group=database.loadTravels(group);
             tableTravels.setItems(FXCollections.observableArrayList(group.getTravels()));
+            cb_GroupMember.setItems(FXCollections.observableArrayList(group.getUsers()));
         }catch (SQLException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error\nError while loading group usernames and travels.").showAndWait();

@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class MetaPageController {
-
+    @FXML
+    private ComboBox<String> cb_GroupMember;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -60,7 +61,7 @@ public class MetaPageController {
     public void initialize(){
         tv_tabOptions.setCellValueFactory(new PropertyValueFactory<>("tf_optionName"));
         optionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showTravelOptionDetails(newValue));
-        //clear travelOption details.
+        //clear travelOption details
         showTravelOptionDetails(null);
     }
 
@@ -85,7 +86,8 @@ public class MetaPageController {
      * Load data from the database and display it in the tableview.
      */
     public void loadData() {
-            optionTable.setItems(FXCollections.observableArrayList(travel.getOptions()));
+        optionTable.setItems(FXCollections.observableArrayList(travel.getOptions()));
+        cb_GroupMember.setItems(FXCollections.observableArrayList(group.getUsers()));
     }
 
     @FXML
