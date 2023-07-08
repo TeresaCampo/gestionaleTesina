@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,51 +14,61 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="581.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.MetaPageController">
+<AnchorPane prefHeight="406.0" prefWidth="594.0" style="-fx-background-color: #e7ebff;" stylesheets="@styleMetaPage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.MetaPageController">
    <children>
-      <AnchorPane fx:id="anchorPane" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;">
+      <ImageView fitHeight="400.0" fitWidth="600.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/vacanze.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="anchorPane" prefHeight="38.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;">
          <children>
-            <Button fx:id="groupMembersButton" layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="GROUP MEMEBERS" AnchorPane.topAnchor="6.0" />
-            <Button layoutX="523.0" layoutY="6.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="34.0" prefWidth="66.0" text="LOGOUT" AnchorPane.topAnchor="6.0" />
+            <Button layoutX="526.0" layoutY="5.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="27.0" prefWidth="66.0" text="Logout" textFill="#022757" AnchorPane.topAnchor="5.0">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
             <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/2023-06-12.png" />
+                  <Image url="@img/groupimage_preview_rev_1.png" />
                </image>
             </ImageView>
-            <Button layoutX="450.0" layoutY="6.0" mnemonicParsing="false" onAction="#onBackButton" prefHeight="34.0" prefWidth="66.0" text="BACK" />
+            <Button layoutX="464.0" layoutY="5.0" mnemonicParsing="false" onAction="#onBackButton" opacity="0.78" prefHeight="27.0" prefWidth="55.0" text="Back" textAlignment="CENTER" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <ComboBox fx:id="cb_GroupMember" layoutX="43.0" layoutY="6.0" prefHeight="26.0" prefWidth="126.0" promptText="Group Member" style="-fx-background-color: #a0bdff;" />
          </children>
       </AnchorPane>
       <Text layoutX="24.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text layoutX="26.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <TextArea fx:id="ta_info" layoutX="24.0" layoutY="83.0" prefHeight="114.0" prefWidth="538.0" text="Here the steps to organize your trip:&#10;       &#10;        1.  Create various travel options&#10;        2.  Compare them and choose the one that suits you best&#10;        3.  Make it your preferred choice and complete the preparations by adding the final details&#10;" />
-      <Label layoutY="205.0" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" text="   OPTIONS" textFill="#022757">
+      <TextArea fx:id="ta_info" layoutX="119.0" layoutY="91.0" prefHeight="87.0" prefWidth="349.0" text="Here the steps to organize your trip:&#10;        1.  Create travel options&#10;        2.  Compare them and choose the one that suits you best&#10;        3.  Complete the preparations by adding the final details&#10;">
          <font>
-            <Font name="Segoe UI Semibold" size="13.0" />
+            <Font name="Arial Italic" size="12.0" />
+         </font></TextArea>
+      <Label layoutY="209.0" prefHeight="26.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" text="   OPTIONS" textFill="#022757">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
          </font>
       </Label>
-      <ScrollBar fx:id="scrollbar_options" layoutY="235.0" orientation="VERTICAL" prefHeight="162.0" prefWidth="14.0" />
-      <AnchorPane layoutX="294.0" layoutY="235.0" prefHeight="162.0" prefWidth="304.0">
-         <children>
-            <Label layoutX="30.0" layoutY="14.0" text="Option:" />
-            <Label layoutX="32.0" layoutY="32.0" text="From:" />
-            <Label layoutX="30.0" layoutY="56.0" text="Price:" />
-            <Label layoutX="31.0" layoutY="74.0" prefHeight="18.0" prefWidth="90.0" text="Price per person:" />
-            <Label layoutX="25.0" layoutY="105.0" text="Comment:" />
-            <Label fx:id="lb_option" layoutX="85.0" layoutY="14.0" text="Label" />
-            <Label fx:id="lb_from" layoutX="86.0" layoutY="33.0" text="Label" />
-            <Label fx:id="lb_price" layoutX="72.0" layoutY="56.0" text="Label" />
-            <Label fx:id="lb_pricePerson" layoutX="131.0" layoutY="74.0" text="Label" />
-            <Label layoutX="93.0" layoutY="105.0" prefHeight="46.0" prefWidth="177.0" text="Label" />
-            <Label layoutX="149.0" layoutY="34.0" text="To:" />
-            <Label fx:id="lb_to" layoutX="180.0" layoutY="34.0" text="Label" />
-         </children>
-      </AnchorPane>
-      <Label fx:id="lb_meta" layoutX="24.0" layoutY="57.0" text="META:" />
+      <ScrollBar fx:id="sb_options" layoutY="235.0" orientation="VERTICAL" prefHeight="162.0" prefWidth="14.0" />
+      <Label fx:id="lb_meta" layoutX="14.0" layoutY="49.0" text="Travel Destination" textFill="#022757">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="14.0" />
+         </font></Label>
       <ButtonBar layoutX="14.0" layoutY="366.0" prefHeight="40.0" prefWidth="221.0">
         <buttons>
-          <Button fx:id="newButton" minWidth="47.0" mnemonicParsing="false" onAction="#onNewButton" prefHeight="26.0" text="New" />
-            <Button fx:id="editButton" minWidth="51.0" mnemonicParsing="false" onAction="#onEditShowButton" prefHeight="25.0" text="Edit / show" />
-            <Button fx:id="deleteButton" minWidth="51.0" mnemonicParsing="false" onAction="#onDeleteButton" prefHeight="24.0" text="Delete" />
+          <Button fx:id="newButton" minWidth="62.0" mnemonicParsing="false" onAction="#onNewButton" prefHeight="21.0" text="New" textAlignment="CENTER" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <Button fx:id="editButton" minWidth="57.0" mnemonicParsing="false" onAction="#onEditShowButton" prefHeight="25.0" text="Show" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <Button fx:id="deleteButton" minWidth="51.0" mnemonicParsing="false" onAction="#onDeleteButton" prefHeight="24.0" text="Delete" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
         </buttons>
       </ButtonBar>
       <TableView fx:id="optionTable" layoutX="14.0" layoutY="235.0" prefHeight="130.0" prefWidth="283.0" scaleShape="false" stylesheets="@styleTable.css">
@@ -68,5 +79,35 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <AnchorPane layoutX="294.0" layoutY="235.0" prefHeight="162.0" prefWidth="306.0" style="-fx-background-color: #e7ebff;">
+         <children>
+            <Label layoutX="30.0" layoutY="14.0" text="Option:" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="31.0" layoutY="35.0" text="From:" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="32.0" layoutY="57.0" text="Price:" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="31.0" layoutY="82.0" prefHeight="18.0" prefWidth="114.0" text="Price per person:" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="lb_option" layoutX="85.0" layoutY="14.0" text="Label" />
+            <Label fx:id="lb_from" layoutX="86.0" layoutY="34.0" text="Label" />
+            <Label fx:id="lb_price" layoutX="72.0" layoutY="56.0" text="Label" />
+            <Label fx:id="lb_pricePerson" layoutX="149.0" layoutY="82.0" text="Label" />
+            <Label layoutX="153.0" layoutY="35.0" text="To:" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="lb_to" layoutX="184.0" layoutY="34.0" text="Label" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="214.0" layoutY="75.0" />
    </children>
 </AnchorPane>

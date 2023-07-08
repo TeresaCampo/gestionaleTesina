@@ -13,17 +13,28 @@
     -fx-border-radius: 25px;
 }
 
-/*
+.table-cell {
+    -fx-alignment: CENTER;
+}
+
+
 .table-view .placeholder {
     -fx-background-color: #e7ebff;
 }
 
-.table-view .column-header {
--fx-background-color: #e7ebff;
-  -fx-border-color: #012657;
-
+.table-view .column-header-background .nested-column-header .table-column {
+    -fx-background-color: #C6D8FF;
 }
 
+.table-row-cell {
+    -fx-background-color: #e7ebff;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: blue;
+}
+
+/*
 .button {
   -fx-background-color: #eb7ccb;
   -fx-border-radius: 25px;

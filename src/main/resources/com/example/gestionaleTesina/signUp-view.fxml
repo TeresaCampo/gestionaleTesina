@@ -15,7 +15,7 @@
          <children>
             <Label layoutY="-1.0" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" text="   GROUP MEMBERS" textFill="#022757">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial Rounded MT Bold" size="13.0" />
                </font></Label>
             <ScrollPane layoutY="24.0" prefHeight="176.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
               <content>
@@ -23,12 +23,12 @@
                      <children>
                         <Label fx:id="lb_user1" layoutX="112.0" layoutY="37.0" text="User 1" textFill="#d62090">
                            <font>
-                              <Font name="Segoe UI Semibold" size="13.0" />
+                              <Font name="Arial" size="13.0" />
                            </font></Label>
                         <TextField fx:id="tf_userName1" layoutX="164.0" layoutY="33.0" prefHeight="27.0" prefWidth="256.0" promptText="Set your username 1" style="-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;" />
-                        <Button fx:id="plusButton" layoutX="114.0" layoutY="66.0" mnemonicParsing="false" onAction="#onPlusButton" opacity="0.78" prefHeight="30.0" prefWidth="31.0" style="-fx-background-radius: 25px; -fx-border-color: d62090; -fx-background-color: eb7ccb; -fx-border-radius: 25px;" text="+" textFill="#022757">
+                        <Button fx:id="plusButton" layoutX="114.0" layoutY="66.0" mnemonicParsing="false" onAction="#onPlusButton" opacity="0.78" prefHeight="30.0" prefWidth="31.0" style="-fx-background-radius: 25px; -fx-border-color: d62090; -fx-background-color: eb7ccb; -fx-border-radius: 25px;" text="+" textAlignment="CENTER" textFill="#022757">
                            <font>
-                              <Font name="Segoe UI Semibold" size="13.0" />
+                              <Font name="Arial" size="13.0" />
                            </font></Button>
                      </children>
                   </AnchorPane>
@@ -40,33 +40,33 @@
          <children>
             <Label layoutY="-1.0" prefHeight="29.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" text="   SET CREDENTIALS" textFill="#022757">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial Rounded MT Bold" size="13.0" />
                </font>
             </Label>
             <Label layoutX="32.0" layoutY="55.0" text="Group ID" textFill="#d62090">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial" size="13.0" />
                </font>
             </Label>
             <Label layoutX="31.0" layoutY="90.0" text="Password" textFill="#d4208f">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial" size="13.0" />
                </font>
             </Label>
             <Label layoutX="31.0" layoutY="122.0" text="Confirm password" textFill="#d62090">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial" size="13.0" />
                </font>
             </Label>
             <TextField fx:id="tf_groupID" layoutX="157.0" layoutY="50.0" prefHeight="27.0" prefWidth="256.0" promptText="Set your group ID" style="-fx-background-color: e7ebff; -fx-border-color: #022757; -fx-border-radius: 25px;" />
             <Button layoutX="227.0" layoutY="170.0" mnemonicParsing="false" onAction="#onCancelButton" opacity="0.78" style="-fx-background-radius: 25px; -fx-border-color: d63090; -fx-border-radius: 25px; -fx-background-color: eb7ccb;" text="Cancel" textFill="#022757">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
             <Button layoutX="307.0" layoutY="170.0" mnemonicParsing="false" onAction="#onSignUpButton" opacity="0.78" style="-fx-background-color: eb7ccb; -fx-background-radius: 25px; -fx-border-radius: 25px; -fx-border-color: d62090;" text="Sign Up" textFill="#022757">
                <font>
-                  <Font name="Segoe UI Semibold" size="13.0" />
+                  <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
             <PasswordField fx:id="pf_password" layoutX="157.0" layoutY="85.0" prefHeight="27.0" prefWidth="256.0" promptText="Set your password" style="-fx-background-color: e7ebff; -fx-border-radius: 25px; -fx-border-color: #022757;" />

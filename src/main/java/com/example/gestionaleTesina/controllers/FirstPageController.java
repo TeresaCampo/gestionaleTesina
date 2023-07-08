@@ -5,12 +5,10 @@ import com.example.gestionaleTesina.classes.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.NoSuchElementException;
 
 public class FirstPageController {
@@ -31,6 +29,9 @@ public class FirstPageController {
         travelsColumn.setCellValueFactory(new PropertyValueFactory<>("tf_travelName"));
         numberOptionsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfOptions"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("statusButton"));
+        travelsColumn.setStyle("; -fx-font-size: 13px;");
+        numberOptionsColumn.setStyle("; -fx-font-size: 13px;");
+        statusColumn.setStyle("; -fx-font-size: 13px;");
     }
 
     /**
@@ -132,7 +133,7 @@ public class FirstPageController {
      */
     @FXML
     private void onNewTravel() {
-        Travel newTravel= new Travel(group.getGroupID(), "Type_here_travel_name_"+(tableTravels.getItems().size()+1), 0, false, new SwitchButton(group.getGroupID(), "Type_here_travel_name_"+(tableTravels.getItems().size()+1) , false, database), database );
+        Travel newTravel= new Travel(group.getGroupID(), "Enter the travel name "+(tableTravels.getItems().size()+1), 0, false, new SwitchButton(group.getGroupID(), "Enter the travel name "+(tableTravels.getItems().size()+1) , false, database), database );
         tableTravels.getItems().add(newTravel);
         try {
             database.storeNewTravel(newTravel);

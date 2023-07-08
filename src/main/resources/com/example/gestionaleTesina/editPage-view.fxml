@@ -1,39 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="716.0" prefWidth="600.0" stylesheets="@styleTable.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.EditPageController">
+<AnchorPane prefHeight="703.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;" stylesheets="@styleTable.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.EditPageController">
    <children>
-      <AnchorPane layoutY="-1.0" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;">
+      <AnchorPane prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;">
          <children>
-            <Button layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" text="GROUP MEMEBERS" AnchorPane.topAnchor="6.0" />
-            <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/2023-06-12.png" />
+                  <Image url="@img/groupimage_preview_rev_1.png" />
                </image>
             </ImageView>
+            <ComboBox fx:id="cb_GroupMember" layoutX="43.0" layoutY="11.0" prefHeight="26.0" prefWidth="126.0" promptText="Group Member" style="-fx-background-color: #a0bdff;" />
          </children>
       </AnchorPane>
-      <Button layoutX="213.0" layoutY="675.0" mnemonicParsing="false" onAction="#onSaveButton" prefHeight="33.0" prefWidth="146.0" text="SAVE" />
-      <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@img/2023-06-12.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="32.0" layoutY="675.0" mnemonicParsing="false" onAction="#onCancelButton" prefHeight="33.0" prefWidth="146.0" text="CANCEL" />
-      <ScrollPane layoutX="-1.0" layoutY="45.0" prefHeight="621.0" prefWidth="600.0">
+      <Button layoutX="305.0" layoutY="667.0" mnemonicParsing="false" onAction="#onSaveButton" prefHeight="33.0" prefWidth="70.0" stylesheets="@styleMetaPage.css" text="Save" textFill="#022757">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font></Button>
+      <Button layoutX="233.0" layoutY="667.0" mnemonicParsing="false" onAction="#onCancelButton" prefHeight="33.0" prefWidth="65.0" stylesheets="@styleMetaPage.css" text="Cancel" textFill="#022757">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font></Button>
+      <ScrollPane layoutX="-1.0" layoutY="45.0" prefHeight="621.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;">
         <content>
-          <AnchorPane fx:id="background" minHeight="0.0" minWidth="0.0" prefWidth="582.0">
+          <AnchorPane fx:id="background" minHeight="0.0" minWidth="0.0" prefHeight="622.0" prefWidth="602.0" style="-fx-background-color: #e7ebff;" stylesheets="@styleEditPage.css">
                <children>
-                  <Label layoutX="24.0" layoutY="25.0" text="Option name" />
-                  <TextField fx:id="tf_optionName" layoutX="102.0" layoutY="21.0" />
-                  <Button fx:id="firstPlusButton" layoutX="24.0" layoutY="77.0" maxHeight="26.0" minHeight="26.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="+" />
+                  <Label layoutX="24.0" layoutY="25.0" text="Option Name" textFill="#d62090">
+                     <font>
+                        <Font name="Arial" size="13.0" />
+                     </font></Label>
+                  <TextField fx:id="tf_optionName" layoutX="121.0" layoutY="19.0" promptText="New Travel Option" />
+                  <Button fx:id="firstPlusButton" layoutX="28.0" layoutY="69.0" maxHeight="33.0" minHeight="26.0" mnemonicParsing="false" opacity="0.78" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: eb7ccb; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: d62090;" stylesheets="@styleEditPage.css" text="+" textAlignment="CENTER" textFill="#022757">
+                     <font>
+                        <Font name="Arial" size="13.0" />
+                     </font></Button>
                </children>
             </AnchorPane>
         </content>

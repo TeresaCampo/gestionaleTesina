@@ -1,0 +1,17 @@
+.button {
+    -fx-background-color: #eb7ccb;
+    -fx-border-color: #d62090;
+    -fx-background-radius:25;
+    -fx-border-radius:25;
+    -fx-opacity:0.78;
+}
+
+.button .text {
+    -fx-text-alignment: CENTER;
+    -fx-test-fill: #022757;
+}
+
+.text-area {
+    -fx-control-inner-background: #e7ebff;;
+    -fx-text-fill: black;
+}

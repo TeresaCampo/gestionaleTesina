@@ -11,7 +11,6 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Objects;
 
-
 public class AddressApplication extends Application {
     private static Stage stg;
 

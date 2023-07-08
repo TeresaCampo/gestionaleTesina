@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,18 +10,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styleTable.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gestionaleTesina.controllers.FirstPageController">
    <top>
-      <AnchorPane fx:id="anchorPane" prefHeight="45.0" prefWidth="600.0" style="-fx-background-color: #012657;" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="anchorPane" prefHeight="30.0" prefWidth="600.0" style="-fx-background-color: #a0bdff;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="72.0" layoutY="3.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="146.0" style="-fx-background-color: white; -fx-border-color: white;" text="GROUP MEMEBERS" AnchorPane.topAnchor="6.0" />
-            <Button layoutX="518.0" layoutY="5.0" mnemonicParsing="false" onAction="#onLogoutButton" prefHeight="34.0" prefWidth="66.0" style="-fx-background-color: white; -fx-border-color: whitw;" text="LOGOUT" AnchorPane.topAnchor="5.0" />
-            <ImageView fitHeight="33.0" fitWidth="46.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <Button layoutX="527.0" layoutY="7.0" mnemonicParsing="false" onAction="#onLogoutButton" opacity="0.78" prefHeight="27.0" prefWidth="65.0" style="-fx-background-color: eb7ccb; -fx-border-color: d62090; -fx-background-radius: 25px; -fx-border-radius: 25px;" text="Logout" textAlignment="CENTER" textFill="#022757" AnchorPane.topAnchor="7.0">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <ImageView fitHeight="38.0" fitWidth="51.0" layoutX="14.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/2023-06-12.png" />
+                  <Image url="@img/groupimage_preview_rev_1.png" />
                </image>
             </ImageView>
+            <ComboBox fx:id="cb_GroupMember" layoutX="47.0" layoutY="8.0" prefHeight="26.0" prefWidth="126.0" promptText="Group Member" style="-fx-background-color: #a0bdff;" />
          </children>
       </AnchorPane>
    </top>
@@ -32,18 +37,27 @@
       </TabPane>
    </center>
    <left>
-      <AnchorPane prefHeight="314.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="314.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#onNewTravel" prefHeight="33.0" prefWidth="146.0" text="new travel" />
-            <Button layoutX="411.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" prefHeight="33.0" prefWidth="146.0" text="delete travel" />
-            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="301.0" prefWidth="600.0" stylesheets="@styleTable.css">
+            <Button layoutX="214.0" layoutY="309.0" mnemonicParsing="false" onAction="#onNewTravel" opacity="0.78" prefHeight="34.0" prefWidth="50.0" style="-fx-background-color: eb7ccb; -fx-border-color: d62090; -fx-border-radius: 25; -fx-background-radius: 25;" text="New" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <Button layoutX="334.0" layoutY="309.0" mnemonicParsing="false" onAction="#onDeleteTravel" opacity="0.78" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: eb7ccb; -fx-border-color: d62090; -fx-border-radius: 25px; -fx-background-radius: 25px;" text="Delete" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <TableView fx:id="tableTravels" layoutY="-1.0" prefHeight="302.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;">
               <columns>
-                <TableColumn fx:id="travelsColumn" prefWidth="442.4000244140625" text="Travels" />
-                <TableColumn fx:id="numberOptionsColumn" minWidth="0.0" prefWidth="72.0" text="number of &#10;options" />
-                  <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="86.4000244140625" text="status" />
+                <TableColumn fx:id="travelsColumn" prefWidth="350.4000121951103" text="Travels" />
+                <TableColumn fx:id="numberOptionsColumn" minWidth="0.0" prefWidth="123.99993896484375" text="Number of options&#10;" />
+                  <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="129.60009765625" text="Status" />
               </columns>
             </TableView>
-            <Button layoutX="221.0" layoutY="310.0" mnemonicParsing="false" onAction="#onEditTravel" prefHeight="33.0" prefWidth="146.0" text="edit travel" />
+            <Button layoutX="273.0" layoutY="309.0" mnemonicParsing="false" onAction="#onEditTravel" opacity="0.78" prefHeight="34.0" prefWidth="54.0" style="-fx-background-color: eb7ccb; -fx-border-color: d62090; -fx-background-radius: 25px; -fx-border-radius: 25;" text="Edit" textFill="#022757">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </left>

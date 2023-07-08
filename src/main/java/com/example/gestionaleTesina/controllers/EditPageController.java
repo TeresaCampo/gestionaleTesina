@@ -37,16 +37,16 @@ public class EditPageController {
     public void initialize(){
         //initialize plusButtonList
         plusButtonList.add(firstPlusButton);
-        firstPlusButton.setOnAction(h->onPlusButton(firstPlusButton));    firstPlusButton.setPrefWidth(26);
+        firstPlusButton.setOnAction(h->onPlusButton(firstPlusButton));    firstPlusButton.setPrefWidth(25);
         //initialize components
         componentsListView= new ListView<>();
-        componentsListView.getItems().add("accommodation");
-        componentsListView.getItems().add("transport");
-        componentsListView.getItems().add("rental");
-        componentsListView.getItems().add("hide listview");
+        componentsListView.getItems().add("Accommodation");
+        componentsListView.getItems().add("Transport");
+        componentsListView.getItems().add("Rental");
+        componentsListView.getItems().add("Hide Listview");
         componentsListView.setMaxHeight(90);    componentsListView.setLayoutX(firstPlusButton.getLayoutX()+firstPlusButton.getPrefWidth()+5);
         componentsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[hide listview]"))  background.getChildren().remove(componentsListView);
+            if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Hide Listview]"))  background.getChildren().remove(componentsListView);
             else addComponent();});
 
     }
@@ -114,23 +114,23 @@ public class EditPageController {
                     }
         });
         System.out.println(database.toString());
-        if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[accommodation]")){
+        if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Accommodation]")){
             TravelOptionComponent componentAccommodation= new Accommodation("Accommodation", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null, database,null, null);
             componentAccommodation.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
             componentsList.add(componentAccommodation);
         }
-        if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[rental]")){
+        if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Rental]")){
             TravelOptionComponent componentRental= new Rental("Rental", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null, database,null);
             componentRental.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
             componentsList.add(componentRental);
         }
-        if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[transport]")){
+        if(componentsListView.getSelectionModel().getSelectedItems().toString().equals("[Transport]")){
             TravelOptionComponent componentTransport= new Transport("Transport", travelOption.getGroupID(), travelOption.getTravelName(), travelOption.getOptionName(), null, null, null, null, null, null, null,database,null, null, null);
             componentTransport.addEmptyGraphicComponent(((int) plusButtonJustClicked.getLayoutX()), (int) (plusButtonJustClicked.getLayoutY()+plusButtonJustClicked.getPrefHeight()+10), background);
             componentsList.add(componentTransport);
         }
         createButtons();
-        componentsListView.getSelectionModel().select("hide listview");
+        componentsListView.getSelectionModel().select("Hide Listview");
     }
 
     /**

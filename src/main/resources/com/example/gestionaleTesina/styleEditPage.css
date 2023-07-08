@@ -1,0 +1,15 @@
+.button {
+    -fx-background-color: #eb7ccb;
+    -fx-border-color: #d62090;
+    -fx-background-radius:30;
+    -fx-border-radius:30;
+    -fx-opacity:0.78;
+    -fx-pref-width: 31;
+    -fx-pref-height: 30;
+}
+
+.label .text {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-text-fill: #d62090;
+    -fx-text-size: 13;
+}
