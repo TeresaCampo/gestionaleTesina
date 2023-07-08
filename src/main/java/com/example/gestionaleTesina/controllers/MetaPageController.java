@@ -124,7 +124,7 @@ public class MetaPageController {
     @FXML
     void onNewButton() {
         try {
-            TravelOption travelOptionToEdit= new TravelOption(travel.getGroupID(), travel.getTravelName(), "new travel option", database);
+            TravelOption travelOptionToEdit= new TravelOption(travel.getGroupID(), travel.getTravelName(), "Travel Option Name", database);
 
             FXMLLoader loader = main.changeScene("editPage-view.fxml");
             EditPageController editPageController = loader.getController();

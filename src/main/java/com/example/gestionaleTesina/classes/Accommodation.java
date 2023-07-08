@@ -20,7 +20,6 @@ public class Accommodation extends TravelOptionComponent{
         this.numberOfRooms=Optional.ofNullable(numberOfRooms);
         this.privateToilet=Optional.ofNullable(privateToilet);
         System.out.println("database set in accommodation"+ database);
-
     }
 
     @Override
@@ -66,34 +65,37 @@ public class Accommodation extends TravelOptionComponent{
         lb_kindOfComponent.setPrefWidth(96);
         background.getChildren().add(lb_kindOfComponent);
 
-        tf_name=new TextField("Name of the accommodation/url");
+        tf_name=new TextField("Accommodation Name/Url");
         tf_name.setLayoutX(lb_kindOfComponent.getLayoutX()+lb_kindOfComponent.getPrefWidth()+10);
         tf_name.setLayoutY(lb_kindOfComponent.getLayoutY());
         background.getChildren().add(tf_name);
+        tf_name.setPrefWidth(200);
 
         //2nd line
-        lb_from=new Label("from");
-        lb_from.setPrefWidth(25);
+        lb_from=new Label("From");
+        lb_from.setPrefWidth(35);
         lb_from.setLayoutX(tf_name.getLayoutX()); lb_from.setLayoutY(tf_name.getLayoutY()+35);
         background.getChildren().add(lb_from);
 
         dp_from=new DatePicker();
+        dp_from.setStyle("-fx-background-color: #E7EBFF");
         dp_from.setPrefWidth(114);
         dp_from.setLayoutX(tf_name.getLayoutX()+lb_from.getPrefWidth()+10);    dp_from.setLayoutY(lb_from.getLayoutY());
         background.getChildren().add(dp_from);
 
-        lb_to=new Label("to");
+        lb_to=new Label("To");
         lb_to.setPrefWidth(15);
         lb_to.setLayoutX(dp_from.getLayoutX()+dp_from.getPrefWidth()+10);   lb_to.setLayoutY(lb_from.getLayoutY());
         background.getChildren().add(lb_to);
 
         dp_to=new DatePicker();
+        dp_to.setStyle("-fx-background-color: #E7EBFF");
         dp_to.setPrefWidth(135);
         dp_to.setLayoutX(lb_to.getLayoutX()+lb_to.getPrefWidth()+10);    dp_to.setLayoutY(lb_from.getLayoutY());
         background.getChildren().add(dp_to);
 
         //3rd line
-        lb_checkIn=new Label("checkInTime");
+        lb_checkIn=new Label("Check in");
         lb_checkIn.setPrefWidth(70);
         lb_checkIn.setLayoutX(tf_name.getLayoutX());    lb_checkIn.setLayoutY(lb_from.getLayoutY()+35);
         background.getChildren().add(lb_checkIn);
@@ -113,7 +115,7 @@ public class Accommodation extends TravelOptionComponent{
         tf_minuteCheckIn.setLayoutX(tf_timeCheckIn.getLayoutX()+tf_timeCheckIn.getPrefWidth()); tf_minuteCheckIn.setLayoutY(lb_checkIn.getLayoutY());
         background.getChildren().add(tf_minuteCheckIn);
 
-        lb_checkOut=new Label("checkOutTime");
+        lb_checkOut=new Label("Check out");
         lb_checkOut.setPrefWidth(80);
         lb_checkOut.setLayoutX(tf_minuteCheckIn.getLayoutX()+tf_minuteCheckIn.getPrefWidth()+10);    lb_checkOut.setLayoutY(lb_checkIn.getLayoutY());
         background.getChildren().add(lb_checkOut);
@@ -134,8 +136,8 @@ public class Accommodation extends TravelOptionComponent{
         background.getChildren().add(tf_minuteCheckOut);
 
         //4th line
-        lb_nOfRoom=new Label("n° of room");
-        lb_nOfRoom.setPrefWidth(60);
+        lb_nOfRoom=new Label("N° of rooms");
+        lb_nOfRoom.setPrefWidth(75);
         lb_nOfRoom.setLayoutX(tf_name.getLayoutX());    lb_nOfRoom.setLayoutY(lb_checkIn.getLayoutY()+35);
         background.getChildren().add(lb_nOfRoom);
 
@@ -144,13 +146,13 @@ public class Accommodation extends TravelOptionComponent{
         tf_nOfRoom.setLayoutX(lb_nOfRoom.getLayoutX()+lb_nOfRoom.getPrefWidth()+10);    tf_nOfRoom.setLayoutY(lb_nOfRoom.getLayoutY());
         background.getChildren().add(tf_nOfRoom);
 
-        bt_sharedWC=new RadioButton("private toilet");
+        bt_sharedWC=new RadioButton("Private Toilet");
         bt_sharedWC.setPrefWidth(100);
         bt_sharedWC.setLayoutX(tf_nOfRoom.getLayoutX()+tf_nOfRoom.getPrefWidth()+10);    bt_sharedWC.setLayoutY(lb_nOfRoom.getLayoutY()+5);
         background.getChildren().add(bt_sharedWC);
 
         //5th line
-        lb_price=new Label("price");
+        lb_price=new Label("Price");
         lb_price.setPrefWidth(30);
         lb_price.setLayoutX(tf_name.getLayoutX());    lb_price.setLayoutY(lb_nOfRoom.getLayoutY()+35);
         background.getChildren().add(lb_price);

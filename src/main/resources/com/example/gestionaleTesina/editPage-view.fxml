@@ -32,13 +32,13 @@
          </font></Button>
       <ScrollPane layoutX="-1.0" layoutY="45.0" prefHeight="621.0" prefWidth="600.0" style="-fx-background-color: #e7ebff;">
         <content>
-          <AnchorPane fx:id="background" minHeight="0.0" minWidth="0.0" prefHeight="622.0" prefWidth="602.0" style="-fx-background-color: #e7ebff;" stylesheets="@styleEditPage.css">
+          <AnchorPane fx:id="background" minHeight="610.0" minWidth="0.0" prefWidth="602.0" style="-fx-background-color: #e7ebff;" stylesheets="@styleEditPage.css">
                <children>
                   <Label layoutX="24.0" layoutY="25.0" text="Option Name" textFill="#d62090">
                      <font>
                         <Font name="Arial" size="13.0" />
                      </font></Label>
-                  <TextField fx:id="tf_optionName" layoutX="121.0" layoutY="19.0" promptText="New Travel Option" />
+                  <TextField fx:id="tf_optionName" layoutX="121.0" layoutY="19.0" />
                   <Button fx:id="firstPlusButton" layoutX="28.0" layoutY="69.0" maxHeight="33.0" minHeight="26.0" mnemonicParsing="false" opacity="0.78" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: eb7ccb; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: d62090;" stylesheets="@styleEditPage.css" text="+" textAlignment="CENTER" textFill="#022757">
                      <font>
                         <Font name="Arial" size="13.0" />

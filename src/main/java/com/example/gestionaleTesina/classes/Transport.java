@@ -43,39 +43,40 @@ public class Transport extends TravelOptionComponent{
         lb_kindOfComponent.setPrefWidth(96);
         background.getChildren().add(lb_kindOfComponent);
 
-        tf_name = new TextField("Name of the transport/url");
+        tf_name = new TextField("Transport Name/Url");
         tf_name.setPrefWidth(150);
         tf_name.setLayoutX(lb_kindOfComponent.getLayoutX() + lb_kindOfComponent.getPrefWidth() + 10);
         tf_name.setLayoutY(lb_kindOfComponent.getLayoutY());
         background.getChildren().add(tf_name);
+        tf_name.setPrefWidth(200);
 
-        tf_kindTransport = new TextField("Kind of transport");
+        tf_kindTransport = new TextField("Type of Transport");
         tf_kindTransport.setLayoutX(tf_name.getLayoutX() + tf_name.getPrefWidth() + 10);
         tf_kindTransport.setLayoutY(tf_name.getLayoutY());
         background.getChildren().add(tf_kindTransport);
 
         //2nd line
-        tf_fromPlace = new TextField("from place");
+        tf_fromPlace = new TextField("From");
         tf_fromPlace.setPrefWidth(140);
         tf_fromPlace.setLayoutX(tf_name.getLayoutX());
         tf_fromPlace.setLayoutY(tf_name.getLayoutY() + 35);
         background.getChildren().add(tf_fromPlace);
 
-        lb_toPlace = new Label("->");
-        lb_toPlace.setPrefWidth(15);
+        lb_toPlace = new Label("-->");
+        lb_toPlace.setPrefWidth(20);
         lb_toPlace.setLayoutX(tf_fromPlace.getLayoutX() + tf_fromPlace.getPrefWidth() + 5);
         lb_toPlace.setLayoutY(tf_fromPlace.getLayoutY());
         background.getChildren().add(lb_toPlace);
 
-        tf_toPlace = new TextField("to place");
+        tf_toPlace = new TextField("To");
         tf_toPlace.setPrefWidth(140);
         tf_toPlace.setLayoutX(lb_toPlace.getLayoutX() + lb_toPlace.getPrefWidth() + 10);
         tf_toPlace.setLayoutY(tf_fromPlace.getLayoutY());
         background.getChildren().add(tf_toPlace);
 
         //3rd line
-        lb_from = new Label("from");
-        lb_from.setPrefWidth(25);
+        lb_from = new Label("From");
+        lb_from.setPrefWidth(40);
         lb_from.setLayoutX(tf_name.getLayoutX());
         lb_from.setLayoutY(tf_fromPlace.getLayoutY() + 35);
         background.getChildren().add(lb_from);
@@ -86,7 +87,7 @@ public class Transport extends TravelOptionComponent{
         dp_from.setLayoutY(lb_from.getLayoutY());
         background.getChildren().add(dp_from);
 
-        lb_to = new Label("to");
+        lb_to = new Label("To");
         lb_to.setPrefWidth(15);
         lb_to.setLayoutX(dp_from.getLayoutX() + dp_from.getPrefWidth() + 10);
         lb_to.setLayoutY(lb_from.getLayoutY());
@@ -99,7 +100,7 @@ public class Transport extends TravelOptionComponent{
         background.getChildren().add(dp_to);
 
         //4th line
-        lb_checkIn = new Label("departure time");
+        lb_checkIn = new Label("Departure");
         lb_checkIn.setPrefWidth(80);
         lb_checkIn.setLayoutX(tf_name.getLayoutX());
         lb_checkIn.setLayoutY(lb_from.getLayoutY() + 35);
@@ -123,7 +124,7 @@ public class Transport extends TravelOptionComponent{
         tf_minuteCheckIn.setLayoutY(lb_checkIn.getLayoutY());
         background.getChildren().add(tf_minuteCheckIn);
 
-        lb_checkOut = new Label("arrival time");
+        lb_checkOut = new Label("Arrival");
         lb_checkOut.setPrefWidth(60);
         lb_checkOut.setLayoutX(tf_minuteCheckIn.getLayoutX() + tf_minuteCheckIn.getPrefWidth() + 10);
         lb_checkOut.setLayoutY(lb_checkIn.getLayoutY());
@@ -148,7 +149,7 @@ public class Transport extends TravelOptionComponent{
         background.getChildren().add(tf_minuteCheckOut);
 
         //5th line
-        lb_price = new Label("price");
+        lb_price = new Label("Price");
         lb_price.setPrefWidth(30);
         lb_price.setLayoutX(tf_name.getLayoutX());
         lb_price.setLayoutY(lb_checkIn.getLayoutY() + 35);

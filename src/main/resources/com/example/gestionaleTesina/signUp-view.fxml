@@ -19,7 +19,7 @@
                </font></Label>
             <ScrollPane layoutY="24.0" prefHeight="176.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
               <content>
-                <AnchorPane fx:id="gp_background" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="584.0" style="-fx-background-color: #e7ebff;">
+                <AnchorPane fx:id="gp_background" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="584.0" style="-fx-background-color: #e7ebff;" stylesheets="@styleTable.css">
                      <children>
                         <Label fx:id="lb_user1" layoutX="112.0" layoutY="37.0" text="User 1" textFill="#d62090">
                            <font>

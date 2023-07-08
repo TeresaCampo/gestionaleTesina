@@ -39,7 +39,7 @@ public class AddressApplication extends Application {
     /**
      * Change scene: set the new one in place of the previous one.
      * @param fxml scene to be set
-     * @return loader of the scene
+     * @return loader of the scenea
      * @throws IOException if fxml is not found
      */
     public FXMLLoader changeScene(String fxml) throws IOException{

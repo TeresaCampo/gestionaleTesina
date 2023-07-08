@@ -60,19 +60,20 @@ public class Rental extends TravelOptionComponent{
         lb_kindOfComponent.setPrefWidth(96);
         background.getChildren().add(lb_kindOfComponent);
 
-        tf_name=new TextField("Name of the rental store/url");
+        tf_name=new TextField("Rental Store Name/Url");
         tf_name.setPrefWidth(150);
         tf_name.setLayoutX(lb_kindOfComponent.getLayoutX()+lb_kindOfComponent.getPrefWidth()+10);   tf_name.setLayoutY(lb_kindOfComponent.getLayoutY());
         background.getChildren().add(tf_name);
+        tf_name.setPrefWidth(200);
 
-        tf_kindRental=new TextField("Kind of rental");
+        tf_kindRental=new TextField("Type of Rental");
         tf_kindRental.setPrefWidth(160);
         tf_kindRental.setLayoutX(tf_name.getLayoutX()+tf_name.getPrefWidth()+10);   tf_kindRental.setLayoutY(tf_name.getLayoutY());
         background.getChildren().add(tf_kindRental);
 
         //2nd line
-        lb_from=new Label("from");
-        lb_from.setPrefWidth(25);
+        lb_from=new Label("From");
+        lb_from.setPrefWidth(40);
         lb_from.setLayoutX(tf_name.getLayoutX()); lb_from.setLayoutY(tf_kindRental.getLayoutY()+35);
         background.getChildren().add(lb_from);
 
@@ -81,7 +82,7 @@ public class Rental extends TravelOptionComponent{
         dp_from.setLayoutX(tf_name.getLayoutX()+lb_from.getPrefWidth()+10);    dp_from.setLayoutY(lb_from.getLayoutY());
         background.getChildren().add(dp_from);
 
-        lb_to=new Label("to");
+        lb_to=new Label("To");
         lb_to.setPrefWidth(15);
         lb_to.setLayoutX(dp_from.getLayoutX()+dp_from.getPrefWidth()+10);   lb_to.setLayoutY(lb_from.getLayoutY());
         background.getChildren().add(lb_to);
@@ -92,7 +93,7 @@ public class Rental extends TravelOptionComponent{
         background.getChildren().add(dp_to);
 
         //3rd line
-        lb_checkIn=new Label("checkInTime");
+        lb_checkIn=new Label("Check in");
         lb_checkIn.setPrefWidth(70);
         lb_checkIn.setLayoutX(tf_name.getLayoutX());    lb_checkIn.setLayoutY(lb_from.getLayoutY()+35);
         background.getChildren().add(lb_checkIn);
@@ -112,7 +113,7 @@ public class Rental extends TravelOptionComponent{
         tf_minuteCheckIn.setLayoutX(tf_timeCheckIn.getLayoutX()+tf_timeCheckIn.getPrefWidth()); tf_minuteCheckIn.setLayoutY(lb_checkIn.getLayoutY());
         background.getChildren().add(tf_minuteCheckIn);
 
-        lb_checkOut=new Label("checkOutTime");
+        lb_checkOut=new Label("Check out");
         lb_checkOut.setPrefWidth(80);
         lb_checkOut.setLayoutX(tf_minuteCheckIn.getLayoutX()+tf_minuteCheckIn.getPrefWidth()+10);    lb_checkOut.setLayoutY(lb_checkIn.getLayoutY());
         background.getChildren().add(lb_checkOut);
@@ -133,7 +134,7 @@ public class Rental extends TravelOptionComponent{
         background.getChildren().add(tf_minuteCheckOut);
 
         //4th line
-        lb_price=new Label("price");
+        lb_price=new Label("Price");
         lb_price.setPrefWidth(30);
         lb_price.setLayoutX(tf_name.getLayoutX());    lb_price.setLayoutY(lb_checkIn.getLayoutY()+35);
         background.getChildren().add(lb_price);

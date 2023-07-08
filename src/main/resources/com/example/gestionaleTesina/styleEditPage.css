@@ -9,7 +9,73 @@
 }
 
 .label .text {
-    -fx-font-family: 'Arial', sans-serif;
-    -fx-text-fill: #d62090;
-    -fx-text-size: 13;
+    /*-fx-font: 'Arial', sans-serif;*/
+    -fx-fill: #d62090;
+    -fx-font-size: 13px;
 }
+
+.date-picker .arrow-button {
+    -fx-background-image: url('img/datePicker.png');
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #012657;
+}
+
+.date-picker {
+    -fx-background-color: #e7ebff;
+}
+
+.date-picker .cell {
+	-fx-background-color: #e7ebff;
+	-fx-border-color: #e7ebff;
+}
+
+.date-picker .cell:hover {
+	-fx-background-color: blue;
+}
+
+.date-picker .selected {
+	-fx-background-color: blue;
+	-fx-text-fill: white;
+}
+
+.date-picker-popup  {
+	-fx-background-color: #e7ebff;
+}
+
+.date-picker-popup .month-year-pane {
+	-fx-background-color: #e7ebff;
+}
+
+.date-picker-popup .month-year-pane .label {
+	-fx-text-fill: blue;
+}
+
+.radio-button .text {
+    /*-fx-font: 'Arial', sans-serif;*/
+    -fx-fill: #d62090;
+    -fx-font-size: 13px;
+}
+
+.radio-button .radio {
+    -fx-background-color: #C6D8FF;
+    -fx-border-color: blue;
+    -fx-border-radius:25;
+    -fx-background-radius:25;
+}
+
+.list-view .cell {
+	-fx-background-color: #e7ebff;
+	-fx-border-color: #e7ebff;
+}
+
+.list-view .cell:hover {
+	-fx-background-color: blue;
+	-fx-text-fill: white;
+}
+
+
+
+
+
