@@ -5,7 +5,6 @@ import com.example.gestionaleTesina.classes.Group;
 import com.example.gestionaleTesina.classes.Travel;
 import com.example.gestionaleTesina.classes.TravelOption;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;

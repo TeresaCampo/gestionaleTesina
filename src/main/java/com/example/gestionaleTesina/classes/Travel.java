@@ -14,7 +14,6 @@ public class Travel {
     private String groupID;
     private String travelName;
     private ArrayList<TravelOption> options;
-    private String favouriteOption;
     private boolean status;
     private SwitchButton statusButton;
     private javafx.scene.control.TextField tf_travelName;
@@ -90,15 +89,6 @@ public class Travel {
         this.groupID = groupID;
         this.travelName = travelName;
     }
-
-    public String getFavouriteOption() {
-        return favouriteOption;
-    }
-
-    public void setFavouriteOption(String favouriteOption) {
-        this.favouriteOption = favouriteOption;
-    }
-
     public String getTravelName() {
         return travelName;
     }
@@ -157,16 +147,5 @@ public class Travel {
 
     public void setTf_travelName(TextField tf_travelName) {
         this.tf_travelName = tf_travelName;
-    }
-
-    @Override
-    public String toString() {
-        return "Travel{" +
-                "travelName='" + travelName + '\'' +
-                ", options=" + options +
-                ", numberOfOptions=" + numberOfOptions +
-                ", favouriteOption=" + favouriteOption +
-                ", statusButton=" + statusButton +
-                '}';
     }
 }

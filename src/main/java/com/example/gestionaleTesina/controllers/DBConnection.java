@@ -241,29 +241,6 @@ public class DBConnection {
         }
         return travelOptions;
     }
-    /**
-     * Given a travel(groupID, travelName), load its favouriteOption(from favouriteoptions table).
-     * @param groupID group selected
-     * @param travelName travel selected
-     * @return favourite travelOption
-     * @throws SQLException if connection fails
-     */
-    String loadFavouriteOption(String groupID, String travelName) throws SQLException {
-        String favouriteOption=null;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement  loadFavouriteOption= connection.prepareStatement("SELECT * FROM favouriteoptions WHERE groupID = ? AND travelName = ?")) {
-            loadFavouriteOption.setString(1, groupID);
-            loadFavouriteOption.setString(2, travelName);
-            ResultSet rs = loadFavouriteOption.executeQuery();
-
-            while (rs.next()) {
-                //test stamp
-                System.out.println("opzione preferita è "+rs.getString("optionName"));
-                favouriteOption=rs.getString("optionName");
-            }
-        }
-        return favouriteOption;
-    }
 
     //to update->
     /**
@@ -310,13 +287,6 @@ public class DBConnection {
             }
 
         }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement updateTravelName = connection.prepareStatement("UPDATE favouriteoptions SET travelName = ?  WHERE groupID = ? AND travelName = ?")) {
-            updateTravelName.setString(1, newTravelName);
-            updateTravelName.setString(2, travel.getGroupID());
-            updateTravelName.setString(3, travel.getTravelName());
-            updateTravelName.executeUpdate();
-        }
     }
 
     /**
@@ -342,19 +312,11 @@ public class DBConnection {
             }
 
         }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement updateTravelName = connection.prepareStatement("UPDATE favouriteoptions SET optionName = ?  WHERE groupID = ? AND travelName = ? AND optionName = ?")) {
-            updateTravelName.setString(1, newTravelOptionName);
-            updateTravelName.setString(2, travelOption.getGroupID());
-            updateTravelName.setString(3, travelOption.getTravelName());
-            updateTravelName.setString(4, travelOption.getOptionName());
-            updateTravelName.executeUpdate();
-        }
     }
 
     //to delete->
     /**
-     * Given a selected Travel, delete it from travels, traveloptions, accommodation, rental, transport, favouriteoptions tables.
+     * Given a selected Travel, delete it from travels, traveloptions, accommodation, rental, transport tables.
      * @param travel to be deleted
      * @throws SQLException if connection fails
      */
@@ -373,11 +335,6 @@ public class DBConnection {
                 removeTravel.executeUpdate();
             }
 
-        }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM favouriteoptions WHERE travelName = ?")) {
-            removeTravel.setString(1, travel.getTravelName());
-            removeTravel.executeUpdate();
         }
     }
 
@@ -402,13 +359,6 @@ public class DBConnection {
                 removeTravelOption.setString(3, optionName);
                 removeTravelOption.executeUpdate();
             }
-
-        }
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement removeTravel = connection.prepareStatement("DELETE FROM favouriteoptions WHERE optionName = ?")) {
-            removeTravel.setString(1, optionName);
-            removeTravel.executeUpdate();
         }
     }
 

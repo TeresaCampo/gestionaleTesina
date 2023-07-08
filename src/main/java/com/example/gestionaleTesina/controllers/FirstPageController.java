@@ -110,7 +110,6 @@ public class FirstPageController {
 
             Travel travelToEdit= tableTravels.getItems().get(selectedIndex);
             travelToEdit.setOptions(database.loadTravelOption(travelToEdit.getGroupID(), travelToEdit.getTravelName()));
-            travelToEdit.setFavouriteOption(database.loadFavouriteOption(travelToEdit.getGroupID(), travelToEdit.getTravelName()));
 
             FXMLLoader loader =main.changeScene("metaPage-view.fxml");
             MetaPageController metaPageController= loader.getController();

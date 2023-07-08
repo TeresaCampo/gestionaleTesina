@@ -262,7 +262,6 @@ public class EditPageController {
 
             Travel updatedTravel=travel;
             updatedTravel.setOptions(database.loadTravelOption(updatedTravel.getGroupID(), updatedTravel.getTravelName()));
-            updatedTravel.setFavouriteOption(database.loadFavouriteOption(updatedTravel.getGroupID(), updatedTravel.getTravelName()));
             metaPageController.setGroup(group);
             metaPageController.setTravel(updatedTravel);
             metaPageController.setDatabase(database);

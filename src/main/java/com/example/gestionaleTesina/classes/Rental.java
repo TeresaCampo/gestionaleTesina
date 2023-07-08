@@ -144,11 +144,8 @@ public class Rental extends TravelOptionComponent{
         background.getChildren().add(tf_price);
     }
 
-    /**
-         * getter and setter
-         */
+    //getter and setter
     public Optional<String> getKindOfRental() {
         return kindOfRental;
     }
-
 }
