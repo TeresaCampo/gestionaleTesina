@@ -63,6 +63,9 @@ public class EditPageController {
             });
     }
 
+    /**
+     * Display travelOption's travelOptionComponents.
+     */
     void loadData(){
         //initialize tf_optionName
         tf_optionName.setText(travelOption.getOptionName());
@@ -77,7 +80,7 @@ public class EditPageController {
     }
 
     /**
-     * Set plusButtonJustClicked and display listView components
+     * Display listView components.
      */
     void onPlusButton(){
         background.getChildren().remove(componentsListView);
@@ -118,7 +121,7 @@ public class EditPageController {
     }
 
     /**
-     * Add a new OptionComponentGraphic
+     * Add a new OptionComponentGraphic.
      */
     void addComponent(){
         //swipe down other components and update their layoutY
@@ -172,6 +175,9 @@ public class EditPageController {
         });
     }
 
+    /**
+     * Display metaPage.
+     */
     @FXML
     void onCancelButton() {
         try {
@@ -189,6 +195,9 @@ public class EditPageController {
         }
     }
 
+    /**
+     * Save data and display metaPage
+     */
     @FXML
     void onSaveButton() {
         //check if the optionName has been changed-> in case check if it is already present in the database
@@ -263,9 +272,16 @@ public class EditPageController {
             e.printStackTrace();
             System.out.println("META-PAGE NOT FOUND");
         }
-
     }
 
+    /**
+     * Check if the inserted TravelOption's name already exists in the database
+     * @param groupID key1
+     * @param travelName key2
+     * @param optionName key3
+     * @return true if TravelOption's name already exists
+     * @throws SQLException if connection leaks
+     */
     private boolean checkOptionNameExists(String groupID, String travelName, String optionName) throws SQLException {
         try (Connection connection = database.dataSource.getConnection();
              PreparedStatement checkData = connection.prepareStatement("SELECT * FROM traveloptions WHERE groupID = ? AND travelName = ? AND optionName = ?")) {

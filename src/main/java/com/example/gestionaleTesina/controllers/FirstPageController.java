@@ -12,7 +12,6 @@ import java.sql.*;
 import java.util.NoSuchElementException;
 
 public class FirstPageController {
-
     @FXML
     private ComboBox<String> cb_GroupMember;
     @FXML
@@ -46,6 +45,7 @@ public class FirstPageController {
             group=database.loadTravels(group);
             tableTravels.setItems(FXCollections.observableArrayList(group.getTravels()));
             cb_GroupMember.setItems(FXCollections.observableArrayList(group.getUsers()));
+            System.out.println("Data loaded successfully!");
         }catch (SQLException e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error\nError while loading group usernames and travels.").showAndWait();
@@ -53,7 +53,7 @@ public class FirstPageController {
     }
 
     /**
-     * Check if there's a selected travel
+     * Check if there's a selected travel.
      * @return if one travel is selected return position in the tableView, else -1 and throws NoSuchElementException
      */
     int selectedIndex() {
@@ -65,7 +65,7 @@ public class FirstPageController {
     }
 
     /**
-     * Delete selected travel
+     * Delete selected travel.
      */
     @FXML
     private void onDeleteTravel() {
@@ -101,7 +101,7 @@ public class FirstPageController {
     }
 
     /**
-     * Display metaPage, load travel data from database and set the travel in metaPageController
+     * Display metaPage, load travel data from database and set the travel in metaPageController.
      */
     @FXML
     private void onEditTravel() {
@@ -133,7 +133,7 @@ public class FirstPageController {
     }
 
     /**
-     * Display metaPage and set new travel in metaPageController
+     * Display metaPage and set new travel in metaPageController.
      */
     @FXML
     private void onNewTravel() {

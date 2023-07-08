@@ -65,6 +65,10 @@ public class MetaPageController {
         showTravelOptionDetails(null);
     }
 
+    /**
+     * Display travelOptionDetails.
+     * @param travelOption selected
+     */
     void showTravelOptionDetails(TravelOption travelOption){
         if(travelOption!=null){
             lb_option.setText(travelOption.getOptionName());
@@ -90,8 +94,11 @@ public class MetaPageController {
         cb_GroupMember.setItems(FXCollections.observableArrayList(group.getUsers()));
     }
 
+    /**
+     * Display edit page to edit the selected travelOption.
+     */
     @FXML
-    void onEditShowButton(ActionEvent event) {
+    void onEditShowButton() {
         try {
             TravelOption travelOptionToEdit= optionTable.getItems().get(selectedIndex());
 
@@ -111,6 +118,10 @@ public class MetaPageController {
             System.out.println("EDIT-PAGE NOT FOUND");
         }
     }
+
+    /**
+     * Display edit page to edit a new travelOption.
+     */
     @FXML
     void onNewButton() {
         try {
@@ -128,6 +139,10 @@ public class MetaPageController {
             System.out.println("EDIT-PAGE NOT FOUND");
         }
     }
+
+    /**
+     * Display logInPage.
+     */
     @FXML
     void onLogoutButton(){
         try {
@@ -139,6 +154,9 @@ public class MetaPageController {
         }
     }
 
+    /**
+     * Display firstPage.
+     */
     @FXML
     void onBackButton(){
         try {
@@ -152,6 +170,10 @@ public class MetaPageController {
             System.out.println("FIRST-PAGE NOT FOUND");
         }
     }
+
+    /**
+     * Delete selected TravelOption
+     */
     @FXML
     void onDeleteButton() {
         try {
@@ -169,6 +191,7 @@ public class MetaPageController {
             new Alert(Alert.AlertType.WARNING, "No travel Selected\nPlease select one from the table.").showAndWait();
         }
     }
+
     /**
      * Check if there's a selected travel
      * @return if one travel is selected return position in the tableView, else -1 and throws NoSuchElementException
