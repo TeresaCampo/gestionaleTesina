@@ -2,6 +2,7 @@ package com.example.gestionaleTesina.controllers;
 
 import com.example.gestionaleTesina.AddressApplication;
 import com.example.gestionaleTesina.classes.*;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -10,6 +11,8 @@ import java.sql.*;
 import java.util.*;
 
 public class EditPageController {
+    @FXML
+    private ComboBox<String> cb_GroupMember;
     @FXML
     private AnchorPane background;
     @FXML
@@ -76,6 +79,7 @@ public class EditPageController {
             componentsList.add(c);
             createButtons();
         }
+        cb_GroupMember.setItems(FXCollections.observableArrayList(group.getUsers()));
         System.out.println("Data loaded successfully!\nYou're ready to edit");
     }
 
