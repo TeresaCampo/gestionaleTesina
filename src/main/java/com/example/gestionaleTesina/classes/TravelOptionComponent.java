@@ -96,7 +96,6 @@ public abstract class TravelOptionComponent {
             }
             catch (Exception e){
                 tf_hourCheckIn.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
-                return;
             }
         });
         tf_minuteCheckIn.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -105,7 +104,6 @@ public abstract class TravelOptionComponent {
                 tf_minuteCheckIn.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
             }catch (Exception e){
                 tf_minuteCheckIn.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
-                return;
             }
         });
         tf_hourCheckOut.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -115,7 +113,6 @@ public abstract class TravelOptionComponent {
             }
             catch (Exception e){
                 tf_hourCheckOut.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
-                return;
             }
         });
         tf_minuteCheckOut.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -124,7 +121,6 @@ public abstract class TravelOptionComponent {
                 tf_minuteCheckOut.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
             } catch (Exception e) {
                 tf_minuteCheckOut.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
-                return;
             }
         });
         dp_from.valueProperty().addListener((observable, oldValue, newValue) -> checkInDate=Optional.ofNullable(newValue));
@@ -135,7 +131,6 @@ public abstract class TravelOptionComponent {
             }
             catch (Exception e){
                 tf_price.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
-                return;
             }
             tf_price.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
         });

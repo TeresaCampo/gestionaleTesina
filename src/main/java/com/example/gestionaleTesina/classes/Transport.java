@@ -1,6 +1,7 @@
 package com.example.gestionaleTesina.classes;
 
 import com.example.gestionaleTesina.controllers.DBConnection;
+import com.example.gestionaleTesina.controllers.MyTextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -168,8 +169,11 @@ public class Transport extends TravelOptionComponent{
 
             bindCommonGraphicElementToAttributes();
             tf_fromPlace.textProperty().addListener((observable, oldValue, newValue) -> from=Optional.ofNullable(newValue));
+            MyTextField.maxLen45(tf_fromPlace);
             tf_toPlace.textProperty().addListener((observable, oldValue, newValue) -> to=Optional.ofNullable(newValue));
+            MyTextField.maxLen45(tf_toPlace);
             tf_kindTransport.textProperty().addListener((observable, oldValue, newValue) -> kindOfTransport=Optional.ofNullable(newValue));
+            MyTextField.maxLen45(tf_kindTransport);
     }
 
     @Override
@@ -193,8 +197,11 @@ public class Transport extends TravelOptionComponent{
 
         bindCommonGraphicElementToAttributes();
         tf_fromPlace.textProperty().addListener((observable, oldValue, newValue) -> from=Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_fromPlace);
         tf_toPlace.textProperty().addListener((observable, oldValue, newValue) -> to=Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_toPlace);
         tf_kindTransport.textProperty().addListener((observable, oldValue, newValue) -> kindOfTransport=Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_kindTransport);
     }
 
     /**

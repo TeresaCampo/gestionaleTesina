@@ -28,6 +28,14 @@ public class Accommodation extends TravelOptionComponent{
 
         bindCommonGraphicElementToAttributes();
         tf_nOfRoom.textProperty().addListener((observable, oldValue, newValue) -> numberOfRooms=Optional.ofNullable(converterTF_integer(tf_nOfRoom)));
+        tf_nOfRoom.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                numberOfRooms = Optional.ofNullable(converterTF_integer(tf_nOfRoom));
+                tf_nOfRoom.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+            }catch (Exception e){
+                tf_nOfRoom.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+            }
+        });
         bt_sharedWC.armedProperty().addListener((observable, oldValue, newValue) -> privateToilet=Optional.ofNullable(newValue));
     }
 
@@ -40,7 +48,14 @@ public class Accommodation extends TravelOptionComponent{
         privateToilet.ifPresent(h->bt_sharedWC.setSelected(privateToilet.get()));
 
         bindCommonGraphicElementToAttributes();
-        tf_nOfRoom.textProperty().addListener((observable, oldValue, newValue) -> numberOfRooms=Optional.ofNullable(converterTF_integer(tf_nOfRoom)));
+        tf_nOfRoom.textProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    numberOfRooms = Optional.ofNullable(converterTF_integer(tf_nOfRoom));
+                    tf_nOfRoom.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                }catch (Exception e){
+                    tf_nOfRoom.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                }
+        });
         bt_sharedWC.armedProperty().addListener((observable, oldValue, newValue) -> privateToilet=Optional.ofNullable(newValue));
     }
 

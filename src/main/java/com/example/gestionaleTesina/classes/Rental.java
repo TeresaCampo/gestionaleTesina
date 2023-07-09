@@ -1,6 +1,7 @@
 package com.example.gestionaleTesina.classes;
 
 import com.example.gestionaleTesina.controllers.DBConnection;
+import com.example.gestionaleTesina.controllers.MyTextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -26,6 +27,7 @@ public class Rental extends TravelOptionComponent{
 
         bindCommonGraphicElementToAttributes();
         tf_kindRental.textProperty().addListener((observable, oldValue, newValue) -> kindOfRental=Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_kindRental);
     }
 
     @Override
@@ -37,6 +39,7 @@ public class Rental extends TravelOptionComponent{
 
         bindCommonGraphicElementToAttributes();
         tf_kindRental.textProperty().addListener((observable, oldValue, newValue) -> kindOfRental=Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_kindRental);
     }
 
     @Override
