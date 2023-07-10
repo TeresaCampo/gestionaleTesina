@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -16,10 +17,10 @@ public class AddressApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login-view.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login-view.fxml")));
         Scene scene = new Scene(root);
 
-        stg= primaryStage;
+        stg = primaryStage;
         stg.initStyle(StageStyle.UNDECORATED);
         stg.setScene(scene);
         stg.show();
@@ -28,6 +29,7 @@ public class AddressApplication extends Application {
 
     /**
      * Center stage in the display.
+     *
      * @param stg stage with the scene already set
      */
     public static void centreWindow(Stage stg) {
@@ -38,12 +40,15 @@ public class AddressApplication extends Application {
 
     /**
      * Change scene: set the new one in place of the previous one.
+     *
      * @param fxml scene to be set
+     *
      * @return loader of the scenea
+     *
      * @throws IOException if fxml is not found
      */
-    public FXMLLoader changeScene(String fxml) throws IOException{
-        FXMLLoader loader= new FXMLLoader();
+    public FXMLLoader changeScene(String fxml) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource(fxml)));
         Scene scene = new Scene(loader.load());
         stg.setScene(scene);

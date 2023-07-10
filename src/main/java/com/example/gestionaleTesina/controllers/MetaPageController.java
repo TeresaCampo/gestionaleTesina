@@ -51,13 +51,12 @@ public class MetaPageController {
     @FXML
     private TableColumn<TravelOption, TextField> tv_tabOptions;
 
-
-    AddressApplication main=new AddressApplication();
+    AddressApplication main = new AddressApplication();
     DBConnection database;
     private Group group;
     private Travel travel;
 
-    public void initialize(){
+    public void initialize() {
         tv_tabOptions.setCellValueFactory(new PropertyValueFactory<>("tf_optionName"));
         optionTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> showTravelOptionDetails(newValue));
         //clear travelOption details
@@ -66,17 +65,17 @@ public class MetaPageController {
 
     /**
      * Display travelOptionDetails.
+     *
      * @param travelOption selected
      */
-    void showTravelOptionDetails(TravelOption travelOption){
-        if(travelOption!=null){
+    void showTravelOptionDetails(TravelOption travelOption) {
+        if (travelOption != null) {
             lb_option.setText(travelOption.getOptionName());
-            travelOption.getComponents().first().getCheckInDate().ifPresentOrElse((date)-> lb_from.setText(date.toString()), ()-> lb_from.setText(""));
-            travelOption.getComponents().last().getCheckOutDate().ifPresentOrElse((date)-> lb_to.setText(date.toString()), ()-> lb_to.setText(""));
+            travelOption.getComponents().first().getCheckInDate().ifPresentOrElse((date) -> lb_from.setText(date.toString()), () -> lb_from.setText(""));
+            travelOption.getComponents().last().getCheckOutDate().ifPresentOrElse((date) -> lb_to.setText(date.toString()), () -> lb_to.setText(""));
             lb_price.setText(String.valueOf(travelOption.getTotalCost()));
             lb_pricePerson.setText(String.valueOf(travelOption.getPerPersonCost()));
-        }
-        else{
+        } else {
             lb_option.setText("");
             lb_from.setText("");
             lb_to.setText("");
@@ -99,7 +98,7 @@ public class MetaPageController {
     @FXML
     void onEditShowButton() {
         try {
-            TravelOption travelOptionToEdit= optionTable.getItems().get(selectedIndex());
+            TravelOption travelOptionToEdit = optionTable.getItems().get(selectedIndex());
 
             FXMLLoader loader = main.changeScene("editPage-view.fxml");
             EditPageController editPageController = loader.getController();
@@ -111,8 +110,7 @@ public class MetaPageController {
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.WARNING, "No travel option Selected\nPlease select one from the table.").showAndWait();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("EDIT-PAGE NOT FOUND");
         }
@@ -124,7 +122,7 @@ public class MetaPageController {
     @FXML
     void onNewButton() {
         try {
-            TravelOption travelOptionToEdit= new TravelOption(travel.getGroupID(), travel.getTravelName(), "Travel Option Name", database);
+            TravelOption travelOptionToEdit = new TravelOption(travel.getGroupID(), travel.getTravelName(), "Travel Option Name", database);
 
             FXMLLoader loader = main.changeScene("editPage-view.fxml");
             EditPageController editPageController = loader.getController();
@@ -143,7 +141,7 @@ public class MetaPageController {
      * Display logInPage.
      */
     @FXML
-    void onLogoutButton(){
+    void onLogoutButton() {
         try {
             database.dataSource.close();
             main.changeScene("login-view.fxml");
@@ -157,7 +155,7 @@ public class MetaPageController {
      * Display firstPage.
      */
     @FXML
-    void onBackButton(){
+    void onBackButton() {
         try {
             FXMLLoader loader = main.changeScene("firstPage-view.fxml");
             FirstPageController firstPageController = loader.getController();
@@ -193,6 +191,7 @@ public class MetaPageController {
 
     /**
      * Check if there's a selected travel
+     *
      * @return if one travel is selected return position in the tableView, else -1 and throws NoSuchElementException
      */
     int selectedIndex() {

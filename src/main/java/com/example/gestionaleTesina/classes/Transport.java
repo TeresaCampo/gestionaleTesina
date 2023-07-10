@@ -7,17 +7,17 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-public class Transport extends TravelOptionComponent{
+public class Transport extends TravelOptionComponent {
     protected TextField tf_fromPlace;
     protected TextField tf_toPlace;
     protected TextField tf_kindTransport;
     protected Label lb_toPlace;
-
 
     private Optional<String> from;
     private Optional<String> to;
@@ -28,14 +28,13 @@ public class Transport extends TravelOptionComponent{
         this.from = Optional.ofNullable(from);
         this.to = Optional.ofNullable(to);
         this.kindOfTransport = Optional.ofNullable(kindOfTransport);
-        System.out.println("database set in transport"+ database);
-
+        System.out.println("database set in transport" + database);
     }
 
     public void addTransportGraphicComponent(int layoutX, int layoutY, AnchorPane background) {
         this.layoutX = layoutX;
         this.layoutY = layoutY;
-        this.background=background;
+        this.background = background;
 
         //1st line
         lb_kindOfComponent = new javafx.scene.control.Label("Transport");
@@ -165,15 +164,15 @@ public class Transport extends TravelOptionComponent{
 
     @Override
     public void addEmptyGraphicComponent(int layoutX, int layoutY, AnchorPane background) {
-            addTransportGraphicComponent(layoutX,layoutY,background);
+        addTransportGraphicComponent(layoutX, layoutY, background);
 
-            bindCommonGraphicElementToAttributes();
-            tf_fromPlace.textProperty().addListener((observable, oldValue, newValue) -> from=Optional.ofNullable(newValue));
-            MyTextField.maxLen45(tf_fromPlace);
-            tf_toPlace.textProperty().addListener((observable, oldValue, newValue) -> to=Optional.ofNullable(newValue));
-            MyTextField.maxLen45(tf_toPlace);
-            tf_kindTransport.textProperty().addListener((observable, oldValue, newValue) -> kindOfTransport=Optional.ofNullable(newValue));
-            MyTextField.maxLen45(tf_kindTransport);
+        bindCommonGraphicElementToAttributes();
+        tf_fromPlace.textProperty().addListener((observable, oldValue, newValue) -> from = Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_fromPlace);
+        tf_toPlace.textProperty().addListener((observable, oldValue, newValue) -> to = Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_toPlace);
+        tf_kindTransport.textProperty().addListener((observable, oldValue, newValue) -> kindOfTransport = Optional.ofNullable(newValue));
+        MyTextField.maxLen45(tf_kindTransport);
     }
 
     @Override
@@ -182,25 +181,25 @@ public class Transport extends TravelOptionComponent{
             database.storeTransport(this);
         } catch (SQLException e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing transport"+name.orElse("")).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Database Error\nWhile storing transport" + name.orElse("")).showAndWait();
         }
     }
 
     @Override
     public void addInitializedGraphicComponent(int layoutX, int layoutY, AnchorPane background) {
-        addTransportGraphicComponent(layoutX,layoutY,background);
+        addTransportGraphicComponent(layoutX, layoutY, background);
 
         initializeCommonGraphicComponent();
-        from.ifPresent(h->tf_fromPlace.setText(from.get()));
-        to.ifPresent(h->tf_toPlace.setText(to.get()));
-        kindOfTransport.ifPresent(h->tf_kindTransport.setText(kindOfTransport.get()));
+        from.ifPresent(h -> tf_fromPlace.setText(from.get()));
+        to.ifPresent(h -> tf_toPlace.setText(to.get()));
+        kindOfTransport.ifPresent(h -> tf_kindTransport.setText(kindOfTransport.get()));
 
         bindCommonGraphicElementToAttributes();
-        tf_fromPlace.textProperty().addListener((observable, oldValue, newValue) -> from=Optional.ofNullable(newValue));
+        tf_fromPlace.textProperty().addListener((observable, oldValue, newValue) -> from = Optional.ofNullable(newValue));
         MyTextField.maxLen45(tf_fromPlace);
-        tf_toPlace.textProperty().addListener((observable, oldValue, newValue) -> to=Optional.ofNullable(newValue));
+        tf_toPlace.textProperty().addListener((observable, oldValue, newValue) -> to = Optional.ofNullable(newValue));
         MyTextField.maxLen45(tf_toPlace);
-        tf_kindTransport.textProperty().addListener((observable, oldValue, newValue) -> kindOfTransport=Optional.ofNullable(newValue));
+        tf_kindTransport.textProperty().addListener((observable, oldValue, newValue) -> kindOfTransport = Optional.ofNullable(newValue));
         MyTextField.maxLen45(tf_kindTransport);
     }
 
@@ -210,15 +209,19 @@ public class Transport extends TravelOptionComponent{
     public Optional<String> getFrom() {
         return from;
     }
+
     public void setFrom(Optional<String> from) {
         this.from = from;
     }
+
     public Optional<String> getTo() {
         return to;
     }
+
     public void setTo(Optional<String> to) {
         this.to = to;
     }
+
     public Optional<String> getKindOfTransport() {
         return kindOfTransport;
     }

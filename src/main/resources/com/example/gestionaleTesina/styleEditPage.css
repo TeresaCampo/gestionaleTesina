@@ -1,3 +1,4 @@
+
 .button {
     -fx-background-color: #eb7ccb;
     -fx-border-color: #d62090;
@@ -7,10 +8,15 @@
     -fx-pref-width: 31;
     -fx-pref-height: 30;
 }
+/*
+.label .text {
+    //-fx-font: 'Arial', sans-serif;
+    -fx-fill: #d62090;
+    -fx-font-size: 13px;
+}*/
 
 .label .text {
-    /*-fx-font: 'Arial', sans-serif;*/
-    -fx-fill: #d62090;
+    -fx-fill: black;
     -fx-font-size: 13px;
 }
 

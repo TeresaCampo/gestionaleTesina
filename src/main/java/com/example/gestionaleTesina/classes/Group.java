@@ -18,6 +18,7 @@ public class Group {
     public void addUser(String toBeAdded) {
         users.add(toBeAdded);
     }
+
     public void addTravel(Travel toBeAdded) {
         travels.add(toBeAdded);
     }
@@ -53,5 +54,4 @@ public class Group {
     public void setTravels(ArrayList<Travel> travels) {
         this.travels = travels;
     }
-
 }

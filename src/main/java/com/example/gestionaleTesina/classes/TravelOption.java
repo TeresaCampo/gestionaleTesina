@@ -20,20 +20,21 @@ public class TravelOption {
     private double totalCost;
     private double perPersonCost;
     private String comment;
-    private TreeSet<TravelOptionComponent> components= new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption()));
+    private TreeSet<TravelOptionComponent> components = new TreeSet<>(Comparator.comparing((TravelOptionComponent e) -> e.getPosInTravelOption()));
     private TextField tf_optionName;
+
     /**
-     *Create travelOption
+     * Create travelOption
      */
     public TravelOption(String groupID, String travelName, String optionName, double totalCost, double perPersonCost, String comment, TreeSet<TravelOptionComponent> components, DBConnection database) {
         this.groupID = groupID;
         this.travelName = travelName;
         this.optionName = optionName;
-        this.tf_optionName=new TextField(optionName);
+        this.tf_optionName = new TextField(optionName);
         MyTextField.maxLen45(tf_optionName);
         tf_optionName.setMaxWidth(150);
-        tf_optionName.setOnAction((h)-> updateTables(groupID, travelName, tf_optionName.getText()));
-        this.database=database;
+        tf_optionName.setOnAction((h) -> updateTables(groupID, travelName, tf_optionName.getText()));
+        this.database = database;
         this.totalCost = totalCost;
         this.perPersonCost = perPersonCost;
         this.comment = comment;
@@ -44,13 +45,13 @@ public class TravelOption {
         this.groupID = groupID;
         this.travelName = travelName;
         this.optionName = optionName;
-        this.tf_optionName=new TextField(optionName);
+        this.tf_optionName = new TextField(optionName);
         MyTextField.maxLen45(tf_optionName);
         tf_optionName.setMaxWidth(150);
-        tf_optionName.setOnAction((h)-> updateTables(groupID, travelName, tf_optionName.getText()));
+        tf_optionName.setOnAction((h) -> updateTables(groupID, travelName, tf_optionName.getText()));
     }
 
-    void updateTables(String groupID, String travelName, String newTravelOptionName){
+    void updateTables(String groupID, String travelName, String newTravelOptionName) {
         System.out.println("provo ad aggironare");
         try {
             if (!checkTravelOptionNameExists(groupID, travelName, newTravelOptionName) && !newTravelOptionName.isEmpty()) {
@@ -58,24 +59,21 @@ public class TravelOption {
                 this.setOptionName(newTravelOptionName);
                 return;
             }
-            if(newTravelOptionName.isEmpty()){
+            if (newTravelOptionName.isEmpty()) {
                 new Alert(Alert.AlertType.ERROR, "TravelOption name can't be an empty string\nPlease choose a new one").showAndWait();
                 return;
-            }
-            else{
+            } else {
                 new Alert(Alert.AlertType.ERROR, "This travelOption name already exists in your travel\nPlease choose a new one").showAndWait();
                 return;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
         }
-
     }
 
     private boolean checkTravelOptionNameExists(String groupID, String travelName, String newTravelOptionName) throws SQLException {
-        try (Connection connection = database.dataSource.getConnection();
-             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM traveloptions WHERE groupID = ? AND travelName=? AND optionName = ?")) {
+        try (Connection connection = database.dataSource.getConnection(); PreparedStatement checkData = connection.prepareStatement("SELECT * FROM traveloptions WHERE groupID = ? AND travelName=? AND optionName = ?")) {
             checkData.setString(1, groupID);
             checkData.setString(2, travelName);
             checkData.setString(3, newTravelOptionName);
@@ -88,7 +86,7 @@ public class TravelOption {
     }
 
     //constructor to test
-    public TravelOption(String optionName, double totalCost ) {
+    public TravelOption(String optionName, double totalCost) {
         this.optionName = optionName;
         this.totalCost = totalCost;
     }

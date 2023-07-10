@@ -4,6 +4,7 @@ import com.example.gestionaleTesina.controllers.DBConnection;
 import com.example.gestionaleTesina.controllers.MyTextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,19 +33,19 @@ public class Travel {
      * Create travel for firstPage
      */
     public Travel(String groupID, String travelName, Integer numberOfOptions, boolean status, SwitchButton statusButton, DBConnection database) {
-        this.groupID=groupID;
+        this.groupID = groupID;
         this.travelName = travelName;
-        this.tf_travelName=new TextField(travelName);
+        this.tf_travelName = new TextField(travelName);
         MyTextField.maxLen45(tf_travelName);
-        tf_travelName.setOnAction((h)-> updateTables(groupID, tf_travelName.getText()));
-        this.database=database;
-        this.numberOfOptions=numberOfOptions;
+        tf_travelName.setOnAction((h) -> updateTables(groupID, tf_travelName.getText()));
+        this.database = database;
+        this.numberOfOptions = numberOfOptions;
         this.status = status;
-        this.statusButton=statusButton;
-        statusButton.switchOnProperty().addListener(((observable, oldValue, newValue) -> this.status=statusButton.switchOnProperty().get()));
+        this.statusButton = statusButton;
+        statusButton.switchOnProperty().addListener(((observable, oldValue, newValue) -> this.status = statusButton.switchOnProperty().get()));
     }
 
-    void updateTables(String groupID, String newTravelName){
+    void updateTables(String groupID, String newTravelName) {
         System.out.println("Updating travel name...");
         try {
             if (!checkTravelNameExists(groupID, newTravelName) && !newTravelName.isEmpty()) {
@@ -53,24 +54,21 @@ public class Travel {
                 this.setTravelName(newTravelName);
                 return;
             }
-            if(newTravelName.isEmpty()){
+            if (newTravelName.isEmpty()) {
                 new Alert(Alert.AlertType.ERROR, "Travel name can't be an empty string\nPlease choose a new one").showAndWait();
                 return;
-            }
-            else{
+            } else {
                 new Alert(Alert.AlertType.ERROR, "This travel name already exists in your group\nPlease choose a new one").showAndWait();
                 return;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
         }
-
     }
 
     private boolean checkTravelNameExists(String groupID, String newTravelName) throws SQLException {
-        try (Connection connection = database.dataSource.getConnection();
-             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM travels WHERE groupID = ? AND travelName=?")) {
+        try (Connection connection = database.dataSource.getConnection(); PreparedStatement checkData = connection.prepareStatement("SELECT * FROM travels WHERE groupID = ? AND travelName=?")) {
             checkData.setString(1, groupID);
             checkData.setString(2, newTravelName);
             ResultSet accountFound = checkData.executeQuery();
@@ -89,6 +87,7 @@ public class Travel {
         this.groupID = groupID;
         this.travelName = travelName;
     }
+
     public String getTravelName() {
         return travelName;
     }

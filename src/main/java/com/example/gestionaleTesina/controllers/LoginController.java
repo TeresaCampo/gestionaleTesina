@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -23,7 +24,8 @@ public class LoginController {
     private AddressApplication main = new AddressApplication();
 
     public void initialize() {
-        if(database.dataSource==null)   database.initializeConnection();
+        if (database.dataSource == null)
+            database.initializeConnection();
         MyTextField.maxLen20(IDGroupTextField);
     }
 
@@ -33,8 +35,8 @@ public class LoginController {
     @FXML
     public void onRegisterButton() {
         try {
-            FXMLLoader loader= main.changeScene("signUp-view.fxml");
-            SignUpController signUpController=loader.getController();
+            FXMLLoader loader = main.changeScene("signUp-view.fxml");
+            SignUpController signUpController = loader.getController();
             signUpController.setDatabase(database);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +67,8 @@ public class LoginController {
         String groupID = IDGroupTextField.getText();
         String password = enterPasswordField.getText();
         try {
-            if (!validateLogin(groupID, password)) return;
+            if (!validateLogin(groupID, password))
+                return;
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Database Error").showAndWait();
         }
@@ -85,14 +88,16 @@ public class LoginController {
 
     /**
      * Check authentication data.
+     *
      * @param groupID groupID to be checked
      * @param password password to be checked
+     *
      * @return true if account exists and password matches it
+     *
      * @throws SQLException if connection leaks
      */
     private boolean validateLogin(String groupID, String password) throws SQLException {
-        try (Connection connection = database.dataSource.getConnection();
-             PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
+        try (Connection connection = database.dataSource.getConnection(); PreparedStatement checkData = connection.prepareStatement("SELECT * FROM authentication WHERE groupID = ?")) {
             checkData.setString(1, groupID);
             ResultSet accountFound = checkData.executeQuery();
 
