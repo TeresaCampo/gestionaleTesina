@@ -20,7 +20,6 @@ public class Rental extends TravelOptionComponent {
     public Rental(String componentName, String groupID, String travelName, String optionName, Integer posInTravelOption, Double price, String name, LocalDate checkInDate, LocalDate checkOutDate, LocalTime checkInTime, LocalTime checkOutTime, DBConnection database, String kindOfRental) {
         super(componentName, groupID, travelName, optionName, posInTravelOption, price, name, checkInDate, checkOutDate, checkInTime, checkOutTime, database);
         this.kindOfRental = Optional.ofNullable(kindOfRental);
-        System.out.println("database set in rental" + database);
     }
 
     @Override

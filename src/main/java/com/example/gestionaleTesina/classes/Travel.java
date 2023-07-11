@@ -46,7 +46,7 @@ public class Travel {
     }
 
     void updateTables(String groupID, String newTravelName) {
-        System.out.println("Updating travel name...");
+        System.out.println("Travel name successfully updated");
         try {
             if (!checkTravelNameExists(groupID, newTravelName) && !newTravelName.isEmpty()) {
                 database.updateTravelName(this, newTravelName);

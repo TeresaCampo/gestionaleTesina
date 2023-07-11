@@ -75,7 +75,6 @@ public class FirstPageController {
                 Travel toBeDeleted= tableTravels.getItems().get(selectedIndex);
                 database.deleteTravelDB(toBeDeleted);
                 group.getTravels().remove(toBeDeleted);
-                System.out.println(group.getTravels().toString());
             }catch (SQLException e) {
                 e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Database Error\n Error while removing travel "+tableTravels.getItems().get(selectedIndex).getTravelName()).showAndWait();

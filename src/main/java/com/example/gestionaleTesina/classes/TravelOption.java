@@ -52,11 +52,11 @@ public class TravelOption {
     }
 
     void updateTables(String groupID, String travelName, String newTravelOptionName) {
-        System.out.println("provo ad aggironare");
         try {
             if (!checkTravelOptionNameExists(groupID, travelName, newTravelOptionName) && !newTravelOptionName.isEmpty()) {
                 database.updateTravelOptionName(this, newTravelOptionName);
                 this.setOptionName(newTravelOptionName);
+                System.out.println("Travel option name successfully updated!");
                 return;
             }
             if (newTravelOptionName.isEmpty()) {

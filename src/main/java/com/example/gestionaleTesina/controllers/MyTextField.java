@@ -17,6 +17,18 @@ public class MyTextField {
         }));
     }
 
+    public static void maxLen450(TextField tf) {
+        tf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().length() <= 450) {
+                tf.setStyle("-fx-background-color: #e7ebff; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return change;
+            } else {
+                tf.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
+                return null;
+            }
+        }));
+    }
+
     public static void maxLen45(TextField tf) {
         tf.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getControlNewText().length() <= 45) {

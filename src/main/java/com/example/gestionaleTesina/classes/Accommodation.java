@@ -20,7 +20,6 @@ public class Accommodation extends TravelOptionComponent {
         super(componentName, groupID, travelName, optionName, posInTravelOption, price, name, checkInDate, checkOutDate, checkInTime, checkOutTime, database);
         this.numberOfRooms = Optional.ofNullable(numberOfRooms);
         this.privateToilet = Optional.ofNullable(privateToilet);
-        System.out.println("database set in accommodation" + database);
     }
 
     @Override
@@ -57,7 +56,8 @@ public class Accommodation extends TravelOptionComponent {
                 tf_nOfRoom.setStyle("-fx-background-color: pink; -fx-background-radius: 25px; -fx-border-color: #022757; -fx-border-radius: 25px;");
             }
         });
-        bt_sharedWC.armedProperty().addListener((observable, oldValue, newValue) -> privateToilet = Optional.ofNullable(newValue));
+        bt_sharedWC.setOnAction((h)-> privateToilet = Optional.ofNullable(bt_sharedWC.isSelected()));
+        //().addListener((observable, oldValue, newValue) -> privateToilet = Optional.ofNullable(newValue));
     }
 
     @Override

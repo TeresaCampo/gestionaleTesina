@@ -52,13 +52,10 @@ public class DBConnection {
      */
     Group loadUsernames(Group group) throws SQLException {
         try (Connection connection = dataSource.getConnection(); PreparedStatement loadUsernames = connection.prepareStatement("SELECT username FROM usernames WHERE groupID = ?")) {
-            System.out.println("Loading usernames of " + group.getGroupID() + "...");
             loadUsernames.setString(1, group.getGroupID());
             ResultSet rs = loadUsernames.executeQuery();
             while (rs.next()) {
                 group.addUser(rs.getString("username"));
-                /*test stamp*/
-                System.out.println(rs.getString("username"));
             }
         }
         return group;
@@ -82,8 +79,6 @@ public class DBConnection {
             ResultSet rs = loadTravels.executeQuery();
 
             while (rs.next()) {
-                /*test stamp*/
-                System.out.println(rs.getString("travelName"));
                 Travel toBeAdded = new Travel(group.getGroupID(), rs.getString("travelName"), loadTravelOption(group.getGroupID(), rs.getString("travelName")).size(), rs.getBoolean("status"), new SwitchButton(group.getGroupID(), rs.getString("travelName"), rs.getBoolean("status"), this), this);
                 group.addTravel(toBeAdded);
             }
@@ -109,8 +104,6 @@ public class DBConnection {
             ResultSet rs = loadTravelOptions.executeQuery();
 
             while (rs.next()) {
-                //test stamp
-                System.out.println("just loaded OPTION " + rs.getString("optionName"));
                 travelOptions.add(new TravelOption(groupID, travelName, rs.getString("optionName"), rs.getDouble("totalCost"), rs.getDouble("perPersonCost"), rs.getString("comment"), loadOption(groupID, travelName, rs.getString("optionName")), this));
             }
         }
@@ -158,8 +151,6 @@ public class DBConnection {
             loadOptionComponent.setString(3, optionName);
             ResultSet rs = loadOptionComponent.executeQuery();
             while (rs.next()) {
-                //test stamp
-                System.out.println("for travelOption " + optionName + " component " + rs.getString("name") + " alla posizione " + rs.getInt("posInTravelOption"));
                 travelOptions.add(new Accommodation("accommodation", rs.getString("groupID"), rs.getString("travelName"), rs.getString("optionName"), rs.getInt("posInTravelOption"), rs.getDouble("price"), rs.getString("name"), translateSqlDate_LocalDate(rs.getDate("checkInDay")), translateSqlDate_LocalDate(rs.getDate("checkOutDay")), translateSqlTime_LocalTime(rs.getTime("checkInTime")), translateSqlTime_LocalTime(rs.getTime("checkOutTime")), this, rs.getInt("numberOfRoom"), rs.getBoolean("privateToilet")));
             }
         }
@@ -173,9 +164,7 @@ public class DBConnection {
             loadOptionComponent.setString(3, optionName);
             ResultSet rs = loadOptionComponent.executeQuery();
             while (rs.next()) {
-                //test stamp
-                System.out.println("for travelOption " + optionName + " component " + rs.getString("name") + " alla posizione " + rs.getInt("posInTravelOption"));
-                travelOptions.add(new Transport("transport", rs.getString("groupID"), rs.getString("travelName"), rs.getString("optionName"), rs.getInt("posInTravelOption"), rs.getDouble("price"), rs.getString("name"), translateSqlDate_LocalDate(rs.getDate("arrivalDay")), translateSqlDate_LocalDate(rs.getDate("departureDay")), translateSqlTime_LocalTime(rs.getTime("arrivalTime")), translateSqlTime_LocalTime(rs.getTime("departureTime")), this, rs.getString("fromPlace"), rs.getString("toPlace"), rs.getString("kindOfTransport")));
+               travelOptions.add(new Transport("transport", rs.getString("groupID"), rs.getString("travelName"), rs.getString("optionName"), rs.getInt("posInTravelOption"), rs.getDouble("price"), rs.getString("name"), translateSqlDate_LocalDate(rs.getDate("arrivalDay")), translateSqlDate_LocalDate(rs.getDate("departureDay")), translateSqlTime_LocalTime(rs.getTime("arrivalTime")), translateSqlTime_LocalTime(rs.getTime("departureTime")), this, rs.getString("fromPlace"), rs.getString("toPlace"), rs.getString("kindOfTransport")));
             }
         }
         return travelOptions;
@@ -188,12 +177,8 @@ public class DBConnection {
             loadOptionComponent.setString(3, optionName);
             ResultSet rs = loadOptionComponent.executeQuery();
 
-            System.out.println("database I set in travel options" + this);
-
             while (rs.next()) {
-                //test stamp
-                System.out.println("for travelOption " + optionName + " component " + rs.getString("name") + " alla posizione " + rs.getInt("posInTravelOption"));
-                travelOptions.add(new Rental("rental", rs.getString("groupID"), rs.getString("travelName"), rs.getString("optionName"), rs.getInt("posInTravelOption"), rs.getDouble("price"), rs.getString("name"), translateSqlDate_LocalDate(rs.getDate("checkInDay")), translateSqlDate_LocalDate(rs.getDate("checkOutDay")), translateSqlTime_LocalTime(rs.getTime("checkInTime")), translateSqlTime_LocalTime(rs.getTime("checkOutTime")), this, rs.getString("kindOfRental")));
+               travelOptions.add(new Rental("rental", rs.getString("groupID"), rs.getString("travelName"), rs.getString("optionName"), rs.getInt("posInTravelOption"), rs.getDouble("price"), rs.getString("name"), translateSqlDate_LocalDate(rs.getDate("checkInDay")), translateSqlDate_LocalDate(rs.getDate("checkOutDay")), translateSqlTime_LocalTime(rs.getTime("checkInTime")), translateSqlTime_LocalTime(rs.getTime("checkOutTime")), this, rs.getString("kindOfRental")));
             }
         }
         return travelOptions;
@@ -214,7 +199,6 @@ public class DBConnection {
             updateTravelStatus.setString(2, groupName);
             updateTravelStatus.setString(3, travelName);
             updateTravelStatus.executeUpdate();
-            System.out.println(newStatus);
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Database Error\nError while updating travelStatus").showAndWait();
@@ -397,6 +381,8 @@ public class DBConnection {
                 insertAccommodation.setInt(10, componentToBeStored.getNumberOfRooms().get());
             else
                 insertAccommodation.setNull(10, Types.INTEGER);
+            System.out.println("DEBUG-> privat etoilet present "+componentToBeStored.getPrivateToilet().isPresent()+
+                    "its value "+componentToBeStored.getPrivateToilet().get());
 
             if (componentToBeStored.getPrivateToilet().isPresent())
                 insertAccommodation.setBoolean(11, componentToBeStored.getPrivateToilet().get());
@@ -413,6 +399,7 @@ public class DBConnection {
     }
 
     public void storeTransport(Transport componentToBeStored) throws SQLException {
+        System.out.println("Storing Transport in the database...");
         try (Connection connection = dataSource.getConnection(); PreparedStatement insertTransport = connection.prepareStatement("INSERT INTO transport (groupID, travelName, optionName, posInTravelOption, name, departureDay, departureTime, arrivalTime, arrivalDay, fromPlace, toPlace, kindOfTransport, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
             insertTransport.setString(1, componentToBeStored.getGroupID());
             insertTransport.setString(2, componentToBeStored.getTravelName());

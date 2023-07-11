@@ -28,7 +28,6 @@ public class Transport extends TravelOptionComponent {
         this.from = Optional.ofNullable(from);
         this.to = Optional.ofNullable(to);
         this.kindOfTransport = Optional.ofNullable(kindOfTransport);
-        System.out.println("database set in transport" + database);
     }
 
     public void addTransportGraphicComponent(int layoutX, int layoutY, AnchorPane background) {

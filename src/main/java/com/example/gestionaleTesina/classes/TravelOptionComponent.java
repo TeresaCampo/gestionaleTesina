@@ -1,6 +1,7 @@
 package com.example.gestionaleTesina.classes;
 
 import com.example.gestionaleTesina.controllers.DBConnection;
+import com.example.gestionaleTesina.controllers.MyTextField;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -89,6 +90,7 @@ public abstract class TravelOptionComponent {
 
     void bindCommonGraphicElementToAttributes(){
         tf_name.textProperty().addListener((observable, oldValue, newValue) -> name=Optional.ofNullable(newValue));
+        MyTextField.maxLen450(tf_name);
         tf_hourCheckIn.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 checkInTime = Optional.ofNullable(converterTF_Time(tf_hourCheckIn, tf_minuteCheckIn));

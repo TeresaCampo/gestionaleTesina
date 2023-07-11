@@ -117,7 +117,6 @@ public class EditPageController {
             }
         });
         componentsList.stream().forEach(el -> el.updateLayoutY());
-        System.out.println("DEBUG LESSBUTTON-> " + componentsList);
     }
 
     /**
@@ -149,7 +148,6 @@ public class EditPageController {
             componentsList.add(componentTransport);
         }
         createButtons();
-        System.out.println("DEBUG PLUSBUTTON-> " + componentsList);
     }
 
     /**
@@ -241,7 +239,6 @@ public class EditPageController {
 
         //store componentsList in the database
         Integer tmpPosInTravelOption = 1;
-        System.out.println("DEBUG SAVE-> componentsList " + componentsList);
         for (TravelOptionComponent c : componentsList) {
             c.setOptionName(tf_optionName.getText());
             c.setPosInTravelOption(tmpPosInTravelOption);
